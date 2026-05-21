@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Node.js — Complete Q&A Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; }
+  header { background: #1a1a2e; color: #fff; padding: 24px 32px; }
+  header h1 { font-size: 22px; font-weight: 600; }
+  header p { font-size: 13px; color: #aaa; margin-top: 4px; }
+  .stats { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+  .stat { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 8px 14px; font-size: 13px; }
+  .stat strong { display: block; font-size: 18px; }
+
+  .tab-bar { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto; position: sticky; top: 0; z-index: 100; }
+  .tab { padding: 14px 16px; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; color: #666; transition: all 0.15s; }
+  .tab:hover { color: #333; }
+  .tab.active { color: #4f46e5; border-bottom-color: #4f46e5; }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 28px 20px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header { margin-bottom: 24px; }
+  .section-header h2 { font-size: 18px; font-weight: 600; }
+  .section-header p { font-size: 13px; color: #666; margin-top: 4px; }
+
+  .q-block { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; margin-bottom: 16px; overflow: hidden; }
+  .q-head { padding: 14px 18px; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; }
+  .q-head:hover { background: #fafafa; }
+  .q-num { font-size: 12px; font-weight: 600; color: #fff; background: #4f46e5; border-radius: 6px; padding: 2px 8px; min-width: 36px; text-align: center; margin-top: 1px; white-space: nowrap; }
+  .q-num.green { background: #16a34a; }
+  .q-num.blue { background: #0ea5e9; }
+  .q-num.amber { background: #d97706; }
+  .q-num.red { background: #dc2626; }
+  .q-num.purple { background: #7c3aed; }
+  .q-text { font-size: 15px; font-weight: 500; flex: 1; line-height: 1.5; }
+  .q-arrow { font-size: 16px; color: #aaa; margin-left: auto; transition: transform 0.2s; flex-shrink: 0; }
+  .q-block.open .q-arrow { transform: rotate(180deg); }
+
+  .q-answer { display: none; border-top: 1px solid #f0f0f0; padding: 16px 18px 18px 68px; }
+  .q-block.open .q-answer { display: block; }
+  .q-answer p { font-size: 14px; line-height: 1.7; color: #333; margin-bottom: 10px; }
+  .q-answer p:last-child { margin-bottom: 0; }
+  .q-answer code { background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 5px; padding: 1px 6px; font-family: 'Courier New', monospace; font-size: 13px; color: #374151; }
+  .q-answer pre { background: #1e1e2e; color: #cdd6f4; border-radius: 8px; padding: 14px 16px; font-size: 13px; font-family: 'Courier New', monospace; line-height: 1.6; overflow-x: auto; margin: 10px 0; }
+  .q-answer pre .kw { color: #cba6f7; }
+  .q-answer pre .str { color: #a6e3a1; }
+  .q-answer pre .cm { color: #6c7086; }
+  .q-answer ul { margin: 8px 0 8px 18px; }
+  .q-answer ul li { font-size: 14px; line-height: 1.7; color: #333; margin-bottom: 4px; }
+  .tip { background: #eff6ff; border-left: 3px solid #3b82f6; border-radius: 0 6px 6px 0; padding: 10px 14px; margin-top: 10px; font-size: 13px; color: #1e40af; }
+  .tip strong { font-weight: 600; }
+
+  .expand-all { background: #4f46e5; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; margin-bottom: 16px; }
+  .expand-all:hover { background: #4338ca; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1> Node.js — Complete Q&amp;A Guide</h1>
+  <p>All questions from 's published Node.js assessments with medium-depth answers and examples</p>
+  <div class="stats">
+    <div class="stat"><strong>60+</strong> Questions</div>
+    <div class="stat"><strong>5</strong> Difficulty Levels</div>
+    <div class="stat"><strong>Medium</strong> Answer Depth</div>
+    <div class="stat"><strong></strong> Source</div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('fresher', this)">🟢 Fresher Q1–Q20</div>
+  <div class="tab" onclick="switchTab('comparative', this)">🔵 Comparative Q21–Q30</div>
+  <div class="tab" onclick="switchTab('intermediate', this)">🟡 Intermediate Q31–Q50</div>
+  <div class="tab" onclick="switchTab('advanced', this)">🔴 Advanced Q51–Q60</div>
+  <div class="tab" onclick="switchTab('express', this)">⚡ Express.js</div>
+</div>
+
+<div class="content">
+
+<!-- ===== FRESHER ===== -->
+<div id="fresher" class="section active">
+  <div class="section-header">
+    <h2>🟢 Fresher Questions — Q1 to Q20</h2>
+    <p>Core Node.js fundamentals expected from entry-level candidates</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('fresher')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q1</span>
+      <span class="q-text">How does Node.js function? What is it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js is an open-source, cross-platform runtime environment that allows JavaScript to run on the server side using Google's V8 engine. Unlike browser JS, Node.js can access the file system, network, and OS resources.</p>
+      <p>It works using a <strong>single-threaded event loop</strong> with non-blocking I/O, meaning it can handle thousands of concurrent connections without creating a new thread for each.</p>
+      <pre><span class="kw">const</span> http = require(<span class="str">'http'</span>);
+<span class="kw">const</span> server = http.createServer((req, res) => {
+  res.end(<span class="str">'Hello from Node.js!'</span>);
+});
+server.listen(3000);</pre>
+      <div class="tip"><strong>Interview tip:</strong> Mention V8 engine, event-driven, non-blocking I/O, and that it uses JavaScript outside the browser.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q2</span>
+      <span class="q-text">What characteristics does Node.js have?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Asynchronous &amp; Non-blocking:</strong> Doesn't wait for I/O operations to complete</li>
+        <li><strong>Single-threaded:</strong> Uses one thread with the event loop</li>
+        <li><strong>Fast execution:</strong> Powered by Chrome's V8 engine</li>
+        <li><strong>Scalable:</strong> Handles many connections simultaneously</li>
+        <li><strong>NPM ecosystem:</strong> Access to 1M+ open-source packages</li>
+        <li><strong>Cross-platform:</strong> Runs on Windows, Linux, macOS</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q3</span>
+      <span class="q-text">Describe NPM.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>NPM (Node Package Manager) is the default package manager for Node.js. It lets you install, share, and manage third-party JavaScript libraries (packages) in your project.</p>
+      <pre><span class="cm"># Install a package</span>
+npm install express
+
+<span class="cm"># Install globally</span>
+npm install -g nodemon
+
+<span class="cm"># Initialize a project</span>
+npm init</pre>
+      <p>All project dependencies are listed in <code>package.json</code>. NPM hosts over 1.8 million packages at npmjs.com.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q4</span>
+      <span class="q-text">What does a Node.js event loop do?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The event loop is the core mechanism that allows Node.js to perform non-blocking I/O despite being single-threaded. It continuously checks the call stack and the callback queue.</p>
+      <ul>
+        <li>If the call stack is empty, it picks the next callback from the queue and pushes it to the stack</li>
+        <li>I/O tasks (file reads, HTTP requests) are offloaded to the OS/libuv thread pool</li>
+        <li>When complete, their callbacks are queued and picked up by the event loop</li>
+      </ul>
+      <pre><span class="cm">// This demonstrates async non-blocking behavior</span>
+console.log(<span class="str">'Start'</span>);
+setTimeout(() => console.log(<span class="str">'Timer'</span>), 0);
+console.log(<span class="str">'End'</span>);
+<span class="cm">// Output: Start → End → Timer</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q5</span>
+      <span class="q-text">In Node.js, what is a callback?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A callback is a function passed as an argument to another function, which is then called when an asynchronous operation completes.</p>
+      <pre><span class="kw">const</span> fs = require(<span class="str">'fs'</span>);
+fs.readFile(<span class="str">'file.txt'</span>, <span class="str">'utf8'</span>, (err, data) => {
+  <span class="kw">if</span> (err) <span class="kw">throw</span> err;
+  console.log(data); <span class="cm">// Called when file is read</span>
+});</pre>
+      <div class="tip"><strong>Callback Hell:</strong> Deeply nested callbacks become hard to read — this problem is solved by Promises and async/await.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q6</span>
+      <span class="q-text">In Node.js, what is a Promise?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A Promise is an object representing the eventual completion or failure of an async operation. It has 3 states: <strong>pending</strong>, <strong>fulfilled</strong>, or <strong>rejected</strong>.</p>
+      <pre><span class="kw">const</span> fetchData = <span class="kw">new</span> Promise((resolve, reject) => {
+  setTimeout(() => resolve(<span class="str">'Data!'</span>), 1000);
+});
+
+fetchData
+  .then(data => console.log(data))  <span class="cm">// 'Data!'</span>
+  .catch(err => console.error(err));</pre>
+      <p>Promises are cleaner than callbacks and can be chained. <code>async/await</code> is syntactic sugar built on top of Promises.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q7</span>
+      <span class="q-text">What kinds of streams does Node.js support?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js supports 4 types of streams:</p>
+      <ul>
+        <li><strong>Readable:</strong> Used to read data (e.g., <code>fs.createReadStream()</code>)</li>
+        <li><strong>Writable:</strong> Used to write data (e.g., <code>fs.createWriteStream()</code>)</li>
+        <li><strong>Duplex:</strong> Both readable and writable (e.g., TCP socket)</li>
+        <li><strong>Transform:</strong> Duplex stream that modifies data as it passes through (e.g., zlib compression)</li>
+      </ul>
+      <pre><span class="kw">const</span> fs = require(<span class="str">'fs'</span>);
+<span class="kw">const</span> read = fs.createReadStream(<span class="str">'input.txt'</span>);
+<span class="kw">const</span> write = fs.createWriteStream(<span class="str">'output.txt'</span>);
+read.pipe(write); <span class="cm">// Efficient piping</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q8</span>
+      <span class="q-text">What distinguishes blocking code from non-blocking code?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Blocking code</strong> halts execution until the operation completes. <strong>Non-blocking code</strong> continues execution and handles the result via a callback/promise when ready.</p>
+      <pre><span class="cm">// Blocking (synchronous)</span>
+<span class="kw">const</span> data = fs.readFileSync(<span class="str">'file.txt'</span>); <span class="cm">// Waits here</span>
+console.log(data);
+
+<span class="cm">// Non-blocking (asynchronous)</span>
+fs.readFile(<span class="str">'file.txt'</span>, (err, data) => {
+  console.log(data); <span class="cm">// Called later</span>
+});
+console.log(<span class="str">'This runs immediately'</span>);</pre>
+      <div class="tip">Node.js is designed for non-blocking code. Use sync methods only during startup/initialization, not in request handlers.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q9</span>
+      <span class="q-text">What does a Node.js module do?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A module is a reusable block of code that encapsulates related functionality. Node.js uses the CommonJS module system where each file is its own module.</p>
+      <pre><span class="cm">// math.js — define and export</span>
+<span class="kw">const</span> add = (a, b) => a + b;
+module.exports = { add };
+
+<span class="cm">// app.js — import and use</span>
+<span class="kw">const</span> { add } = require(<span class="str">'./math'</span>);
+console.log(add(2, 3)); <span class="cm">// 5</span></pre>
+      <p>Node.js has three types: <strong>Core modules</strong> (fs, http, path), <strong>Third-party modules</strong> (via npm), and <strong>Local modules</strong> (your own files).</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q10</span>
+      <span class="q-text">How are Node.js apps debugged?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Built-in debugger:</strong> <code>node --inspect app.js</code> then open Chrome DevTools</li>
+        <li><strong>VS Code debugger:</strong> Launch config with breakpoints</li>
+        <li><strong>console.log():</strong> Simple but effective for quick checks</li>
+        <li><strong>node-inspector:</strong> Older browser-based debugger</li>
+        <li><strong>ndb:</strong> Improved debugging experience by Google</li>
+      </ul>
+      <pre>node --inspect-brk app.js
+<span class="cm"># Then open chrome://inspect in Chrome</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q11</span>
+      <span class="q-text">How does Node.js read and write files?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js uses the built-in <code>fs</code> (File System) module for file operations.</p>
+      <pre><span class="kw">const</span> fs = require(<span class="str">'fs'</span>);
+
+<span class="cm">// Read file (async)</span>
+fs.readFile(<span class="str">'hello.txt'</span>, <span class="str">'utf8'</span>, (err, data) => {
+  console.log(data);
+});
+
+<span class="cm">// Write file (async)</span>
+fs.writeFile(<span class="str">'output.txt'</span>, <span class="str">'Hello!'</span>, (err) => {
+  <span class="kw">if</span> (!err) console.log(<span class="str">'Written!'</span>);
+});</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q12</span>
+      <span class="q-text">How does Express.js function, and what is it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Express.js is a minimal, unopinionated web framework for Node.js. It simplifies creating web servers and APIs by providing routing, middleware support, and request/response helpers.</p>
+      <pre><span class="kw">const</span> express = require(<span class="str">'express'</span>);
+<span class="kw">const</span> app = express();
+
+app.get(<span class="str">'/'</span>, (req, res) => {
+  res.send(<span class="str">'Hello World!'</span>);
+});
+
+app.listen(3000, () => console.log(<span class="str">'Server running'</span>));</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q13</span>
+      <span class="q-text">What does Express.js middleware do?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Middleware are functions that have access to the request (<code>req</code>), response (<code>res</code>), and the <code>next</code> function. They execute in sequence and can modify req/res or end the cycle.</p>
+      <pre><span class="cm">// Logger middleware</span>
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next(); <span class="cm">// Pass to next middleware</span>
+});
+
+<span class="cm">// Built-in middleware for JSON parsing</span>
+app.use(express.json());</pre>
+      <p>Common uses: authentication, logging, parsing request bodies, error handling, CORS.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q14</span>
+      <span class="q-text">What distinguishes PUT from POST in Express.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>POST:</strong> Creates a new resource. Not idempotent — calling it twice creates two records.</li>
+        <li><strong>PUT:</strong> Updates/replaces an existing resource. Idempotent — calling it twice gives the same result.</li>
+      </ul>
+      <pre>app.post(<span class="str">'/users'</span>, createUser);       <span class="cm">// Create</span>
+app.put(<span class="str">'/users/:id'</span>, updateUser);    <span class="cm">// Full update</span>
+app.patch(<span class="str">'/users/:id'</span>, patchUser);  <span class="cm">// Partial update</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q15</span>
+      <span class="q-text">RESTful API: What is it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>REST (Representational State Transfer) is an architectural style for designing networked APIs. A RESTful API uses standard HTTP methods and is stateless.</p>
+      <ul>
+        <li><strong>GET</strong> /users → Fetch all users</li>
+        <li><strong>POST</strong> /users → Create user</li>
+        <li><strong>PUT</strong> /users/1 → Update user 1</li>
+        <li><strong>DELETE</strong> /users/1 → Delete user 1</li>
+      </ul>
+      <p>Key principles: Stateless, Client-Server separation, Uniform Interface, Cacheable responses.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q16</span>
+      <span class="q-text">In Node.js, what is Socket.io?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Socket.io is a library that enables real-time, bidirectional communication between the server and browser clients using WebSockets (with fallbacks like long-polling).</p>
+      <pre><span class="cm">// Server</span>
+<span class="kw">const</span> io = require(<span class="str">'socket.io'</span>)(server);
+io.on(<span class="str">'connection'</span>, socket => {
+  socket.emit(<span class="str">'message'</span>, <span class="str">'Welcome!'</span>);
+  socket.on(<span class="str">'chat'</span>, msg => io.emit(<span class="str">'chat'</span>, msg));
+});</pre>
+      <p>Used for: live chat, real-time notifications, multiplayer games, collaborative tools.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q17</span>
+      <span class="q-text">How does Node.js handle errors?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>try/catch:</strong> For synchronous code and async/await</li>
+        <li><strong>Error-first callbacks:</strong> <code>(err, data) =&gt; {}</code></li>
+        <li><strong>.catch():</strong> For Promises</li>
+        <li><strong>EventEmitter error events:</strong> <code>emitter.on('error', handler)</code></li>
+        <li><strong>process.on('uncaughtException'):</strong> Global fallback (not recommended as primary)</li>
+      </ul>
+      <pre><span class="kw">async function</span> getData() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> data = <span class="kw">await</span> fetchFromDB();
+    <span class="kw">return</span> data;
+  } <span class="kw">catch</span> (err) {
+    console.error(<span class="str">'DB error:'</span>, err.message);
+  }
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q18</span>
+      <span class="q-text">What does Node.js' REPL mean?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>REPL stands for <strong>Read-Eval-Print Loop</strong>. It's an interactive shell that lets you execute Node.js code line by line in the terminal — great for quick testing and exploration.</p>
+      <pre><span class="cm"># Start REPL by just typing:</span>
+node
+
+<span class="cm">> 2 + 2</span>
+4
+<span class="cm">> const name = 'Node'</span>
+<span class="cm">> console.log(`Hello ${name}`)</span>
+Hello Node</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q19</span>
+      <span class="q-text">What does Node.js clustering mean?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The <code>cluster</code> module allows you to create child processes (workers) that share the same server port. This takes advantage of multi-core CPUs since Node.js is single-threaded by default.</p>
+      <pre><span class="kw">const</span> cluster = require(<span class="str">'cluster'</span>);
+<span class="kw">const</span> os = require(<span class="str">'os'</span>);
+
+<span class="kw">if</span> (cluster.isMaster) {
+  os.cpus().forEach(() => cluster.fork()); <span class="cm">// One worker per CPU</span>
+} <span class="kw">else</span> {
+  require(<span class="str">'./app'</span>); <span class="cm">// Each worker runs the app</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q20</span>
+      <span class="q-text">What distinguishes Node.js's development and production environments?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The <code>NODE_ENV</code> environment variable controls the environment mode.</p>
+      <ul>
+        <li><strong>Development:</strong> Verbose error messages, hot-reloading, detailed logging, no caching</li>
+        <li><strong>Production:</strong> Minified errors, performance optimizations, caching enabled, security hardened</li>
+      </ul>
+      <pre><span class="cm"># Set environment</span>
+NODE_ENV=production node app.js
+
+<span class="cm"># Check in code</span>
+<span class="kw">if</span> (process.env.NODE_ENV === <span class="str">'production'</span>) {
+  <span class="cm">// Production-only settings</span>
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COMPARATIVE ===== -->
+<div id="comparative" class="section">
+  <div class="section-header">
+    <h2>🔵 Comparative Questions — Q21 to Q30</h2>
+    <p>Head-to-head technology comparisons</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('comparative')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q21</span>
+      <span class="q-text">What is the difference between Node.js and JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>JavaScript:</strong> A programming language that runs in browsers. Handles DOM manipulation, events, and UI logic.</li>
+        <li><strong>Node.js:</strong> A runtime environment that lets JavaScript run on the server. Provides access to the file system, network, OS, and databases.</li>
+      </ul>
+      <div class="tip">Think of JavaScript as the language, Node.js as the engine that runs it outside the browser.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q22</span>
+      <span class="q-text">How does Node.js differ from traditional server-side scripting languages like PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Node.js:</strong> Event-driven, non-blocking I/O — handles many requests concurrently on a single thread</li>
+        <li><strong>PHP:</strong> Blocking — each request spawns a new thread/process, consuming more memory</li>
+        <li>Node.js excels at real-time apps and APIs; PHP is battle-tested for traditional web pages (WordPress, Laravel)</li>
+        <li>Node.js uses JavaScript everywhere (frontend + backend); PHP is backend-only</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q23</span>
+      <span class="q-text">How does Node.js compare to other server-side JavaScript frameworks like Express?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Node.js</strong> is the runtime — the foundation. <strong>Express.js</strong> is a framework built on top of Node.js that adds structure for routing, middleware, and request handling.</p>
+      <p>Node.js alone can create HTTP servers, but Express makes it much simpler and more organized. Other frameworks built on Node.js include Koa, Hapi, Fastify, and NestJS.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q24</span>
+      <span class="q-text">What is the difference between Node.js and Deno?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Security:</strong> Deno is secure by default — scripts can't access file system or network without explicit permission. Node.js has no such sandbox.</li>
+        <li><strong>TypeScript:</strong> Deno supports TypeScript natively. Node.js needs extra setup (ts-node or compilation).</li>
+        <li><strong>Modules:</strong> Deno uses ES modules and URL imports; Node.js uses CommonJS (<code>require</code>) with npm.</li>
+        <li><strong>Package manager:</strong> Deno has no npm — imports are URL-based. Node.js uses npm/yarn.</li>
+        <li>Both use the V8 engine and were created by the same person (Ryan Dahl).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q25</span>
+      <span class="q-text">How does Node.js differ from traditional multi-threaded server-side programming languages?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Java/C#:</strong> Create a new thread per request → high memory usage for concurrent connections</li>
+        <li><strong>Node.js:</strong> Single thread + event loop → handles thousands of connections with minimal memory</li>
+        <li>Node.js is ideal for I/O-heavy tasks (APIs, chat). Multi-threaded languages are better for CPU-heavy tasks (image processing, ML).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q26</span>
+      <span class="q-text">What is the difference between Node.js and AJAX?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>AJAX:</strong> A browser-side technique for making async HTTP requests without refreshing the page. Runs in the browser using JavaScript's <code>XMLHttpRequest</code> or <code>fetch()</code>.</li>
+        <li><strong>Node.js:</strong> A server-side runtime environment. It processes the request that AJAX sends.</li>
+      </ul>
+      <p>AJAX sends a request → Node.js server receives and processes it → sends back a response → AJAX updates the UI.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q27</span>
+      <span class="q-text">How does Node.js compare to PHP in terms of performance?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js is generally faster than PHP for handling high-concurrency I/O workloads because of its non-blocking event loop. PHP creates a new process per request which is slower under heavy load.</p>
+      <p>However, PHP 8+ with JIT compilation has closed the gap significantly. For traditional server-rendered HTML pages, PHP can be equally performant.</p>
+      <div class="tip">Node.js shines with real-time apps, streaming, and APIs. PHP still dominates CMS-driven websites.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q28</span>
+      <span class="q-text">What is the difference between Node.js and Ruby on Rails?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Language:</strong> Node.js uses JavaScript; Rails uses Ruby</li>
+        <li><strong>Architecture:</strong> Node.js is a runtime (you choose your framework); Rails is an opinionated full-stack MVC framework</li>
+        <li><strong>Speed:</strong> Node.js is faster for I/O-heavy tasks; Rails has faster development speed due to conventions</li>
+        <li><strong>Use case:</strong> Node.js for real-time APIs; Rails for rapid CRUD app development</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q29</span>
+      <span class="q-text">How does Node.js compare to Python in terms of popularity?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Both are extremely popular. Node.js surged in popularity for web APIs and real-time apps. Python dominates in data science, ML, and scripting.</p>
+      <ul>
+        <li><strong>Node.js:</strong> Preferred for microservices, real-time apps, full-stack JS development</li>
+        <li><strong>Python:</strong> Preferred for AI/ML, data analysis, automation, and scripting</li>
+      </ul>
+      <p>In web development rankings (Stack Overflow survey), Node.js consistently ranks as the most-used technology.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q30</span>
+      <span class="q-text">What is the difference between Node.js and Angular?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Node.js:</strong> Server-side runtime. Handles backend logic, databases, and APIs.</li>
+        <li><strong>Angular:</strong> Client-side (frontend) framework for building single-page applications in the browser using TypeScript.</li>
+      </ul>
+      <p>They are often used together: Angular handles the UI, Node.js (with Express) handles the backend API. This combination is part of the MEAN stack (MongoDB + Express + Angular + Node).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== INTERMEDIATE ===== -->
+<div id="intermediate" class="section">
+  <div class="section-header">
+    <h2>🟡 Intermediate Questions — Q31 to Q50</h2>
+    <p>Practical concepts expected from mid-level Node.js developers</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('intermediate')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q31</span>
+      <span class="q-text">What is Node.js, and how is it different from other server-side technologies?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js is a JavaScript runtime built on Chrome's V8 engine for server-side development. Unlike PHP or Java which use blocking, thread-per-request models, Node.js uses a single-threaded, non-blocking, event-driven architecture that handles concurrency efficiently through the event loop.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q32</span>
+      <span class="q-text">Explain the concept of event-driven programming in Node.js.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Event-driven programming means the flow of execution is determined by events (user actions, messages, I/O completion). Node.js uses an <code>EventEmitter</code> class to emit and listen to events.</p>
+      <pre><span class="kw">const</span> EventEmitter = require(<span class="str">'events'</span>);
+<span class="kw">const</span> emitter = <span class="kw">new</span> EventEmitter();
+
+emitter.on(<span class="str">'greet'</span>, (name) => {
+  console.log(<span class="str">`Hello, ${name}!`</span>);
+});
+
+emitter.emit(<span class="str">'greet'</span>, <span class="str">'Alice'</span>); <span class="cm">// Hello, Alice!</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q33</span>
+      <span class="q-text">How do you handle errors in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Best practices for error handling:</p>
+      <pre><span class="cm">// 1. async/await with try/catch</span>
+<span class="kw">async function</span> run() {
+  <span class="kw">try</span> { <span class="kw">await</span> riskyOp(); }
+  <span class="kw">catch</span> (err) { console.error(err); }
+}
+
+<span class="cm">// 2. Express error middleware</span>
+app.use((err, req, res, next) => {
+  res.status(500).json({ error: err.message });
+});</pre>
+      <p>Always handle promise rejections and never let uncaught exceptions crash a production server without logging.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q34</span>
+      <span class="q-text">How do you create a server in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">// Using core http module</span>
+<span class="kw">const</span> http = require(<span class="str">'http'</span>);
+<span class="kw">const</span> server = http.createServer((req, res) => {
+  res.writeHead(200, { <span class="str">'Content-Type'</span>: <span class="str">'text/plain'</span> });
+  res.end(<span class="str">'Hello World\n'</span>);
+});
+server.listen(3000, () => console.log(<span class="str">'Listening on port 3000'</span>));
+
+<span class="cm">// Or with Express (simpler)</span>
+<span class="kw">const</span> app = require(<span class="str">'express'</span>)();
+app.listen(3000);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q35</span>
+      <span class="q-text">How do you read and write files in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="kw">const</span> fs = require(<span class="str">'fs/promises'</span>); <span class="cm">// Modern promise-based</span>
+
+<span class="kw">async function</span> fileOps() {
+  <span class="kw">await</span> fs.writeFile(<span class="str">'data.txt'</span>, <span class="str">'Hello!'</span>);
+  <span class="kw">const</span> content = <span class="kw">await</span> fs.readFile(<span class="str">'data.txt'</span>, <span class="str">'utf8'</span>);
+  console.log(content); <span class="cm">// Hello!</span>
+  <span class="kw">await</span> fs.appendFile(<span class="str">'data.txt'</span>, <span class="str">' World'</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q36</span>
+      <span class="q-text">What are streams in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Streams process data piece by piece (chunks) instead of loading it all into memory. Ideal for large files or network data.</p>
+      <pre><span class="kw">const</span> fs = require(<span class="str">'fs'</span>);
+<span class="kw">const</span> zlib = require(<span class="str">'zlib'</span>);
+
+<span class="cm">// Stream + Transform: compress a file</span>
+fs.createReadStream(<span class="str">'input.txt'</span>)
+  .pipe(zlib.createGzip())
+  .pipe(fs.createWriteStream(<span class="str">'input.txt.gz'</span>));</pre>
+      <p>Types: Readable, Writable, Duplex, Transform. The <code>.pipe()</code> method chains streams together.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q37</span>
+      <span class="q-text">What is middleware in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Middleware functions run between receiving the request and sending the response. They form a pipeline and must call <code>next()</code> to pass control forward.</p>
+      <pre>app.use(express.json());          <span class="cm">// Parse JSON body</span>
+app.use(cors());                  <span class="cm">// Handle CORS</span>
+app.use(morgan(<span class="str">'dev'</span>));           <span class="cm">// Request logging</span>
+app.use(authMiddleware);          <span class="cm">// Check JWT token</span>
+app.get(<span class="str">'/'</span>, (req, res) => ...); <span class="cm">// Route handler</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q38</span>
+      <span class="q-text">How do you create and use custom modules in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">// utils.js</span>
+<span class="kw">const</span> formatDate = (d) => d.toISOString().split(<span class="str">'T'</span>)[0];
+<span class="kw">const</span> capitalize = (s) => s[0].toUpperCase() + s.slice(1);
+module.exports = { formatDate, capitalize };
+
+<span class="cm">// app.js</span>
+<span class="kw">const</span> { formatDate, capitalize } = require(<span class="str">'./utils'</span>);
+console.log(capitalize(<span class="str">'hello'</span>)); <span class="cm">// Hello</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q39</span>
+      <span class="q-text">How do you perform unit testing in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Popular testing frameworks: <strong>Jest</strong>, <strong>Mocha + Chai</strong>, <strong>Jasmine</strong>. Node.js 18+ also has a built-in test runner.</p>
+      <pre><span class="cm">// sum.js</span>
+<span class="kw">const</span> sum = (a, b) => a + b;
+module.exports = sum;
+
+<span class="cm">// sum.test.js (Jest)</span>
+<span class="kw">const</span> sum = require(<span class="str">'./sum'</span>);
+test(<span class="str">'adds 1 + 2 to equal 3'</span>, () => {
+  expect(sum(1, 2)).toBe(3);
+});</pre>
+      <p>Run with: <code>npx jest</code></p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q40</span>
+      <span class="q-text">Explain the concept of callbacks in Node.js.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A callback is a function passed as an argument that gets executed after an async operation completes. Node.js follows the <strong>error-first callback</strong> convention.</p>
+      <pre>fs.readFile(<span class="str">'file.txt'</span>, (err, data) => {
+  <span class="kw">if</span> (err) {
+    console.error(<span class="str">'Error:'</span>, err);
+    <span class="kw">return</span>;
+  }
+  console.log(data.toString());
+});</pre>
+      <p>The first argument is always the error (or null), the second is the result. Deeply nested callbacks create "callback hell" — solved by Promises and async/await.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q41</span>
+      <span class="q-text">How do you implement authentication and authorization in a Node.js application?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Authentication</strong> = verifying who you are. <strong>Authorization</strong> = verifying what you can do.</p>
+      <pre><span class="cm">// JWT Authentication</span>
+<span class="kw">const</span> jwt = require(<span class="str">'jsonwebtoken'</span>);
+
+<span class="cm">// Login: create token</span>
+<span class="kw">const</span> token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: <span class="str">'1h'</span> });
+
+<span class="cm">// Middleware: verify token</span>
+<span class="kw">const</span> authMiddleware = (req, res, next) => {
+  <span class="kw">const</span> token = req.headers.authorization?.split(<span class="str">' '</span>)[1];
+  <span class="kw">const</span> decoded = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = decoded;
+  next();
+};</pre>
+      <p>Popular libraries: <strong>Passport.js</strong>, <strong>jsonwebtoken</strong>, <strong>bcrypt</strong> for password hashing.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q42</span>
+      <span class="q-text">What is the purpose of the package.json file in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>package.json</code> is the manifest file for your Node.js project. It stores project metadata, dependencies, scripts, and version info.</p>
+      <pre>{
+  <span class="str">"name"</span>: <span class="str">"my-app"</span>,
+  <span class="str">"version"</span>: <span class="str">"1.0.0"</span>,
+  <span class="str">"scripts"</span>: {
+    <span class="str">"start"</span>: <span class="str">"node index.js"</span>,
+    <span class="str">"test"</span>: <span class="str">"jest"</span>
+  },
+  <span class="str">"dependencies"</span>: { <span class="str">"express"</span>: <span class="str">"^4.18.0"</span> },
+  <span class="str">"devDependencies"</span>: { <span class="str">"jest"</span>: <span class="str">"^29.0.0"</span> }
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q43</span>
+      <span class="q-text">How do you handle database connections in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Use connection pooling to avoid opening/closing a connection per request.</p>
+      <pre><span class="cm">// MongoDB with Mongoose</span>
+<span class="kw">const</span> mongoose = require(<span class="str">'mongoose'</span>);
+mongoose.connect(process.env.MONGO_URI);
+
+<span class="cm">// PostgreSQL with pg pool</span>
+<span class="kw">const</span> { Pool } = require(<span class="str">'pg'</span>);
+<span class="kw">const</span> pool = <span class="kw">new</span> Pool({ connectionString: process.env.DB_URL });
+<span class="kw">const</span> result = <span class="kw">await</span> pool.query(<span class="str">'SELECT * FROM users'</span>);</pre>
+      <p>Always store credentials in environment variables, never hardcode them.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q44</span>
+      <span class="q-text">What is the purpose of the Express.js framework in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Express.js simplifies building web servers and REST APIs with Node.js by providing: routing, middleware support, template rendering, and request/response helpers. Without Express, you'd manually parse URLs, headers, and bodies using the raw <code>http</code> module.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q45</span>
+      <span class="q-text">Explain the concept of asynchronous programming in Node.js.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Asynchronous programming means operations are initiated and the program continues running — the result is handled when it arrives (callback, promise, or await).</p>
+      <pre><span class="cm">// Evolution of async in Node.js</span>
+
+<span class="cm">// 1. Callback style</span>
+fs.readFile(<span class="str">'f.txt'</span>, cb);
+
+<span class="cm">// 2. Promise style</span>
+fs.promises.readFile(<span class="str">'f.txt'</span>).then(cb);
+
+<span class="cm">// 3. async/await (modern, recommended)</span>
+<span class="kw">const</span> data = <span class="kw">await</span> fs.promises.readFile(<span class="str">'f.txt'</span>);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q46</span>
+      <span class="q-text">How do you use the npm package manager in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm"># Common npm commands</span>
+npm init -y               <span class="cm"># Init project</span>
+npm install express       <span class="cm"># Install package</span>
+npm install jest --save-dev  <span class="cm"># Dev dependency</span>
+npm uninstall lodash      <span class="cm"># Remove package</span>
+npm update                <span class="cm"># Update all packages</span>
+npm run start             <span class="cm"># Run script from package.json</span>
+npm ls                    <span class="cm"># List installed packages</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q47</span>
+      <span class="q-text">What is the difference between process.nextTick() and setImmediate() in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>process.nextTick():</strong> Executes callback at the end of the current operation, before the event loop continues — highest priority</li>
+        <li><strong>setImmediate():</strong> Executes callback in the next iteration of the event loop (check phase)</li>
+      </ul>
+      <pre>process.nextTick(() => console.log(<span class="str">'nextTick'</span>));
+setImmediate(() => console.log(<span class="str">'setImmediate'</span>));
+console.log(<span class="str">'sync'</span>);
+<span class="cm">// Output: sync → nextTick → setImmediate</span></pre>
+      <div class="tip">Use <code>process.nextTick()</code> for operations that must happen before I/O events. Use <code>setImmediate()</code> for deferred work after I/O.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q48</span>
+      <span class="q-text">How do you deploy a Node.js application to a production server?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Process manager:</strong> Use <code>PM2</code> to keep the app running, handle crashes, and manage logs</li>
+        <li><strong>Environment:</strong> Set <code>NODE_ENV=production</code>, use <code>.env</code> files with dotenv</li>
+        <li><strong>Reverse proxy:</strong> Put Nginx in front for load balancing and SSL termination</li>
+        <li><strong>Cloud options:</strong> AWS EC2, Heroku, Railway, Render, Vercel (for serverless)</li>
+        <li><strong>Docker:</strong> Containerize with a <code>Dockerfile</code> for consistent deployments</li>
+      </ul>
+      <pre>pm2 start app.js --name "my-api"
+pm2 save &amp;&amp; pm2 startup</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q49</span>
+      <span class="q-text">What are the best practices for securing a Node.js application?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li>Use <strong>Helmet.js</strong> to set secure HTTP headers</li>
+        <li>Validate and sanitize all user inputs (<strong>express-validator</strong>)</li>
+        <li>Use <strong>bcrypt</strong> to hash passwords — never store plain text</li>
+        <li>Store secrets in <strong>environment variables</strong>, not in code</li>
+        <li>Rate limiting with <strong>express-rate-limit</strong> to prevent brute force</li>
+        <li>Keep dependencies updated — run <code>npm audit</code> regularly</li>
+        <li>Use HTTPS and CORS policies properly</li>
+        <li>Avoid using <code>eval()</code> or <code>exec()</code> with user input</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q50</span>
+      <span class="q-text">How do you optimize the performance of a Node.js application?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li>Use <strong>clustering</strong> to utilize all CPU cores</li>
+        <li><strong>Cache</strong> frequent DB queries using Redis</li>
+        <li>Use <strong>streams</strong> instead of loading large data into memory</li>
+        <li>Enable <strong>gzip compression</strong> with the <code>compression</code> middleware</li>
+        <li>Use <strong>async/await</strong> everywhere — avoid blocking the event loop</li>
+        <li>Use <strong>connection pooling</strong> for databases</li>
+        <li>Profile with <code>--prof</code> flag or clinic.js to find bottlenecks</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ADVANCED ===== -->
+<div id="advanced" class="section">
+  <div class="section-header">
+    <h2>🔴 Advanced Questions — Q51 to Q60</h2>
+    <p>Deep-dive architecture and design questions for senior developers</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('advanced')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q51</span>
+      <span class="q-text">What are streams in Node.js, and how can they be used?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Streams process data in chunks, making them memory-efficient for large datasets. Instead of loading a 1GB file entirely into RAM, streams read/write it piece by piece.</p>
+      <pre><span class="cm">// Efficient file copy using streams</span>
+<span class="kw">const</span> { pipeline } = require(<span class="str">'stream/promises'</span>);
+<span class="kw">await</span> pipeline(
+  fs.createReadStream(<span class="str">'large.csv'</span>),
+  transformStream,
+  fs.createWriteStream(<span class="str">'output.csv'</span>)
+);</pre>
+      <p>Real use cases: video streaming, file uploads, HTTP response streaming, log processing.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q52</span>
+      <span class="q-text">What is clustering in Node.js, and how can it be used to improve performance?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js is single-threaded, so a 16-core server uses only 1 core by default. Clustering creates multiple worker processes that share the server port, fully utilizing hardware.</p>
+      <pre><span class="kw">const</span> cluster = require(<span class="str">'cluster'</span>);
+<span class="kw">const</span> numCPUs = require(<span class="str">'os'</span>).cpus().length;
+
+<span class="kw">if</span> (cluster.isPrimary) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = 0; i &lt; numCPUs; i++) cluster.fork();
+  cluster.on(<span class="str">'exit'</span>, () => cluster.fork()); <span class="cm">// Auto-restart</span>
+} <span class="kw">else</span> {
+  require(<span class="str">'./server'</span>); <span class="cm">// Each worker runs independently</span>
+}</pre>
+      <div class="tip">PM2 handles clustering automatically: <code>pm2 start app.js -i max</code></div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q53</span>
+      <span class="q-text">What are the differences between require and import statements in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>require (CommonJS):</strong> Synchronous, loads at runtime, can be conditional, works in all Node versions</li>
+        <li><strong>import (ES Modules):</strong> Asynchronous, static (analyzed at parse time), tree-shakeable, requires <code>"type": "module"</code> in package.json or <code>.mjs</code> extension</li>
+      </ul>
+      <pre><span class="cm">// CommonJS</span>
+<span class="kw">const</span> express = require(<span class="str">'express'</span>);
+
+<span class="cm">// ES Modules</span>
+<span class="kw">import</span> express <span class="kw">from</span> <span class="str">'express'</span>;</pre>
+      <div class="tip">ES Modules are the modern standard. Use them for new projects if your Node version supports it (v12+).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q54</span>
+      <span class="q-text">How does Node.js handle asynchronous code execution, and what are the best practices?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js delegates I/O operations to libuv (a C library with a thread pool). When complete, callbacks are queued and the event loop picks them up.</p>
+      <p><strong>Best practices:</strong></p>
+      <ul>
+        <li>Use <code>async/await</code> over nested callbacks</li>
+        <li>Use <code>Promise.all()</code> for concurrent independent operations</li>
+        <li>Never block the event loop with heavy CPU work — use Worker Threads</li>
+        <li>Always handle errors in async functions</li>
+      </ul>
+      <pre><span class="cm">// Run in parallel — faster than sequential await</span>
+<span class="kw">const</span> [users, posts] = <span class="kw">await</span> Promise.all([
+  fetchUsers(),
+  fetchPosts()
+]);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q55</span>
+      <span class="q-text">What is the role of the module object in Node.js, and how can it be used to create reusable code?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Every file in Node.js is wrapped in a Module object. It has properties like <code>module.exports</code>, <code>module.id</code>, <code>module.filename</code>, and <code>module.parent</code>.</p>
+      <pre><span class="cm">// module.exports — expose what you want public</span>
+<span class="kw">class</span> UserService {
+  getAll() { <span class="kw">return</span> db.findAll(<span class="str">'users'</span>); }
+}
+module.exports = <span class="kw">new</span> UserService(); <span class="cm">// Singleton pattern</span>
+
+<span class="cm">// Because Node caches modules, this is always the same instance</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q56</span>
+      <span class="q-text">What are the different types of Node.js modules, and how can they be used to build scalable applications?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Core modules:</strong> Built-in (fs, http, path, os, crypto, events) — no install needed</li>
+        <li><strong>Third-party modules:</strong> Installed via npm (express, mongoose, jest)</li>
+        <li><strong>Local modules:</strong> Your own files (<code>./utils</code>, <code>./models</code>)</li>
+      </ul>
+      <p>For scalable apps: organize code into feature-based modules (routes, controllers, services, models), each with a single responsibility. Use dependency injection to keep modules testable.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q57</span>
+      <span class="q-text">How does Node.js handle errors, and what are some common error-handling techniques?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">// 1. Custom Error class</span>
+<span class="kw">class</span> AppError <span class="kw">extends</span> Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
+
+<span class="cm">// 2. Global Express error handler</span>
+app.use((err, req, res, next) => {
+  <span class="kw">const</span> status = err.statusCode || 500;
+  res.status(status).json({ error: err.message });
+});
+
+<span class="cm">// 3. Unhandled rejections</span>
+process.on(<span class="str">'unhandledRejection'</span>, (reason) => {
+  console.error(reason);
+  process.exit(1);
+});</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q58</span>
+      <span class="q-text">How can Node.js be used to create real-time applications, such as chat apps or dashboards?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Use <strong>WebSockets</strong> via Socket.io or the native <code>ws</code> library for persistent bidirectional connections.</p>
+      <pre><span class="cm">// Chat app with Socket.io</span>
+io.on(<span class="str">'connection'</span>, (socket) => {
+  socket.on(<span class="str">'message'</span>, (msg) => {
+    io.emit(<span class="str">'message'</span>, { user: socket.id, text: msg });
+  });
+  socket.on(<span class="str">'disconnect'</span>, () => {
+    console.log(<span class="str">'User left'</span>);
+  });
+});</pre>
+      <p>For dashboards: use <strong>Server-Sent Events (SSE)</strong> for one-way real-time updates without full WebSocket overhead.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q59</span>
+      <span class="q-text">What is GraphQL, and how can it be used with Node.js to build APIs?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>GraphQL is a query language for APIs where clients request exactly the data they need — no over-fetching or under-fetching. Unlike REST, it uses a single <code>/graphql</code> endpoint.</p>
+      <pre><span class="kw">const</span> { ApolloServer, gql } = require(<span class="str">'apollo-server-express'</span>);
+
+<span class="kw">const</span> typeDefs = gql`
+  type User { id: ID!, name: String! }
+  type Query { user(id: ID!): User }
+`;
+
+<span class="kw">const</span> resolvers = {
+  Query: { user: (_, { id }) => getUserById(id) }
+};
+
+<span class="kw">const</span> server = <span class="kw">new</span> ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q60</span>
+      <span class="q-text">What are some best practices for deploying Node.js applications and optimizing performance?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Use PM2</strong> for process management and auto-restart on crash</li>
+        <li><strong>Enable clustering</strong> to use all CPU cores</li>
+        <li><strong>Use a CDN</strong> for static assets to reduce server load</li>
+        <li><strong>Set NODE_ENV=production</strong> — Express disables debug output</li>
+        <li><strong>Enable Gzip</strong> compression for response bodies</li>
+        <li><strong>Use Redis</strong> for session storage and caching</li>
+        <li><strong>Monitor</strong> with tools like New Relic, Datadog, or clinic.js</li>
+        <li><strong>Containerize</strong> with Docker for consistent environments</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXPRESS ===== -->
+<div id="express" class="section">
+  <div class="section-header">
+    <h2>⚡ Express.js Test Questions</h2>
+    <p>From 's separate 20-min Express.js assessment (10 questions)</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('express')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">EQ1</span>
+      <span class="q-text">What is Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js is an open-source, cross-platform JavaScript runtime environment built on Chrome's V8 engine. It allows developers to run JavaScript on the server side, enabling backend development in the same language as frontend.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">EQ2</span>
+      <span class="q-text">What is Express.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Express.js is a fast, minimal, and unopinionated web framework for Node.js. It simplifies routing, middleware integration, and HTTP utilities. It's the most widely used Node.js web framework and forms the "E" in the MEAN/MERN stack.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">EQ3</span>
+      <span class="q-text">What is the combined use of Node.js and Express.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js provides the runtime, Express.js provides the structure. Together they allow you to build production-ready REST APIs, web servers, and microservices quickly.</p>
+      <pre><span class="kw">const</span> express = require(<span class="str">'express'</span>);
+<span class="kw">const</span> app = express();
+app.use(express.json());
+
+app.get(<span class="str">'/api/users'</span>, <span class="kw">async</span> (req, res) => {
+  <span class="kw">const</span> users = <span class="kw">await</span> User.find();
+  res.json(users);
+});
+
+app.listen(3000);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">EQ4</span>
+      <span class="q-text">What is the use of CLI in Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The Node.js CLI (Command Line Interface) lets you run Node scripts, manage packages, and interact with the REPL.</p>
+      <pre>node app.js          <span class="cm"># Run a script</span>
+node                 <span class="cm"># Open interactive REPL</span>
+node -e "console.log(1+1)"  <span class="cm"># Execute inline code</span>
+node --version       <span class="cm"># Check installed version</span></pre>
+      <p>NPM CLI extends this with package management. You can also build custom CLI tools using packages like <code>commander</code> or <code>yargs</code>.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">EQ5</span>
+      <span class="q-text">What are the common languages that support Node.js?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Node.js primarily runs JavaScript, but it also supports:</p>
+      <ul>
+        <li><strong>TypeScript</strong> — via ts-node or compilation to JS</li>
+        <li><strong>CoffeeScript</strong> — compiles to JS</li>
+        <li><strong>Dart</strong> — via dart2js</li>
+        <li><strong>ClojureScript</strong> — compiles to JS</li>
+      </ul>
+      <p>Essentially, any language that compiles to JavaScript can run on Node.js. TypeScript is by far the most popular choice in production today.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">EQ6</span>
+      <span class="q-text">What is JavaScript engine?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A JavaScript engine is a program that executes JavaScript code. It parses, compiles, and runs JS.</p>
+      <ul>
+        <li><strong>V8</strong> — Used by Node.js and Chrome (Google, open-source)</li>
+        <li><strong>SpiderMonkey</strong> — Firefox (Mozilla)</li>
+        <li><strong>JavaScriptCore (JSC)</strong> — Safari (Apple)</li>
+        <li><strong>Chakra</strong> — Old Edge (Microsoft)</li>
+      </ul>
+      <p>V8 compiles JS directly to native machine code using JIT (Just-In-Time) compilation, making it extremely fast.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">MCQ</span>
+      <span class="q-text">Code MCQ: AJAX POST to Express — what does the server respond?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">// Client AJAX request:</span>
+$.post(<span class="str">"/process"</span>, {name:<span class="str">'john'</span>}, function(data){ });
+
+<span class="cm">// Server code:</span>
+app.post(<span class="str">'/process'</span>, function(req, res){
+  var data = <span class="str">''</span>;
+  if(req.xhr){ data += <span class="str">'One'</span>; }
+  if(req.body.name){ data += <span class="str">'Two'</span>; }
+  res.send(data);
+});</pre>
+      <p><strong>Answer: "OneTwo"</strong></p>
+      <ul>
+        <li><code>req.xhr</code> is <code>true</code> when the request is made via jQuery's $.post (it sets the <code>X-Requested-With: XMLHttpRequest</code> header) → adds "One"</li>
+        <li><code>req.body.name</code> is <code>'john'</code> which is truthy → adds "Two"</li>
+        <li>Final response: <code>"OneTwo"</code></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<script>
+  function toggle(head) {
+    const block = head.parentElement;
+    block.classList.toggle('open');
+  }
+
+  function switchTab(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function expandAll(sectionId) {
+    document.querySelectorAll('#' + sectionId + ' .q-block').forEach(b => b.classList.add('open'));
+  }
+</script>
+</body>
+</html>
