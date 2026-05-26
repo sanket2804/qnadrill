@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Core PHP — Complete Interview Q&A Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; }
+  header { background: #4f5b93; color: #fff; padding: 24px 32px; }
+  header h1 { font-size: 22px; font-weight: 600; }
+  header p { font-size: 13px; color: #c9cfe8; margin-top: 4px; }
+  .stats { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+  .stat { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 8px 14px; font-size: 13px; }
+  .stat strong { display: block; font-size: 18px; color: #aab8ff; }
+
+  .tab-bar { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto; position: sticky; top: 0; z-index: 100; }
+  .tab { padding: 14px 16px; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; color: #666; transition: all 0.15s; }
+  .tab:hover { color: #333; }
+  .tab.active { color: #4f5b93; border-bottom-color: #4f5b93; }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 28px 20px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header { margin-bottom: 20px; }
+  .section-header h2 { font-size: 18px; font-weight: 600; }
+  .section-header p { font-size: 13px; color: #666; margin-top: 4px; }
+
+  .q-block { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; margin-bottom: 14px; overflow: hidden; }
+  .q-head { padding: 13px 18px; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; }
+  .q-head:hover { background: #fafafa; }
+  .q-num { font-size: 12px; font-weight: 600; color: #fff; border-radius: 6px; padding: 2px 8px; min-width: 36px; text-align: center; margin-top: 2px; white-space: nowrap; flex-shrink: 0; }
+  .green  { background: #16a34a; }
+  .blue   { background: #0ea5e9; }
+  .amber  { background: #d97706; }
+  .red    { background: #dc2626; }
+  .purple { background: #7c3aed; }
+  .teal   { background: #0d9488; }
+  .pink   { background: #db2777; }
+
+  .q-text { font-size: 15px; font-weight: 500; flex: 1; line-height: 1.5; }
+  .q-arrow { font-size: 16px; color: #aaa; margin-left: auto; transition: transform 0.2s; flex-shrink: 0; margin-top: 2px; }
+  .q-block.open .q-arrow { transform: rotate(180deg); }
+
+  .q-answer { display: none; border-top: 1px solid #f0f0f0; padding: 16px 18px 18px 68px; }
+  .q-block.open .q-answer { display: block; }
+  .q-answer p { font-size: 14px; line-height: 1.75; color: #333; margin-bottom: 10px; }
+  .q-answer p:last-child { margin-bottom: 0; }
+  .q-answer code { background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 5px; padding: 1px 6px; font-family: 'Courier New', monospace; font-size: 13px; color: #374151; }
+  .q-answer pre { background: #1e1e2e; color: #cdd6f4; border-radius: 8px; padding: 14px 16px; font-size: 13px; font-family: 'Courier New', monospace; line-height: 1.65; overflow-x: auto; margin: 10px 0; }
+  .kw  { color: #cba6f7; }
+  .str { color: #a6e3a1; }
+  .cm  { color: #6c7086; }
+  .fn  { color: #89b4fa; }
+  .var { color: #fab387; }
+  .q-answer ul { margin: 8px 0 8px 20px; }
+  .q-answer ul li { font-size: 14px; line-height: 1.75; color: #333; margin-bottom: 3px; }
+  .tip  { background: #eff6ff; border-left: 3px solid #3b82f6; border-radius: 0 6px 6px 0; padding: 10px 14px; margin-top: 10px; font-size: 13px; color: #1e40af; }
+  .tip strong { font-weight: 600; }
+  .warn { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 10px 14px; margin-top: 10px; font-size: 13px; color: #854d0e; }
+  .warn strong { font-weight: 600; }
+  .danger { background: #fef2f2; border-left: 3px solid #ef4444; border-radius: 0 6px 6px 0; padding: 10px 14px; margin-top: 10px; font-size: 13px; color: #991b1b; }
+  .danger strong { font-weight: 600; }
+
+  .expand-all { background: #4f5b93; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; margin-bottom: 18px; }
+  .expand-all:hover { background: #3d4a7a; }
+
+  .group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin: 22px 0 10px; padding-bottom: 5px; border-bottom: 1px dashed #ddd; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🐘 Core PHP — Complete Interview Q&amp;A Guide</h1>
+  <p>70+ questions across all levels: Fresher → OOP → Functions → Security → Database → Advanced</p>
+  <div class="stats">
+    <div class="stat"><strong>70+</strong> Questions</div>
+    <div class="stat"><strong>6</strong> Topic Sections</div>
+    <div class="stat"><strong>All Levels</strong> Covered</div>
+    <div class="stat"><strong>Code Examples</strong> Included</div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('basics',this)">🟢 Basics Q1–Q15</div>
+  <div class="tab" onclick="switchTab('oop',this)">🔵 OOP Q16–Q30</div>
+  <div class="tab" onclick="switchTab('functions',this)">🟡 Functions & Arrays Q31–Q45</div>
+  <div class="tab" onclick="switchTab('database',this)">🟠 Database Q46–Q55</div>
+  <div class="tab" onclick="switchTab('security',this)">🔴 Security Q56–Q63</div>
+  <div class="tab" onclick="switchTab('advanced',this)">🟣 Advanced Q64–Q72</div>
+</div>
+
+<div class="content">
+
+<!-- =============================== BASICS =============================== -->
+<div id="basics" class="section active">
+  <div class="section-header">
+    <h2>🟢 Basics — Q1 to Q15</h2>
+    <p>Fundamental PHP concepts expected from any candidate</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('basics')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q1</span>
+      <span class="q-text">What is PHP? What are its main features?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>PHP (Hypertext Preprocessor) is a server-side scripting language designed for web development. It is embedded in HTML, runs on the server, and sends the output (HTML) to the browser.</p>
+      <ul>
+        <li><strong>Open-source and free</strong> — large ecosystem and community</li>
+        <li><strong>Cross-platform</strong> — runs on Windows, Linux, macOS</li>
+        <li><strong>Loosely typed</strong> — variables don't need a declared type</li>
+        <li><strong>Huge standard library</strong> — 1000s of built-in functions</li>
+        <li><strong>Database support</strong> — MySQL, PostgreSQL, SQLite, Oracle, and more</li>
+        <li><strong>Supports OOP</strong> — classes, interfaces, traits, abstract classes</li>
+      </ul>
+      <pre><span class="cm">// Basic PHP script embedded in HTML</span>
+<span class="kw">&lt;?php</span>
+  <span class="var">$name</span> = <span class="str">"World"</span>;
+  <span class="fn">echo</span> <span class="str">"Hello, $name!"</span>;
+<span class="kw">?&gt;</span></pre>
+      <div class="tip"><strong>Interview tip:</strong> PHP powers 78%+ of websites with a known server-side language — including WordPress, Facebook (originally), and Wikipedia.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q2</span>
+      <span class="q-text">What are PHP data types?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>PHP supports 8 primitive data types split into three categories:</p>
+      <ul>
+        <li><strong>Scalar:</strong> <code>int</code>, <code>float</code>, <code>string</code>, <code>bool</code></li>
+        <li><strong>Compound:</strong> <code>array</code>, <code>object</code></li>
+        <li><strong>Special:</strong> <code>null</code>, <code>resource</code></li>
+      </ul>
+      <pre><span class="var">$age</span>    = <span class="str">25</span>;           <span class="cm">// int</span>
+<span class="var">$price</span>  = <span class="str">9.99</span>;         <span class="cm">// float</span>
+<span class="var">$name</span>   = <span class="str">"Alice"</span>;      <span class="cm">// string</span>
+<span class="var">$active</span> = <span class="kw">true</span>;         <span class="cm">// bool</span>
+<span class="var">$tags</span>   = [<span class="str">"php"</span>, <span class="str">"web"</span>]; <span class="cm">// array</span>
+<span class="var">$db</span>     = <span class="kw">null</span>;          <span class="cm">// null</span>
+
+<span class="fn">var_dump</span>(<span class="var">$age</span>);          <span class="cm">// int(25)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q3</span>
+      <span class="q-text">What is the difference between == and === in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong><code>==</code> (Loose comparison):</strong> Compares values after type coercion — <code>"1" == 1</code> is <code>true</code></li>
+        <li><strong><code>===</code> (Strict comparison):</strong> Compares both value AND type — <code>"1" === 1</code> is <code>false</code></li>
+      </ul>
+      <pre><span class="var">$a</span> = <span class="str">"1"</span>;
+<span class="var">$b</span> = 1;
+
+<span class="var">$a</span> == <span class="var">$b</span>;   <span class="cm">// true  (type coerced)</span>
+<span class="var">$a</span> === <span class="var">$b</span>;  <span class="cm">// false (different types)</span>
+
+<span class="kw">null</span> == <span class="kw">false</span>;   <span class="cm">// true</span>
+<span class="kw">null</span> === <span class="kw">false</span>;  <span class="cm">// false</span>
+<span class="str">0</span> == <span class="str">"foo"</span>;     <span class="cm">// false (PHP 8 changed this!)</span></pre>
+      <div class="warn"><strong>Best practice:</strong> Always use <code>===</code> to avoid subtle bugs from type juggling.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q4</span>
+      <span class="q-text">What are PHP variable scopes?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>PHP has four types of variable scope:</p>
+      <ul>
+        <li><strong>Local:</strong> Declared inside a function — only accessible within it</li>
+        <li><strong>Global:</strong> Declared outside functions — use <code>global $var</code> or <code>$GLOBALS['var']</code> inside functions</li>
+        <li><strong>Static:</strong> Local variable that persists across function calls using <code>static</code></li>
+        <li><strong>Superglobal:</strong> Built-in arrays accessible everywhere: <code>$_GET</code>, <code>$_POST</code>, <code>$_SESSION</code>, <code>$_SERVER</code>, etc.</li>
+      </ul>
+      <pre><span class="var">$count</span> = 0; <span class="cm">// global</span>
+
+<span class="kw">function</span> <span class="fn">increment</span>() {
+  <span class="kw">static</span> <span class="var">$calls</span> = 0; <span class="cm">// persists between calls</span>
+  <span class="kw">global</span> <span class="var">$count</span>;     <span class="cm">// access global</span>
+  <span class="var">$calls</span>++;
+  <span class="var">$count</span>++;
+  <span class="fn">echo</span> <span class="var">$calls</span>;
+}
+<span class="fn">increment</span>(); <span class="cm">// 1</span>
+<span class="fn">increment</span>(); <span class="cm">// 2 (static persists)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q5</span>
+      <span class="q-text">What is the difference between echo and print in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>echo:</strong> Outputs one or more strings. No return value. Slightly faster. Can take multiple arguments.</li>
+        <li><strong>print:</strong> Outputs one string. Always returns <code>1</code> — can be used in expressions.</li>
+      </ul>
+      <pre><span class="fn">echo</span> <span class="str">"Hello"</span>, <span class="str">" World"</span>; <span class="cm">// multiple args OK</span>
+<span class="fn">print</span> <span class="str">"Hello"</span>;           <span class="cm">// returns 1</span>
+<span class="var">$x</span> = <span class="fn">print</span> <span class="str">"test"</span>;      <span class="cm">// $x = 1</span></pre>
+      <div class="tip">In practice, <code>echo</code> is used almost universally. <code>print</code> is rarely used.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q6</span>
+      <span class="q-text">What are PHP Superglobals?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Superglobals are built-in variables accessible from anywhere in a PHP script — inside functions, classes, or global scope — without needing the <code>global</code> keyword.</p>
+      <ul>
+        <li><code>$_GET</code> — query string parameters from URL</li>
+        <li><code>$_POST</code> — form data submitted via POST</li>
+        <li><code>$_REQUEST</code> — combined GET, POST, COOKIE</li>
+        <li><code>$_SESSION</code> — session data</li>
+        <li><code>$_COOKIE</code> — browser cookies</li>
+        <li><code>$_FILES</code> — uploaded file data</li>
+        <li><code>$_SERVER</code> — server and execution environment info</li>
+        <li><code>$_ENV</code> — environment variables</li>
+        <li><code>$GLOBALS</code> — all global variables</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q7</span>
+      <span class="q-text">What is the difference between GET and POST methods?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>GET:</strong> Data sent in URL query string. Visible in browser. Cached and bookmarkable. Limited to ~2000 chars. Use for fetching/reading data.</li>
+        <li><strong>POST:</strong> Data sent in request body. Not visible in URL. Not cached. No size limit. Use for submitting/changing data.</li>
+      </ul>
+      <pre><span class="cm">// GET: /search?q=php&amp;page=2</span>
+<span class="var">$query</span> = <span class="var">$_GET</span>[<span class="str">'q'</span>];
+
+<span class="cm">// POST: form submission</span>
+<span class="var">$email</span> = <span class="var">$_POST</span>[<span class="str">'email'</span>];</pre>
+      <div class="warn"><strong>Never</strong> trust data from <code>$_GET</code> or <code>$_POST</code> directly. Always sanitize and validate.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q8</span>
+      <span class="q-text">What are PHP Sessions and Cookies? What is the difference?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Session:</strong> Stored on the server. More secure. Expires when browser closes (by default). Identified by a session ID cookie.</li>
+        <li><strong>Cookie:</strong> Stored in user's browser. Can persist long-term. Less secure — user can modify them.</li>
+      </ul>
+      <pre><span class="cm">// Session</span>
+<span class="fn">session_start</span>();
+<span class="var">$_SESSION</span>[<span class="str">'user_id'</span>] = 42;
+<span class="fn">echo</span> <span class="var">$_SESSION</span>[<span class="str">'user_id'</span>]; <span class="cm">// 42</span>
+
+<span class="cm">// Cookie</span>
+<span class="fn">setcookie</span>(<span class="str">'theme'</span>, <span class="str">'dark'</span>, <span class="fn">time</span>() + 86400); <span class="cm">// expires in 1 day</span>
+<span class="fn">echo</span> <span class="var">$_COOKIE</span>[<span class="str">'theme'</span>]; <span class="cm">// 'dark'</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q9</span>
+      <span class="q-text">What is type juggling in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>PHP automatically converts types when an operation requires a different type — this is called type juggling (or type coercion). It happens implicitly without casting.</p>
+      <pre><span class="var">$result</span> = <span class="str">"5"</span> + 3;      <span class="cm">// int 8 (string "5" → int)</span>
+<span class="var">$str</span>    = <span class="str">"10 cats"</span> + 5; <span class="cm">// int 15 (leading number extracted)</span>
+<span class="var">$flag</span>   = <span class="str">""</span> + 0;        <span class="cm">// int 0 (empty string → 0)</span>
+
+<span class="cm">// Explicit casting</span>
+<span class="var">$a</span> = (<span class="kw">int</span>) <span class="str">"42abc"</span>;  <span class="cm">// int 42</span>
+<span class="var">$b</span> = (<span class="kw">bool</span>) <span class="str">""</span>;      <span class="cm">// false</span>
+<span class="var">$c</span> = (<span class="kw">string</span>) <span class="str">3.14</span>; <span class="cm">// "3.14"</span></pre>
+      <div class="warn"><strong>PHP 8</strong> made some type juggling stricter — e.g., <code>0 == "foo"</code> is now <code>false</code> (was <code>true</code> in PHP 7).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q10</span>
+      <span class="q-text">What is the difference between include, require, include_once, and require_once?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>include:</strong> Includes a file. On failure, emits a warning and <em>continues</em> execution.</li>
+        <li><strong>require:</strong> Includes a file. On failure, emits a fatal error and <em>stops</em> execution.</li>
+        <li><strong>include_once:</strong> Same as include but checks if already included — prevents duplicate declarations.</li>
+        <li><strong>require_once:</strong> Same as require but checks if already included.</li>
+      </ul>
+      <pre><span class="fn">require_once</span> <span class="str">'config.php'</span>;  <span class="cm">// Critical — stop if missing</span>
+<span class="fn">include</span> <span class="str">'sidebar.php'</span>;      <span class="cm">// Optional — continue if missing</span></pre>
+      <div class="tip">Use <code>require_once</code> for critical files (config, database). Use <code>include</code> for optional templates.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q11</span>
+      <span class="q-text">What are PHP constants? How are they different from variables?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Constants are identifiers with a fixed value that cannot change during execution. Unlike variables, they have no <code>$</code> prefix and are global by default.</p>
+      <pre><span class="cm">// Defining constants</span>
+<span class="fn">define</span>(<span class="str">'MAX_SIZE'</span>, 1024);
+<span class="kw">const</span> VERSION = <span class="str">'2.0'</span>;
+
+<span class="fn">echo</span> MAX_SIZE; <span class="cm">// 1024</span>
+<span class="fn">echo</span> VERSION;  <span class="cm">// 2.0</span>
+
+<span class="cm">// PHP built-in constants</span>
+<span class="fn">echo</span> PHP_VERSION;   <span class="cm">// e.g. 8.2.0</span>
+<span class="fn">echo</span> PHP_INT_MAX;   <span class="cm">// 9223372036854775807</span>
+<span class="fn">echo</span> __FILE__;      <span class="cm">// current file path</span>
+<span class="fn">echo</span> __LINE__;      <span class="cm">// current line number</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q12</span>
+      <span class="q-text">What are the different types of errors in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>E_ERROR:</strong> Fatal runtime error — script stops (e.g., calling undefined function)</li>
+        <li><strong>E_WARNING:</strong> Non-fatal runtime warning — script continues (e.g., include missing file)</li>
+        <li><strong>E_NOTICE:</strong> Minor runtime notice (e.g., accessing undefined variable)</li>
+        <li><strong>E_PARSE:</strong> Compile-time parse error — script cannot run</li>
+        <li><strong>E_DEPRECATED:</strong> Using deprecated functions</li>
+        <li><strong>E_STRICT:</strong> Code compatibility suggestions (merged into E_NOTICE in PHP 8)</li>
+      </ul>
+      <pre><span class="cm">// Error reporting configuration</span>
+<span class="fn">error_reporting</span>(E_ALL);           <span class="cm">// Show all errors</span>
+<span class="fn">ini_set</span>(<span class="str">'display_errors'</span>, <span class="str">'1'</span>);  <span class="cm">// Show in browser (dev only)</span>
+
+<span class="cm">// Custom error handler</span>
+<span class="fn">set_error_handler</span>(<span class="kw">function</span>(<span class="var">$errno</span>, <span class="var">$errstr</span>) {
+  <span class="fn">error_log</span>(<span class="str">"Error $errno: $errstr"</span>);
+});</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q13</span>
+      <span class="q-text">How does PHP handle exceptions?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>PHP uses <code>try-catch-finally</code> blocks for exception handling. You can throw built-in exceptions or create custom ones by extending the <code>Exception</code> class.</p>
+      <pre><span class="kw">class</span> <span class="fn">ValidationException</span> <span class="kw">extends</span> <span class="fn">Exception</span> {}
+
+<span class="kw">function</span> <span class="fn">validateAge</span>(<span class="var">$age</span>) {
+  <span class="kw">if</span> (<span class="var">$age</span> < 0) {
+    <span class="kw">throw new</span> <span class="fn">ValidationException</span>(<span class="str">"Age cannot be negative"</span>);
+  }
+}
+
+<span class="kw">try</span> {
+  <span class="fn">validateAge</span>(-1);
+} <span class="kw">catch</span> (<span class="fn">ValidationException</span> <span class="var">$e</span>) {
+  <span class="fn">echo</span> <span class="str">"Validation: "</span> . <span class="var">$e</span>-><span class="fn">getMessage</span>();
+} <span class="kw">catch</span> (<span class="fn">Exception</span> <span class="var">$e</span>) {
+  <span class="fn">echo</span> <span class="str">"General: "</span> . <span class="var">$e</span>-><span class="fn">getMessage</span>();
+} <span class="kw">finally</span> {
+  <span class="fn">echo</span> <span class="str">"Always runs"</span>;
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q14</span>
+      <span class="q-text">What is the difference between single-quoted and double-quoted strings?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Single quotes (<code>'</code>):</strong> Literal string — no variable interpolation, no escape sequences except <code>\'</code> and <code>\\</code>. Slightly faster.</li>
+        <li><strong>Double quotes (<code>"</code>):</strong> Variables and escape sequences are parsed (<code>\n</code>, <code>\t</code>, <code>\$</code>, etc.)</li>
+      </ul>
+      <pre><span class="var">$name</span> = <span class="str">"Alice"</span>;
+
+<span class="fn">echo</span> <span class="str">'Hello $name\n'</span>;    <span class="cm">// Hello $name\n  (literal)</span>
+<span class="fn">echo</span> <span class="str">"Hello $name\n"</span>;    <span class="cm">// Hello Alice    (interpolated)</span>
+<span class="fn">echo</span> <span class="str">"Hello {$name}!"</span>;   <span class="cm">// Hello Alice!   (curly braces)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q15</span>
+      <span class="q-text">What is PHP's null coalescing operator and spaceship operator?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Null coalescing (<code>??</code>):</strong> Returns the left operand if it exists and is not null; otherwise returns the right. Added in PHP 7.</p>
+      <p><strong>Spaceship (<code>&lt;=&gt;</code>):</strong> Compares two values. Returns -1, 0, or 1. Useful for sorting. Added in PHP 7.</p>
+      <pre><span class="cm">// Null coalescing</span>
+<span class="var">$user</span> = <span class="var">$_GET</span>[<span class="str">'user'</span>] ?? <span class="str">'Guest'</span>;  <span class="cm">// 'Guest' if not set</span>
+<span class="var">$config</span>[<span class="str">'timeout'</span>] ??= 30;          <span class="cm">// assign if null (PHP 7.4+)</span>
+
+<span class="cm">// Spaceship operator</span>
+<span class="fn">echo</span> 1 <=> 2;  <span class="cm">// -1</span>
+<span class="fn">echo</span> 2 <=> 2;  <span class="cm">//  0</span>
+<span class="fn">echo</span> 3 <=> 2;  <span class="cm">//  1</span>
+
+<span class="fn">usort</span>(<span class="var">$arr</span>, <span class="kw">fn</span>(<span class="var">$a</span>, <span class="var">$b</span>) => <span class="var">$a</span>[<span class="str">'age'</span>] <=> <span class="var">$b</span>[<span class="str">'age'</span>]);</pre>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== OOP =============================== -->
+<div id="oop" class="section">
+  <div class="section-header">
+    <h2>🔵 Object-Oriented PHP — Q16 to Q30</h2>
+    <p>OOP concepts, design patterns, and class-based features</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('oop')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q16</span>
+      <span class="q-text">What are the four pillars of OOP in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Encapsulation:</strong> Bundling data (properties) and methods together inside a class, and controlling access via <code>public</code>, <code>protected</code>, <code>private</code>.</li>
+        <li><strong>Inheritance:</strong> A child class extends a parent class, inheriting its properties and methods using <code>extends</code>.</li>
+        <li><strong>Polymorphism:</strong> Different classes implementing the same interface/method, each behaving differently. Achieved via method overriding and interfaces.</li>
+        <li><strong>Abstraction:</strong> Hiding implementation details and exposing only what's necessary — via abstract classes and interfaces.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q17</span>
+      <span class="q-text">What is the difference between abstract class and interface?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Abstract class:</strong> Can have both abstract methods (no body) and concrete methods (with body). Can have properties. A class can extend only ONE abstract class.</li>
+        <li><strong>Interface:</strong> All methods are abstract by default (no body). No properties (only constants). A class can implement MULTIPLE interfaces.</li>
+      </ul>
+      <pre><span class="kw">interface</span> <span class="fn">Drawable</span> {
+  <span class="kw">public function</span> <span class="fn">draw</span>(): <span class="kw">void</span>;
+}
+
+<span class="kw">abstract class</span> <span class="fn">Shape</span> {
+  <span class="kw">abstract public function</span> <span class="fn">area</span>(): <span class="kw">float</span>;
+  <span class="kw">public function</span> <span class="fn">describe</span>() { <span class="fn">echo</span> <span class="str">"I am a shape"</span>; }
+}
+
+<span class="kw">class</span> <span class="fn">Circle</span> <span class="kw">extends</span> <span class="fn">Shape</span> <span class="kw">implements</span> <span class="fn">Drawable</span> {
+  <span class="kw">public function</span> <span class="fn">area</span>(): <span class="kw">float</span> { <span class="kw">return</span> <span class="fn">pi</span>() * 5 ** 2; }
+  <span class="kw">public function</span> <span class="fn">draw</span>(): <span class="kw">void</span> { <span class="fn">echo</span> <span class="str">"Drawing circle"</span>; }
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q18</span>
+      <span class="q-text">What are access modifiers in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>public:</strong> Accessible from anywhere — inside the class, subclasses, and outside.</li>
+        <li><strong>protected:</strong> Accessible only inside the class and its subclasses. Not from outside.</li>
+        <li><strong>private:</strong> Accessible only inside the defining class. Not even subclasses.</li>
+      </ul>
+      <pre><span class="kw">class</span> <span class="fn">BankAccount</span> {
+  <span class="kw">public</span>    <span class="var">$owner</span>;
+  <span class="kw">protected</span> <span class="var">$balance</span> = 0;
+  <span class="kw">private</span>   <span class="var">$pin</span>;
+
+  <span class="kw">public function</span> <span class="fn">deposit</span>(<span class="var">$amt</span>) {
+    <span class="var">$this</span>-><span class="var">balance</span> += <span class="var">$amt</span>; <span class="cm">// OK</span>
+  }
+  <span class="kw">private function</span> <span class="fn">verifyPin</span>(<span class="var">$p</span>) {
+    <span class="kw">return</span> <span class="var">$p</span> === <span class="var">$this</span>-><span class="var">pin</span>;
+  }
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q19</span>
+      <span class="q-text">What is a Trait in PHP? Why is it used?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A Trait is a mechanism for code reuse in single-inheritance languages like PHP. It lets you include methods in multiple classes without inheritance. Traits solve the "diamond problem" of multiple inheritance.</p>
+      <pre><span class="kw">trait</span> <span class="fn">Timestampable</span> {
+  <span class="kw">public function</span> <span class="fn">createdAt</span>(): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="fn">date</span>(<span class="str">'Y-m-d H:i:s'</span>);
+  }
+}
+
+<span class="kw">trait</span> <span class="fn">Loggable</span> {
+  <span class="kw">public function</span> <span class="fn">log</span>(<span class="var">$msg</span>) { <span class="fn">error_log</span>(<span class="var">$msg</span>); }
+}
+
+<span class="kw">class</span> <span class="fn">User</span> {
+  <span class="kw">use</span> <span class="fn">Timestampable</span>, <span class="fn">Loggable</span>; <span class="cm">// Multiple traits</span>
+}
+
+<span class="var">$u</span> = <span class="kw">new</span> <span class="fn">User</span>();
+<span class="fn">echo</span> <span class="var">$u</span>-><span class="fn">createdAt</span>();</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q20</span>
+      <span class="q-text">What is the difference between $this, self::, static::, and parent::?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong><code>$this</code>:</strong> Refers to the current object instance. Used for non-static properties/methods.</li>
+        <li><strong><code>self::</code>:</strong> Refers to the class where it is written (compile-time). Does NOT support late static binding.</li>
+        <li><strong><code>static::</code>:</strong> Refers to the class that was called at runtime — supports Late Static Binding (PHP 5.3+).</li>
+        <li><strong><code>parent::</code>:</strong> Refers to the parent class — used to call overridden parent methods.</li>
+      </ul>
+      <pre><span class="kw">class</span> <span class="fn">Base</span> {
+  <span class="kw">public static function</span> <span class="fn">create</span>() {
+    <span class="kw">return new</span> <span class="kw">static</span>(); <span class="cm">// Late Static Binding</span>
+  }
+}
+<span class="kw">class</span> <span class="fn">Child</span> <span class="kw">extends</span> <span class="fn">Base</span> {}
+
+<span class="var">$obj</span> = <span class="fn">Child</span>::<span class="fn">create</span>(); <span class="cm">// Returns Child, not Base</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q21</span>
+      <span class="q-text">What is method overriding and method overloading in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Method Overriding:</strong> Child class re-defines a parent class method with the same name. PHP supports this natively.</li>
+        <li><strong>Method Overloading:</strong> PHP doesn't support traditional overloading. Instead, it uses magic methods <code>__call()</code> and <code>__callStatic()</code> to intercept calls to undefined methods.</li>
+      </ul>
+      <pre><span class="cm">// Overriding</span>
+<span class="kw">class</span> <span class="fn">Animal</span> {
+  <span class="kw">public function</span> <span class="fn">speak</span>() { <span class="fn">echo</span> <span class="str">"..."</span>; }
+}
+<span class="kw">class</span> <span class="fn">Dog</span> <span class="kw">extends</span> <span class="fn">Animal</span> {
+  <span class="kw">public function</span> <span class="fn">speak</span>() { <span class="fn">echo</span> <span class="str">"Woof!"</span>; } <span class="cm">// overrides</span>
+}
+
+<span class="cm">// "Overloading" via __call</span>
+<span class="kw">public function</span> <span class="fn">__call</span>(<span class="var">$name</span>, <span class="var">$args</span>) {
+  <span class="fn">echo</span> <span class="str">"Called $name with "</span> . <span class="fn">count</span>(<span class="var">$args</span>) . <span class="str">" args"</span>;
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q22</span>
+      <span class="q-text">What are PHP Magic Methods?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Magic methods are special methods that start with <code>__</code> (double underscore) and are automatically called in certain situations.</p>
+      <ul>
+        <li><code>__construct()</code> — called when object is created</li>
+        <li><code>__destruct()</code> — called when object is destroyed</li>
+        <li><code>__get($name)</code> — called when accessing inaccessible property</li>
+        <li><code>__set($name, $val)</code> — called when setting inaccessible property</li>
+        <li><code>__isset($name)</code> — called with isset() on inaccessible property</li>
+        <li><code>__toString()</code> — called when object used as string</li>
+        <li><code>__invoke()</code> — called when object used as function</li>
+        <li><code>__clone()</code> — called when object is cloned</li>
+        <li><code>__call($name, $args)</code> — called when calling inaccessible method</li>
+      </ul>
+      <pre><span class="kw">class</span> <span class="fn">Money</span> {
+  <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private float</span> <span class="var">$amount</span>) {}
+  <span class="kw">public function</span> <span class="fn">__toString</span>(): <span class="kw">string</span> {
+    <span class="kw">return</span> <span class="str">"$"</span> . <span class="fn">number_format</span>(<span class="var">$this</span>-><span class="var">amount</span>, 2);
+  }
+}
+<span class="fn">echo</span> <span class="kw">new</span> <span class="fn">Money</span>(9.5); <span class="cm">// $9.50</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q23</span>
+      <span class="q-text">What is the Singleton design pattern in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The Singleton pattern ensures only one instance of a class is created throughout the application's lifecycle. Commonly used for database connections.</p>
+      <pre><span class="kw">class</span> <span class="fn">Database</span> {
+  <span class="kw">private static</span> ?<span class="fn">Database</span> <span class="var">$instance</span> = <span class="kw">null</span>;
+  <span class="kw">private</span> <span class="fn">PDO</span> <span class="var">$pdo</span>;
+
+  <span class="kw">private function</span> <span class="fn">__construct</span>() {
+    <span class="var">$this</span>-><span class="var">pdo</span> = <span class="kw">new</span> <span class="fn">PDO</span>(<span class="str">'mysql:host=localhost;dbname=app'</span>, <span class="str">'user'</span>, <span class="str">'pass'</span>);
+  }
+
+  <span class="kw">public static function</span> <span class="fn">getInstance</span>(): <span class="fn">Database</span> {
+    <span class="kw">if</span> (<span class="kw">self</span>::<span class="var">$instance</span> === <span class="kw">null</span>) {
+      <span class="kw">self</span>::<span class="var">$instance</span> = <span class="kw">new</span> <span class="kw">self</span>();
+    }
+    <span class="kw">return</span> <span class="kw">self</span>::<span class="var">$instance</span>;
+  }
+
+  <span class="kw">private function</span> <span class="fn">__clone</span>() {} <span class="cm">// Prevent cloning</span>
+}
+
+<span class="var">$db</span> = <span class="fn">Database</span>::<span class="fn">getInstance</span>();</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q24</span>
+      <span class="q-text">What is a Constructor and Destructor in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Constructor (<code>__construct</code>):</strong> Automatically called when a new object is instantiated. Used to initialize properties.</p>
+      <p><strong>Destructor (<code>__destruct</code>):</strong> Automatically called when an object goes out of scope or the script ends. Used for cleanup (closing DB connections, files).</p>
+      <pre><span class="kw">class</span> <span class="fn">FileLogger</span> {
+  <span class="kw">private</span> <span class="var">$handle</span>;
+
+  <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">string</span> <span class="var">$path</span>) {
+    <span class="var">$this</span>-><span class="var">handle</span> = <span class="fn">fopen</span>(<span class="var">$path</span>, <span class="str">'a'</span>);
+  }
+
+  <span class="kw">public function</span> <span class="fn">__destruct</span>() {
+    <span class="fn">fclose</span>(<span class="var">$this</span>-><span class="var">handle</span>); <span class="cm">// auto cleanup</span>
+  }
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q25</span>
+      <span class="q-text">What is Late Static Binding (LSB) in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>LSB allows you to reference the class that was called at runtime (not the class where the method was defined) using <code>static::</code> instead of <code>self::</code>.</p>
+      <pre><span class="kw">class</span> <span class="fn">ParentClass</span> {
+  <span class="kw">public static function</span> <span class="fn">create</span>() {
+    <span class="kw">return new static</span>(); <span class="cm">// LSB — runtime class</span>
+    <span class="cm">// new self() would always return ParentClass</span>
+  }
+  <span class="kw">public static function</span> <span class="fn">className</span>() {
+    <span class="kw">return static</span>::<span class="kw">class</span>; <span class="cm">// LSB</span>
+  }
+}
+<span class="kw">class</span> <span class="fn">ChildClass</span> <span class="kw">extends</span> <span class="fn">ParentClass</span> {}
+
+<span class="fn">ChildClass</span>::<span class="fn">create</span>();    <span class="cm">// Returns ChildClass instance</span>
+<span class="fn">ChildClass</span>::<span class="fn">className</span>(); <span class="cm">// Returns "ChildClass"</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q26</span>
+      <span class="q-text">What is the difference between shallow copy and deep copy (clone)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>In PHP, objects are assigned by reference by default. Using <code>clone</code> creates a shallow copy — primitive properties are copied, but object properties still point to the same object. Override <code>__clone()</code> for deep copy.</p>
+      <pre><span class="kw">class</span> <span class="fn">Cart</span> {
+  <span class="kw">public</span> <span class="fn">Address</span> <span class="var">$address</span>;
+
+  <span class="kw">public function</span> <span class="fn">__clone</span>() {
+    <span class="var">$this</span>-><span class="var">address</span> = <span class="kw">clone</span> <span class="var">$this</span>-><span class="var">address</span>; <span class="cm">// deep copy</span>
+  }
+}
+
+<span class="var">$cart1</span> = <span class="kw">new</span> <span class="fn">Cart</span>();
+<span class="var">$cart2</span> = <span class="kw">clone</span> <span class="var">$cart1</span>; <span class="cm">// independent copy</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q27</span>
+      <span class="q-text">What is Dependency Injection in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Dependency Injection (DI) is a design pattern where a class receives its dependencies from outside rather than creating them internally. Makes code testable, flexible, and loosely coupled.</p>
+      <pre><span class="cm">// Without DI — tightly coupled, hard to test</span>
+<span class="kw">class</span> <span class="fn">OrderService</span> {
+  <span class="kw">private</span> <span class="var">$mailer</span>;
+  <span class="kw">public function</span> <span class="fn">__construct</span>() {
+    <span class="var">$this</span>-><span class="var">mailer</span> = <span class="kw">new</span> <span class="fn">SmtpMailer</span>(); <span class="cm">// hardcoded</span>
+  }
+}
+
+<span class="cm">// With DI — loosely coupled, testable</span>
+<span class="kw">class</span> <span class="fn">OrderService</span> {
+  <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">private</span> <span class="fn">MailerInterface</span> <span class="var">$mailer</span>) {}
+}
+
+<span class="var">$service</span> = <span class="kw">new</span> <span class="fn">OrderService</span>(<span class="kw">new</span> <span class="fn">SmtpMailer</span>());
+<span class="cm">// In tests: new OrderService(new MockMailer())</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q28</span>
+      <span class="q-text">What are PHP Enums? (PHP 8.1+)</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Enums (Enumerations) introduced in PHP 8.1 allow defining a type with a fixed set of named values — replacing class constants and reducing bugs from magic strings/integers.</p>
+      <pre><span class="cm">// Pure enum</span>
+<span class="kw">enum</span> <span class="fn">Status</span> {
+  <span class="kw">case</span> Active;
+  <span class="kw">case</span> Inactive;
+  <span class="kw">case</span> Pending;
+}
+
+<span class="cm">// Backed enum (with values)</span>
+<span class="kw">enum</span> <span class="fn">Color</span>: <span class="kw">string</span> {
+  <span class="kw">case</span> Red   = <span class="str">'red'</span>;
+  <span class="kw">case</span> Green = <span class="str">'green'</span>;
+  <span class="kw">case</span> Blue  = <span class="str">'blue'</span>;
+}
+
+<span class="var">$status</span> = <span class="fn">Status</span>::Active;
+<span class="var">$color</span>  = <span class="fn">Color</span>::<span class="fn">from</span>(<span class="str">'red'</span>); <span class="cm">// Color::Red</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q29</span>
+      <span class="q-text">What is an anonymous class in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Anonymous classes (PHP 7+) are classes without a name, defined inline where they're used. Useful for one-off implementations — especially in testing (mocking).</p>
+      <pre><span class="kw">interface</span> <span class="fn">Logger</span> {
+  <span class="kw">public function</span> <span class="fn">log</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span>;
+}
+
+<span class="cm">// Anonymous class implementing an interface</span>
+<span class="var">$logger</span> = <span class="kw">new class implements</span> <span class="fn">Logger</span> {
+  <span class="kw">public function</span> <span class="fn">log</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">void</span> {
+    <span class="fn">echo</span> <span class="str">"[LOG] $msg"</span>;
+  }
+};
+
+<span class="var">$logger</span>-><span class="fn">log</span>(<span class="str">"Server started"</span>);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q30</span>
+      <span class="q-text">What is PHP Namespacing?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Namespaces prevent naming conflicts between classes, functions, and constants — especially important when combining multiple libraries. They work like directories for code.</p>
+      <pre><span class="cm">// File: App/Models/User.php</span>
+<span class="kw">namespace</span> App\Models;
+
+<span class="kw">class</span> <span class="fn">User</span> { ... }
+
+<span class="cm">// File: App/Http/Controllers/UserController.php</span>
+<span class="kw">namespace</span> App\Http\Controllers;
+
+<span class="kw">use</span> App\Models\<span class="fn">User</span>;
+<span class="kw">use</span> App\Services\<span class="fn">UserService</span> <span class="kw">as</span> <span class="fn">Service</span>; <span class="cm">// alias</span>
+
+<span class="kw">class</span> <span class="fn">UserController</span> {
+  <span class="kw">public function</span> <span class="fn">index</span>() {
+    <span class="kw">return</span> <span class="fn">User</span>::<span class="fn">all</span>();
+  }
+}</pre>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== FUNCTIONS & ARRAYS =============================== -->
+<div id="functions" class="section">
+  <div class="section-header">
+    <h2>🟡 Functions & Arrays — Q31 to Q45</h2>
+    <p>Built-in functions, array manipulation, closures, and string handling</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('functions')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q31</span>
+      <span class="q-text">What is the difference between array_map, array_filter, and array_reduce?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>array_map:</strong> Applies a callback to each element, returning a new array of the same size.</li>
+        <li><strong>array_filter:</strong> Keeps only elements where callback returns true. Keys are preserved.</li>
+        <li><strong>array_reduce:</strong> Reduces array to a single value by accumulating with a callback.</li>
+      </ul>
+      <pre><span class="var">$nums</span> = [1, 2, 3, 4, 5];
+
+<span class="cm">// map: double each</span>
+<span class="var">$doubled</span> = <span class="fn">array_map</span>(<span class="kw">fn</span>(<span class="var">$n</span>) => <span class="var">$n</span> * 2, <span class="var">$nums</span>);
+<span class="cm">// [2, 4, 6, 8, 10]</span>
+
+<span class="cm">// filter: keep evens</span>
+<span class="var">$evens</span> = <span class="fn">array_filter</span>(<span class="var">$nums</span>, <span class="kw">fn</span>(<span class="var">$n</span>) => <span class="var">$n</span> % 2 === 0);
+<span class="cm">// [2, 4]</span>
+
+<span class="cm">// reduce: sum all</span>
+<span class="var">$sum</span> = <span class="fn">array_reduce</span>(<span class="var">$nums</span>, <span class="kw">fn</span>(<span class="var">$carry</span>, <span class="var">$item</span>) => <span class="var">$carry</span> + <span class="var">$item</span>, 0);
+<span class="cm">// 15</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q32</span>
+      <span class="q-text">What are Closures (anonymous functions) in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A closure is an anonymous function that can capture variables from its surrounding scope using the <code>use</code> keyword. They are objects of the built-in <code>Closure</code> class.</p>
+      <pre><span class="var">$multiplier</span> = 3;
+
+<span class="var">$multiply</span> = <span class="kw">function</span>(<span class="var">$n</span>) <span class="kw">use</span> (<span class="var">$multiplier</span>) {
+  <span class="kw">return</span> <span class="var">$n</span> * <span class="var">$multiplier</span>;
+};
+
+<span class="fn">echo</span> <span class="var">$multiply</span>(5);  <span class="cm">// 15</span>
+
+<span class="cm">// Arrow function (PHP 7.4+) — auto-captures by value</span>
+<span class="var">$multiply</span> = <span class="kw">fn</span>(<span class="var">$n</span>) => <span class="var">$n</span> * <span class="var">$multiplier</span>;
+<span class="fn">echo</span> <span class="var">$multiply</span>(5);  <span class="cm">// 15</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q33</span>
+      <span class="q-text">What is the difference between array_push and the [] operator?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>array_push($arr, $val):</strong> Adds one or more elements to the end of an array. Returns new count. Has function call overhead.</li>
+        <li><strong>$arr[] = $val:</strong> Direct language construct. Faster. Preferred for single element addition.</li>
+      </ul>
+      <pre><span class="var">$arr</span> = [1, 2, 3];
+
+<span class="fn">array_push</span>(<span class="var">$arr</span>, 4, 5);  <span class="cm">// [1,2,3,4,5] — multiple at once</span>
+<span class="var">$arr</span>[] = 6;              <span class="cm">// [1,2,3,4,5,6] — preferred for single</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q34</span>
+      <span class="q-text">What is the difference between sort(), asort(), ksort(), and usort()?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>sort():</strong> Sorts values ascending. Resets numeric keys.</li>
+        <li><strong>asort():</strong> Sorts values ascending. Preserves key association.</li>
+        <li><strong>ksort():</strong> Sorts by keys ascending. Preserves key-value association.</li>
+        <li><strong>usort():</strong> Sorts by a user-defined comparison function.</li>
+      </ul>
+      <pre><span class="var">$people</span> = [
+  [<span class="str">'name'</span> => <span class="str">'Charlie'</span>, <span class="str">'age'</span> => 30],
+  [<span class="str">'name'</span> => <span class="str">'Alice'</span>,   <span class="str">'age'</span> => 25],
+];
+
+<span class="fn">usort</span>(<span class="var">$people</span>, <span class="kw">fn</span>(<span class="var">$a</span>, <span class="var">$b</span>) => <span class="var">$a</span>[<span class="str">'age'</span>] <=> <span class="var">$b</span>[<span class="str">'age'</span>]);
+<span class="cm">// Alice (25), Charlie (30)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q35</span>
+      <span class="q-text">What is the difference between array_merge and array_combine and array_merge with + operator?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>array_merge:</strong> Merges arrays. String keys from later arrays overwrite earlier. Numeric keys are re-indexed.</li>
+        <li><strong>+ operator:</strong> Merges arrays. Earlier keys are preserved — later duplicates are ignored.</li>
+        <li><strong>array_combine:</strong> Creates an array using one array as keys and another as values.</li>
+      </ul>
+      <pre><span class="var">$a</span> = [<span class="str">'x'</span> => 1, 0 => <span class="str">'A'</span>];
+<span class="var">$b</span> = [<span class="str">'x'</span> => 2, 0 => <span class="str">'B'</span>];
+
+<span class="fn">array_merge</span>(<span class="var">$a</span>, <span class="var">$b</span>); <span class="cm">// ['x'=>2, 0=>'A', 1=>'B']</span>
+<span class="var">$a</span> + <span class="var">$b</span>;            <span class="cm">// ['x'=>1, 0=>'A']  (a wins)</span>
+
+<span class="fn">array_combine</span>([<span class="str">'a'</span>,<span class="str">'b'</span>], [1,2]); <span class="cm">// ['a'=>1, 'b'=>2]</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q36</span>
+      <span class="q-text">What are common PHP string functions?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="fn">strlen</span>(<span class="str">"Hello"</span>);             <span class="cm">// 5</span>
+<span class="fn">strtolower</span>(<span class="str">"PHP"</span>);           <span class="cm">// "php"</span>
+<span class="fn">strtoupper</span>(<span class="str">"php"</span>);           <span class="cm">// "PHP"</span>
+<span class="fn">str_replace</span>(<span class="str">"a"</span>,<span class="str">"@"</span>,<span class="str">"abc"</span>); <span class="cm">// "@bc"</span>
+<span class="fn">substr</span>(<span class="str">"Hello"</span>, 1, 3);       <span class="cm">// "ell"</span>
+<span class="fn">strpos</span>(<span class="str">"Hello"</span>, <span class="str">"l"</span>);        <span class="cm">// 2</span>
+<span class="fn">trim</span>(<span class="str">"  hi  "</span>);             <span class="cm">// "hi"</span>
+<span class="fn">explode</span>(<span class="str">","</span>, <span class="str">"a,b,c"</span>);      <span class="cm">// ["a","b","c"]</span>
+<span class="fn">implode</span>(<span class="str">"-"</span>, [<span class="str">"a"</span>,<span class="str">"b"</span>]);    <span class="cm">// "a-b"</span>
+<span class="fn">str_pad</span>(<span class="str">"5"</span>, 3, <span class="str">"0"</span>, STR_PAD_LEFT); <span class="cm">// "005"</span>
+<span class="fn">sprintf</span>(<span class="str">"%.2f"</span>, 3.14159);   <span class="cm">// "3.14"</span>
+<span class="fn">str_contains</span>(<span class="str">"hello"</span>, <span class="str">"ell"</span>); <span class="cm">// true (PHP 8+)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q37</span>
+      <span class="q-text">What is pass by value vs pass by reference in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Pass by value (default):</strong> A copy of the variable is passed. Changes inside the function don't affect the original.</li>
+        <li><strong>Pass by reference (<code>&amp;</code>):</strong> The actual variable is passed. Changes inside the function affect the original.</li>
+      </ul>
+      <pre><span class="kw">function</span> <span class="fn">addTen</span>(<span class="var">$n</span>) { <span class="var">$n</span> += 10; }
+<span class="kw">function</span> <span class="fn">addTenRef</span>(&<span class="var">$n</span>) { <span class="var">$n</span> += 10; }
+
+<span class="var">$x</span> = 5;
+<span class="fn">addTen</span>(<span class="var">$x</span>);    <span class="fn">echo</span> <span class="var">$x</span>; <span class="cm">// 5  (unchanged)</span>
+<span class="fn">addTenRef</span>(<span class="var">$x</span>); <span class="fn">echo</span> <span class="var">$x</span>; <span class="cm">// 15 (modified)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q38</span>
+      <span class="q-text">What is a variadic function in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A variadic function accepts a variable number of arguments using the <code>...</code> (splat) operator. The arguments are collected into an array.</p>
+      <pre><span class="kw">function</span> <span class="fn">sum</span>(<span class="kw">int</span> ...<span class="var">$nums</span>): <span class="kw">int</span> {
+  <span class="kw">return</span> <span class="fn">array_sum</span>(<span class="var">$nums</span>);
+}
+<span class="fn">echo</span> <span class="fn">sum</span>(1, 2, 3, 4); <span class="cm">// 10</span>
+
+<span class="cm">// Splat to unpack array into args</span>
+<span class="var">$args</span> = [1, 2, 3];
+<span class="fn">echo</span> <span class="fn">sum</span>(...<span class="var">$args</span>); <span class="cm">// 6</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q39</span>
+      <span class="q-text">What is a Generator in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Generators are functions that use <code>yield</code> to produce a sequence of values lazily — one at a time, without building the whole array in memory. Ideal for large datasets.</p>
+      <pre><span class="kw">function</span> <span class="fn">csvReader</span>(<span class="kw">string</span> <span class="var">$file</span>) {
+  <span class="var">$handle</span> = <span class="fn">fopen</span>(<span class="var">$file</span>, <span class="str">'r'</span>);
+  <span class="kw">while</span> ((<span class="var">$line</span> = <span class="fn">fgetcsv</span>(<span class="var">$handle</span>)) !== <span class="kw">false</span>) {
+    <span class="kw">yield</span> <span class="var">$line</span>; <span class="cm">// produce one row at a time</span>
+  }
+  <span class="fn">fclose</span>(<span class="var">$handle</span>);
+}
+
+<span class="kw">foreach</span> (<span class="fn">csvReader</span>(<span class="str">'big.csv'</span>) <span class="kw">as</span> <span class="var">$row</span>) {
+  <span class="cm">// Process row without loading entire file</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q40</span>
+      <span class="q-text">What is array_walk vs array_map?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>array_map:</strong> Returns a NEW array. Does not modify original. Cannot access key by default.</li>
+        <li><strong>array_walk:</strong> Modifies array IN PLACE by reference. Callback receives value and key. Returns bool.</li>
+      </ul>
+      <pre><span class="var">$prices</span> = [<span class="str">'apple'</span> => 1.5, <span class="str">'banana'</span> => 0.5];
+
+<span class="cm">// array_walk — modify in place with key access</span>
+<span class="fn">array_walk</span>(<span class="var">$prices</span>, <span class="kw">function</span>(&<span class="var">$price</span>, <span class="var">$fruit</span>) {
+  <span class="var">$price</span> = <span class="str">"$fruit: \$$price"</span>;
+});
+<span class="cm">// ['apple' => 'apple: $1.5', ...]</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q41</span>
+      <span class="q-text">What is type hinting and return type declarations in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Type hinting enforces that function arguments and return values must be of a specific type. Introduced progressively from PHP 5 (class types) through PHP 8.x (union types, intersection types, never).</p>
+      <pre><span class="kw">function</span> <span class="fn">divide</span>(<span class="kw">float</span> <span class="var">$a</span>, <span class="kw">float</span> <span class="var">$b</span>): <span class="kw">float</span> {
+  <span class="kw">if</span> (<span class="var">$b</span> === 0.0) <span class="kw">throw new</span> <span class="fn">DivisionByZeroError</span>();
+  <span class="kw">return</span> <span class="var">$a</span> / <span class="var">$b</span>;
+}
+
+<span class="cm">// Union types (PHP 8.0)</span>
+<span class="kw">function</span> <span class="fn">parse</span>(<span class="kw">int</span>|<span class="kw">string</span> <span class="var">$id</span>): <span class="kw">array</span>|<span class="kw">null</span> { ... }
+
+<span class="cm">// Nullable type</span>
+<span class="kw">function</span> <span class="fn">find</span>(<span class="kw">int</span> <span class="var">$id</span>): ?<span class="fn">User</span> { ... } <span class="cm">// User or null</span>
+
+<span class="cm">// Never (PHP 8.1) — function always throws/exits</span>
+<span class="kw">function</span> <span class="fn">fail</span>(<span class="kw">string</span> <span class="var">$msg</span>): <span class="kw">never</span> { <span class="kw">throw new</span> <span class="fn">Exception</span>(<span class="var">$msg</span>); }</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q42</span>
+      <span class="q-text">What are PHP's date and time functions?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'Y-m-d H:i:s'</span>);         <span class="cm">// 2025-03-15 14:30:00</span>
+<span class="fn">echo</span> <span class="fn">time</span>();                       <span class="cm">// Unix timestamp</span>
+<span class="fn">echo</span> <span class="fn">strtotime</span>(<span class="str">'next Monday'</span>);   <span class="cm">// timestamp</span>
+<span class="fn">echo</span> <span class="fn">date</span>(<span class="str">'D'</span>, <span class="fn">strtotime</span>(<span class="str">'+7 days'</span>)); <span class="cm">// day name</span>
+
+<span class="cm">// Modern: DateTime class (preferred)</span>
+<span class="var">$dt</span> = <span class="kw">new</span> <span class="fn">DateTime</span>(<span class="str">'now'</span>, <span class="kw">new</span> <span class="fn">DateTimeZone</span>(<span class="str">'Asia/Kolkata'</span>));
+<span class="fn">echo</span> <span class="var">$dt</span>-><span class="fn">format</span>(<span class="str">'d M Y'</span>);        <span class="cm">// 15 Mar 2025</span>
+<span class="var">$dt</span>-><span class="fn">modify</span>(<span class="str">'+30 days'</span>);
+<span class="var">$diff</span> = <span class="var">$dt</span>-><span class="fn">diff</span>(<span class="kw">new</span> <span class="fn">DateTime</span>());
+<span class="fn">echo</span> <span class="var">$diff</span>-><span class="var">days</span>; <span class="cm">// days between</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q43</span>
+      <span class="q-text">What is a recursive function? Give an example.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A recursive function calls itself to solve sub-problems. Every recursive function must have a base case (exit condition) to prevent infinite loops.</p>
+      <pre><span class="kw">function</span> <span class="fn">factorial</span>(<span class="kw">int</span> <span class="var">$n</span>): <span class="kw">int</span> {
+  <span class="kw">if</span> (<span class="var">$n</span> <= 1) <span class="kw">return</span> 1;      <span class="cm">// base case</span>
+  <span class="kw">return</span> <span class="var">$n</span> * <span class="fn">factorial</span>(<span class="var">$n</span> - 1); <span class="cm">// recursive case</span>
+}
+<span class="fn">echo</span> <span class="fn">factorial</span>(5); <span class="cm">// 120</span>
+
+<span class="cm">// Useful for directory traversal</span>
+<span class="kw">function</span> <span class="fn">listFiles</span>(<span class="kw">string</span> <span class="var">$dir</span>): <span class="kw">array</span> {
+  <span class="var">$result</span> = [];
+  <span class="kw">foreach</span> (<span class="fn">glob</span>(<span class="str">"$dir/*"</span>) <span class="kw">as</span> <span class="var">$path</span>) {
+    <span class="var">$result</span>[] = <span class="var">$path</span>;
+    <span class="kw">if</span> (<span class="fn">is_dir</span>(<span class="var">$path</span>)) {
+      <span class="var">$result</span> = <span class="fn">array_merge</span>(<span class="var">$result</span>, <span class="fn">listFiles</span>(<span class="var">$path</span>));
+    }
+  }
+  <span class="kw">return</span> <span class="var">$result</span>;
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q44</span>
+      <span class="q-text">What is the difference between isset(), empty(), and is_null()?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>isset($var):</strong> Returns true if variable exists AND is not null. Safe to use on undefined vars.</li>
+        <li><strong>empty($var):</strong> Returns true if variable is: <code>""</code>, <code>0</code>, <code>"0"</code>, <code>null</code>, <code>false</code>, <code>[]</code>, or undefined.</li>
+        <li><strong>is_null($var):</strong> Returns true only if value is <code>null</code>. Throws notice if var is undefined.</li>
+      </ul>
+      <pre><span class="var">$a</span> = <span class="str">""</span>;   <span class="var">$b</span> = 0;   <span class="var">$c</span> = <span class="kw">null</span>;
+
+<span class="fn">isset</span>(<span class="var">$a</span>);    <span class="cm">// true  (exists, not null)</span>
+<span class="fn">empty</span>(<span class="var">$a</span>);    <span class="cm">// true  (empty string)</span>
+<span class="fn">is_null</span>(<span class="var">$a</span>);  <span class="cm">// false (not null)</span>
+
+<span class="fn">isset</span>(<span class="var">$c</span>);    <span class="cm">// false (null)</span>
+<span class="fn">empty</span>(<span class="var">$c</span>);    <span class="cm">// true</span>
+<span class="fn">is_null</span>(<span class="var">$c</span>);  <span class="cm">// true</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q45</span>
+      <span class="q-text">What are PHP's math functions?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="fn">abs</span>(-5);           <span class="cm">// 5</span>
+<span class="fn">ceil</span>(4.1);         <span class="cm">// 5</span>
+<span class="fn">floor</span>(4.9);        <span class="cm">// 4</span>
+<span class="fn">round</span>(4.5);        <span class="cm">// 5</span>
+<span class="fn">round</span>(4.555, 2);   <span class="cm">// 4.56</span>
+<span class="fn">max</span>(1, 3, 2);      <span class="cm">// 3</span>
+<span class="fn">min</span>(1, 3, 2);      <span class="cm">// 1</span>
+<span class="fn">pow</span>(2, 8);         <span class="cm">// 256</span>
+<span class="fn">sqrt</span>(16);          <span class="cm">// 4</span>
+<span class="fn">rand</span>(1, 100);      <span class="cm">// random int 1–100</span>
+<span class="fn">number_format</span>(1234567.89, 2, <span class="str">'.'</span>, <span class="str">','</span>); <span class="cm">// "1,234,567.89"</span>
+<span class="fn">fmod</span>(10.5, 3.2);   <span class="cm">// float modulo</span>
+<span class="fn">intdiv</span>(7, 2);      <span class="cm">// 3 (integer division, PHP 7+)</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== DATABASE =============================== -->
+<div id="database" class="section">
+  <div class="section-header">
+    <h2>🟠 Database — Q46 to Q55</h2>
+    <p>MySQL, PDO, MySQLi, and database best practices with PHP</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('database')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q46</span>
+      <span class="q-text">What is the difference between MySQLi and PDO?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>MySQLi:</strong> Works only with MySQL. Has both OOP and procedural API. Supports multiple statements.</li>
+        <li><strong>PDO (PHP Data Objects):</strong> Database-agnostic — works with MySQL, PostgreSQL, SQLite, Oracle, etc. Only OOP API. Better for portability.</li>
+      </ul>
+      <div class="tip"><strong>Use PDO</strong> for new projects — switching databases later only requires changing the DSN string.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q47</span>
+      <span class="q-text">How do you connect to a MySQL database using PDO?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="kw">try</span> {
+  <span class="var">$pdo</span> = <span class="kw">new</span> <span class="fn">PDO</span>(
+    <span class="str">'mysql:host=localhost;dbname=mydb;charset=utf8mb4'</span>,
+    <span class="str">'username'</span>,
+    <span class="str">'password'</span>,
+    [
+      <span class="fn">PDO</span>::ATTR_ERRMODE            => <span class="fn">PDO</span>::ERRMODE_EXCEPTION,
+      <span class="fn">PDO</span>::ATTR_DEFAULT_FETCH_MODE => <span class="fn">PDO</span>::FETCH_ASSOC,
+      <span class="fn">PDO</span>::ATTR_EMULATE_PREPARES   => <span class="kw">false</span>,
+    ]
+  );
+} <span class="kw">catch</span> (<span class="fn">PDOException</span> <span class="var">$e</span>) {
+  <span class="fn">error_log</span>(<span class="var">$e</span>-><span class="fn">getMessage</span>());
+  <span class="kw">die</span>(<span class="str">'DB connection failed'</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q48</span>
+      <span class="q-text">What are prepared statements and why are they important?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Prepared statements separate SQL code from data, preventing SQL injection attacks. The query structure is sent first, then the data is bound separately — the database never mixes them up.</p>
+      <pre><span class="cm">// ❌ VULNERABLE — SQL injection possible</span>
+<span class="var">$sql</span> = <span class="str">"SELECT * FROM users WHERE email = '$email'"</span>;
+
+<span class="cm">// ✅ SAFE — prepared statement</span>
+<span class="var">$stmt</span> = <span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"SELECT * FROM users WHERE email = ?"</span>);
+<span class="var">$stmt</span>-><span class="fn">execute</span>([<span class="var">$email</span>]);
+<span class="var">$user</span> = <span class="var">$stmt</span>-><span class="fn">fetch</span>();
+
+<span class="cm">// Named placeholders</span>
+<span class="var">$stmt</span> = <span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"INSERT INTO users (name, email) VALUES (:name, :email)"</span>);
+<span class="var">$stmt</span>-><span class="fn">execute</span>([<span class="str">':name'</span> => <span class="var">$name</span>, <span class="str">':email'</span> => <span class="var">$email</span>]);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q49</span>
+      <span class="q-text">How do you perform CRUD operations with PDO?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">// CREATE</span>
+<span class="var">$stmt</span> = <span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"INSERT INTO products (name, price) VALUES (?, ?)"</span>);
+<span class="var">$stmt</span>-><span class="fn">execute</span>([<span class="str">'Widget'</span>, 9.99]);
+<span class="var">$id</span> = <span class="var">$pdo</span>-><span class="fn">lastInsertId</span>();
+
+<span class="cm">// READ</span>
+<span class="var">$stmt</span> = <span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"SELECT * FROM products WHERE id = ?"</span>);
+<span class="var">$stmt</span>-><span class="fn">execute</span>([<span class="var">$id</span>]);
+<span class="var">$product</span> = <span class="var">$stmt</span>-><span class="fn">fetch</span>();          <span class="cm">// one row</span>
+<span class="var">$all</span>     = <span class="var">$stmt</span>-><span class="fn">fetchAll</span>();       <span class="cm">// all rows</span>
+
+<span class="cm">// UPDATE</span>
+<span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"UPDATE products SET price = ? WHERE id = ?"</span>)
+    -><span class="fn">execute</span>([12.99, <span class="var">$id</span>]);
+
+<span class="cm">// DELETE</span>
+<span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"DELETE FROM products WHERE id = ?"</span>)
+    -><span class="fn">execute</span>([<span class="var">$id</span>]);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q50</span>
+      <span class="q-text">How do you handle transactions in PDO?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Transactions group multiple queries so they either all succeed (<code>commit</code>) or all fail (<code>rollBack</code>) — ensuring data integrity.</p>
+      <pre><span class="kw">try</span> {
+  <span class="var">$pdo</span>-><span class="fn">beginTransaction</span>();
+
+  <span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"UPDATE accounts SET balance = balance - ? WHERE id = ?"</span>)
+      -><span class="fn">execute</span>([500, <span class="var">$senderId</span>]);
+
+  <span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"UPDATE accounts SET balance = balance + ? WHERE id = ?"</span>)
+      -><span class="fn">execute</span>([500, <span class="var">$receiverId</span>]);
+
+  <span class="var">$pdo</span>-><span class="fn">commit</span>(); <span class="cm">// Both succeed</span>
+} <span class="kw">catch</span> (<span class="fn">Exception</span> <span class="var">$e</span>) {
+  <span class="var">$pdo</span>-><span class="fn">rollBack</span>(); <span class="cm">// Undo both on failure</span>
+  <span class="kw">throw</span> <span class="var">$e</span>;
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q51</span>
+      <span class="q-text">What is the difference between fetch() and fetchAll()?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>fetch():</strong> Returns the next single row from the result set. Memory-efficient for large results — iterate row by row.</li>
+        <li><strong>fetchAll():</strong> Returns ALL rows into a PHP array at once. Convenient but uses more memory for large datasets.</li>
+      </ul>
+      <pre><span class="cm">// fetchAll — good for small results</span>
+<span class="var">$users</span> = <span class="var">$stmt</span>-><span class="fn">fetchAll</span>(<span class="fn">PDO</span>::FETCH_ASSOC);
+
+<span class="cm">// fetch in loop — good for large results</span>
+<span class="kw">while</span> (<span class="var">$row</span> = <span class="var">$stmt</span>-><span class="fn">fetch</span>(<span class="fn">PDO</span>::FETCH_ASSOC)) {
+  <span class="fn">processRow</span>(<span class="var">$row</span>);
+}
+
+<span class="cm">// Fetch as object</span>
+<span class="var">$stmt</span>-><span class="fn">fetchAll</span>(<span class="fn">PDO</span>::FETCH_OBJ);
+<span class="var">$stmt</span>-><span class="fn">fetchAll</span>(<span class="fn">PDO</span>::FETCH_CLASS, <span class="str">'User'</span>);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q52</span>
+      <span class="q-text">What is SQL Injection and how does PHP prevent it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>SQL Injection is an attack where a malicious user inserts SQL code into input fields to manipulate database queries.</p>
+      <pre><span class="cm">// Attack: user enters: ' OR '1'='1</span>
+<span class="cm">// This query returns ALL users!</span>
+<span class="str">"SELECT * FROM users WHERE password = '' OR '1'='1'"</span>
+
+<span class="cm">// Prevention 1: Prepared statements (best)</span>
+<span class="var">$stmt</span> = <span class="var">$pdo</span>-><span class="fn">prepare</span>(<span class="str">"SELECT * FROM users WHERE password = ?"</span>);
+<span class="var">$stmt</span>-><span class="fn">execute</span>([<span class="var">$_POST</span>[<span class="str">'password'</span>]]);
+
+<span class="cm">// Prevention 2: quote() (less preferred)</span>
+<span class="var">$safe</span> = <span class="var">$pdo</span>-><span class="fn">quote</span>(<span class="var">$_POST</span>[<span class="str">'input'</span>]);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q53</span>
+      <span class="q-text">How does PHP handle file uploads?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">// HTML form</span>
+<span class="cm">// &lt;form method="POST" enctype="multipart/form-data"&gt;</span>
+<span class="cm">// &lt;input type="file" name="photo"&gt;</span>
+
+<span class="cm">// PHP handler</span>
+<span class="kw">if</span> (<span class="var">$_FILES</span>[<span class="str">'photo'</span>][<span class="str">'error'</span>] === UPLOAD_ERR_OK) {
+  <span class="var">$allowed</span> = [<span class="str">'image/jpeg'</span>, <span class="str">'image/png'</span>];
+  <span class="var">$type</span>    = <span class="fn">mime_content_type</span>(<span class="var">$_FILES</span>[<span class="str">'photo'</span>][<span class="str">'tmp_name'</span>]);
+
+  <span class="kw">if</span> (!<span class="fn">in_array</span>(<span class="var">$type</span>, <span class="var">$allowed</span>)) <span class="kw">die</span>(<span class="str">'Invalid file type'</span>);
+  <span class="kw">if</span> (<span class="var">$_FILES</span>[<span class="str">'photo'</span>][<span class="str">'size'</span>] > 2_000_000) <span class="kw">die</span>(<span class="str">'Too large'</span>);
+
+  <span class="var">$dest</span> = <span class="str">'uploads/'</span> . <span class="fn">uniqid</span>() . <span class="str">'.jpg'</span>;
+  <span class="fn">move_uploaded_file</span>(<span class="var">$_FILES</span>[<span class="str">'photo'</span>][<span class="str">'tmp_name'</span>], <span class="var">$dest</span>);
+}</pre>
+      <div class="danger"><strong>Never</strong> trust the user-supplied file name or MIME type from <code>$_FILES</code>. Always validate with server-side checks.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q54</span>
+      <span class="q-text">What is the difference between mysql_real_escape_string and prepared statements?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>mysql_real_escape_string:</strong> Escapes special characters in a string for use in SQL. Deprecated in PHP 5.5, removed in PHP 7. Error-prone — easy to forget to apply it.</li>
+        <li><strong>Prepared Statements:</strong> Structurally separate SQL from data. No chance of forgetting. Works across all databases via PDO. The correct, modern approach.</li>
+      </ul>
+      <div class="danger"><strong>Never</strong> use the old <code>mysql_*</code> functions. They are removed from PHP. Use PDO or MySQLi with prepared statements.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q55</span>
+      <span class="q-text">What is PHP's ORM and what is the difference between active record and data mapper?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>An ORM (Object-Relational Mapper) maps database rows to PHP objects, abstracting raw SQL queries.</p>
+      <ul>
+        <li><strong>Active Record:</strong> Model class directly interacts with the database. Simple but tightly coupled. Used by Laravel's Eloquent. <code>User::find(1)</code>, <code>$user->save()</code>.</li>
+        <li><strong>Data Mapper:</strong> Model is a plain object (no DB logic). A separate Mapper/Repository handles persistence. Looser coupling, better testability. Used by Doctrine ORM.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== SECURITY =============================== -->
+<div id="security" class="section">
+  <div class="section-header">
+    <h2>🔴 Security — Q56 to Q63</h2>
+    <p>Common vulnerabilities and how to prevent them in PHP applications</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('security')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q56</span>
+      <span class="q-text">What is XSS and how do you prevent it in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>XSS (Cross-Site Scripting) is an attack where malicious scripts are injected into web pages viewed by other users.</p>
+      <pre><span class="cm">// Attack: user submits: &lt;script&gt;steal(document.cookie)&lt;/script&gt;</span>
+
+<span class="cm">// Prevention: always escape output</span>
+<span class="fn">echo</span> <span class="fn">htmlspecialchars</span>(<span class="var">$userInput</span>, ENT_QUOTES, <span class="str">'UTF-8'</span>);
+
+<span class="cm">// Or htmlentities for full encoding</span>
+<span class="fn">echo</span> <span class="fn">htmlentities</span>(<span class="var">$userInput</span>, ENT_QUOTES, <span class="str">'UTF-8'</span>);
+
+<span class="cm">// Also set Content-Security-Policy header</span>
+<span class="fn">header</span>(<span class="str">"Content-Security-Policy: default-src 'self'"</span>);</pre>
+      <div class="tip"><strong>Rule:</strong> Escape on output, not on input. Sanitize input for storage; escape for the output context (HTML, JS, URL, CSS).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q57</span>
+      <span class="q-text">What is CSRF and how do you protect against it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>CSRF (Cross-Site Request Forgery) tricks a logged-in user's browser into making an unwanted request to your server using their active session.</p>
+      <pre><span class="cm">// Generate token on form render</span>
+<span class="fn">session_start</span>();
+<span class="kw">if</span> (empty(<span class="var">$_SESSION</span>[<span class="str">'csrf_token'</span>])) {
+  <span class="var">$_SESSION</span>[<span class="str">'csrf_token'</span>] = <span class="fn">bin2hex</span>(<span class="fn">random_bytes</span>(32));
+}
+
+<span class="cm">// Embed in form</span>
+<span class="cm">// &lt;input type="hidden" name="csrf" value="&lt;?= $_SESSION['csrf_token'] ?&gt;"&gt;</span>
+
+<span class="cm">// Validate on form submission</span>
+<span class="kw">if</span> (!<span class="fn">hash_equals</span>(<span class="var">$_SESSION</span>[<span class="str">'csrf_token'</span>], <span class="var">$_POST</span>[<span class="str">'csrf'</span>] ?? <span class="str">''</span>)) {
+  <span class="kw">die</span>(<span class="str">'CSRF validation failed'</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q58</span>
+      <span class="q-text">How do you securely hash and verify passwords in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Use PHP's built-in <code>password_hash()</code> and <code>password_verify()</code> functions. They use bcrypt (or Argon2 in PHP 7.2+) with automatic salting.</p>
+      <pre><span class="cm">// Registration — hash password before storing</span>
+<span class="var">$hash</span> = <span class="fn">password_hash</span>(<span class="var">$_POST</span>[<span class="str">'password'</span>], PASSWORD_BCRYPT);
+<span class="cm">// Store $hash in database</span>
+
+<span class="cm">// Login — verify against stored hash</span>
+<span class="var">$stored</span> = <span class="var">$user</span>[<span class="str">'password_hash'</span>]; <span class="cm">// from DB</span>
+<span class="kw">if</span> (<span class="fn">password_verify</span>(<span class="var">$_POST</span>[<span class="str">'password'</span>], <span class="var">$stored</span>)) {
+  <span class="cm">// Login successful</span>
+}
+
+<span class="cm">// Re-hash if algorithm needs upgrade</span>
+<span class="kw">if</span> (<span class="fn">password_needs_rehash</span>(<span class="var">$stored</span>, PASSWORD_BCRYPT)) {
+  <span class="var">$newHash</span> = <span class="fn">password_hash</span>(<span class="var">$password</span>, PASSWORD_BCRYPT);
+  <span class="cm">// Update in DB</span>
+}</pre>
+      <div class="danger"><strong>Never</strong> use md5() or sha1() for passwords — they are not designed for password hashing and are easily cracked.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q59</span>
+      <span class="q-text">What is session fixation and session hijacking? How do you prevent them?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Session fixation:</strong> Attacker sets a known session ID before user logs in, then uses it to hijack the session.</li>
+        <li><strong>Session hijacking:</strong> Attacker steals an active session ID (via XSS, network sniffing) and impersonates the user.</li>
+      </ul>
+      <pre><span class="fn">session_start</span>();
+
+<span class="cm">// Regenerate ID on login (prevents fixation)</span>
+<span class="fn">session_regenerate_id</span>(<span class="kw">true</span>);
+<span class="var">$_SESSION</span>[<span class="str">'user_id'</span>] = <span class="var">$userId</span>;
+
+<span class="cm">// Secure session cookie settings</span>
+<span class="fn">session_set_cookie_params</span>([
+  <span class="str">'httponly'</span> => <span class="kw">true</span>,   <span class="cm">// no JS access</span>
+  <span class="str">'secure'</span>   => <span class="kw">true</span>,   <span class="cm">// HTTPS only</span>
+  <span class="str">'samesite'</span> => <span class="str">'Strict'</span>
+]);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q60</span>
+      <span class="q-text">What is input validation vs sanitization in PHP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Validation:</strong> Checking if the input meets requirements (email format, number range, required field). Does not modify data.</li>
+        <li><strong>Sanitization:</strong> Cleaning the input by removing or encoding unwanted characters. Modifies data.</li>
+      </ul>
+      <pre><span class="cm">// Validation using filter_var</span>
+<span class="var">$email</span> = <span class="var">$_POST</span>[<span class="str">'email'</span>];
+<span class="kw">if</span> (!<span class="fn">filter_var</span>(<span class="var">$email</span>, FILTER_VALIDATE_EMAIL)) {
+  <span class="kw">die</span>(<span class="str">'Invalid email'</span>);
+}
+
+<span class="cm">// Sanitization using filter_var</span>
+<span class="var">$clean</span> = <span class="fn">filter_var</span>(<span class="var">$_POST</span>[<span class="str">'name'</span>], FILTER_SANITIZE_SPECIAL_CHARS);
+<span class="var">$url</span>   = <span class="fn">filter_var</span>(<span class="var">$_POST</span>[<span class="str">'url'</span>],  FILTER_SANITIZE_URL);
+<span class="var">$num</span>   = <span class="fn">filter_var</span>(<span class="var">$_POST</span>[<span class="str">'age'</span>],  FILTER_VALIDATE_INT);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q61</span>
+      <span class="q-text">What are PHP security best practices?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li>Keep PHP and all libraries updated</li>
+        <li>Use prepared statements for all DB queries</li>
+        <li>Use <code>password_hash()</code> for passwords — never md5/sha1</li>
+        <li>Escape all output with <code>htmlspecialchars()</code></li>
+        <li>Implement CSRF tokens on all state-changing forms</li>
+        <li>Set <code>display_errors = Off</code> in production, log to file</li>
+        <li>Use HTTPS everywhere; set Secure, HttpOnly, SameSite cookie flags</li>
+        <li>Validate file uploads: check MIME type server-side, restrict extensions</li>
+        <li>Use <code>open_basedir</code> to restrict file access in php.ini</li>
+        <li>Rate-limit login endpoints to prevent brute force</li>
+        <li>Use Content Security Policy (CSP) headers</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q62</span>
+      <span class="q-text">What is the difference between md5(), sha1(), and password_hash()?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>md5() / sha1():</strong> Cryptographic hash functions designed for speed — great for checksums, not passwords. No salt, fast to brute-force with GPUs.</li>
+        <li><strong>password_hash():</strong> Specifically designed for passwords. Adds random salt automatically. Uses slow algorithms (bcrypt/Argon2) so brute-force is computationally expensive.</li>
+      </ul>
+      <pre><span class="fn">echo</span> <span class="fn">md5</span>(<span class="str">"secret"</span>);     <span class="cm">// 5ebe2294ecd0e0f... (fast, NO salt)</span>
+<span class="fn">echo</span> <span class="fn">password_hash</span>(<span class="str">"secret"</span>, PASSWORD_BCRYPT);
+<span class="cm">// $2y$10$randomsalt$hashedvalue... (slow, auto-salted)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q63</span>
+      <span class="q-text">How do you prevent directory traversal attacks?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Directory traversal attacks use <code>../</code> sequences to access files outside the intended directory.</p>
+      <pre><span class="cm">// Attack: ?file=../../etc/passwd</span>
+<span class="kw">$file</span> = <span class="var">$_GET</span>[<span class="str">'file'</span>]; <span class="cm">// ../../etc/passwd</span>
+<span class="fn">readfile</span>(<span class="str">"/var/www/files/"</span> . <span class="kw">$file</span>); <span class="cm">// DANGEROUS!</span>
+
+<span class="cm">// Prevention: use realpath and check prefix</span>
+<span class="var">$basePath</span> = <span class="fn">realpath</span>(<span class="str">'/var/www/files'</span>);
+<span class="var">$filePath</span> = <span class="fn">realpath</span>(<span class="var">$basePath</span> . <span class="str">'/'</span> . <span class="var">$_GET</span>[<span class="str">'file'</span>]);
+
+<span class="kw">if</span> (<span class="var">$filePath</span> === <span class="kw">false</span> || <span class="fn">strpos</span>(<span class="var">$filePath</span>, <span class="var">$basePath</span>) !== 0) {
+  <span class="kw">die</span>(<span class="str">'Access denied'</span>);
+}
+<span class="fn">readfile</span>(<span class="var">$filePath</span>); <span class="cm">// safe</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== ADVANCED =============================== -->
+<div id="advanced" class="section">
+  <div class="section-header">
+    <h2>🟣 Advanced PHP — Q64 to Q72</h2>
+    <p>Performance, design patterns, modern PHP features, and architecture</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('advanced')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q64</span>
+      <span class="q-text">What is PHP Composer and autoloading?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Composer is PHP's dependency manager. It downloads and manages packages, and generates an autoloader so you can use any class without manual <code>require</code> calls.</p>
+      <pre><span class="cm"># Install a package</span>
+composer require guzzlehttp/guzzle
+
+<span class="cm"># composer.json defines dependencies</span>
+{
+  "require": { "monolog/monolog": "^3.0" },
+  "autoload": { "psr-4": { "App\\": "src/" } }
+}
+
+<span class="cm"># In your PHP entry point</span>
+<span class="fn">require_once</span> <span class="str">'vendor/autoload.php'</span>;
+
+<span class="cm"># Now all classes autoload — no manual require needed</span>
+<span class="kw">use</span> App\Models\<span class="fn">User</span>;
+<span class="var">$user</span> = <span class="kw">new</span> <span class="fn">User</span>();</pre>
+      <div class="tip">PSR-4 is the modern autoloading standard — namespace maps to directory structure.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q65</span>
+      <span class="q-text">What are PHP Design Patterns? Name and explain common ones.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Singleton:</strong> One instance only (DB connection). See Q23.</li>
+        <li><strong>Factory:</strong> Creates objects without specifying exact class — hides creation logic.</li>
+        <li><strong>Observer:</strong> One object (Subject) notifies multiple dependent objects (Observers) when state changes. Used in event systems.</li>
+        <li><strong>Strategy:</strong> Define a family of algorithms, encapsulate each, make them interchangeable (e.g., different payment methods).</li>
+        <li><strong>Repository:</strong> Abstracts data storage — controllers don't know if data comes from MySQL, Redis, or a file.</li>
+        <li><strong>Decorator:</strong> Adds behavior to objects dynamically without modifying their class.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q66</span>
+      <span class="q-text">What are PHP Fibers? (PHP 8.1+)</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Fibers are PHP 8.1's lightweight concurrency primitives — like coroutines. A Fiber can suspend its own execution (<code>suspend()</code>) and be resumed later, enabling cooperative multitasking.</p>
+      <pre><span class="var">$fiber</span> = <span class="kw">new</span> <span class="fn">Fiber</span>(<span class="kw">function</span>(): <span class="kw">void</span> {
+  <span class="fn">echo</span> <span class="str">"Fiber started\n"</span>;
+  <span class="var">$value</span> = <span class="fn">Fiber</span>::<span class="fn">suspend</span>(<span class="str">'hello'</span>); <span class="cm">// suspend, return 'hello'</span>
+  <span class="fn">echo</span> <span class="str">"Fiber resumed with: $value\n"</span>;
+});
+
+<span class="var">$returned</span> = <span class="var">$fiber</span>-><span class="fn">start</span>();       <span class="cm">// "Fiber started", $returned = 'hello'</span>
+<span class="var">$fiber</span>-><span class="fn">resume</span>(<span class="str">'world'</span>);           <span class="cm">// "Fiber resumed with: world"</span></pre>
+      <div class="tip">Fibers power async PHP libraries like ReactPHP and Amp — enabling high-concurrency without threads.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q67</span>
+      <span class="q-text">What is PHP-FPM and how does it differ from Apache mod_php?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>mod_php:</strong> PHP runs as an Apache module inside each Apache process. Simple setup, but every Apache process loads PHP even for static files. Memory-heavy.</li>
+        <li><strong>PHP-FPM (FastCGI Process Manager):</strong> PHP runs as a separate pool of processes. Nginx/Apache communicate via FastCGI. More efficient — PHP workers only handle PHP requests. Supports process pool tuning, logging, and slow request detection.</li>
+      </ul>
+      <div class="tip">PHP-FPM + Nginx is the modern standard for production PHP deployments.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q68</span>
+      <span class="q-text">What is OPcache and how does it improve PHP performance?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>PHP is interpreted — each request normally parses and compiles PHP files to opcodes. OPcache stores the compiled bytecode in shared memory, skipping the parse/compile step on subsequent requests — dramatically improving performance (often 2–10x).</p>
+      <pre><span class="cm">; php.ini — enable OPcache</span>
+opcache.enable=1
+opcache.memory_consumption=128
+opcache.max_accelerated_files=10000
+opcache.revalidate_freq=60    <span class="cm">; check for changes every 60s</span>
+opcache.validate_timestamps=0 <span class="cm">; disable in production for max speed</span></pre>
+      <div class="tip">Always enable OPcache in production. Tools like Preloading (PHP 7.4+) can load framework files into memory at startup for even more speed.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q69</span>
+      <span class="q-text">What is PSR (PHP Standards Recommendations)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>PSRs are coding standards published by the PHP Framework Interoperability Group (PHP-FIG) to ensure interoperability between PHP packages and frameworks.</p>
+      <ul>
+        <li><strong>PSR-1:</strong> Basic coding standards (class names, constants)</li>
+        <li><strong>PSR-2 / PSR-12:</strong> Extended coding style guide (indentation, braces)</li>
+        <li><strong>PSR-4:</strong> Autoloading standard (namespace → directory mapping)</li>
+        <li><strong>PSR-7:</strong> HTTP Message interface (Request/Response)</li>
+        <li><strong>PSR-11:</strong> Container interface (dependency injection containers)</li>
+        <li><strong>PSR-14:</strong> Event dispatcher interface</li>
+        <li><strong>PSR-15:</strong> HTTP server middleware interface</li>
+        <li><strong>PSR-17:</strong> HTTP factories</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q70</span>
+      <span class="q-text">What are PHP Attributes? (PHP 8.0+)</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Attributes are structured metadata added to classes, methods, properties, or parameters using <code>#[...]</code> syntax. They replace docblock annotations (like in Doctrine) with native, parseable metadata.</p>
+      <pre><span class="kw">#[Attribute]</span>
+<span class="kw">class</span> <span class="fn">Route</span> {
+  <span class="kw">public function</span> <span class="fn">__construct</span>(<span class="kw">public string</span> <span class="var">$path</span>) {}
+}
+
+<span class="kw">class</span> <span class="fn">UserController</span> {
+  <span class="kw">#[Route</span>(<span class="str">'/users'</span>)<span class="kw">]</span>
+  <span class="kw">public function</span> <span class="fn">index</span>() { ... }
+}
+
+<span class="cm">// Read via Reflection API</span>
+<span class="var">$ref</span>   = <span class="kw">new</span> <span class="fn">ReflectionMethod</span>(<span class="fn">UserController</span>::<span class="kw">class</span>, <span class="str">'index'</span>);
+<span class="var">$attrs</span> = <span class="var">$ref</span>-><span class="fn">getAttributes</span>(<span class="fn">Route</span>::<span class="kw">class</span>);
+<span class="fn">echo</span> <span class="var">$attrs</span>[0]-><span class="fn">newInstance</span>()-><span class="var">path</span>; <span class="cm">// '/users'</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q71</span>
+      <span class="q-text">What is PHP's match expression? How is it different from switch?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>match (PHP 8.0):</strong> Strict comparison (<code>===</code>). Returns a value. No fall-through. Throws <code>UnhandledMatchError</code> if no arm matches. Shorter syntax.</li>
+        <li><strong>switch:</strong> Loose comparison (<code>==</code>). Falls through by default (needs <code>break</code>). Doesn't return a value directly. Older, more verbose.</li>
+      </ul>
+      <pre><span class="var">$status</span> = 2;
+
+<span class="cm">// match — strict, concise, returns value</span>
+<span class="var">$label</span> = <span class="kw">match</span>(<span class="var">$status</span>) {
+  1       => <span class="str">'Active'</span>,
+  2, 3    => <span class="str">'Pending'</span>,  <span class="cm">// multiple conditions</span>
+  <span class="kw">default</span> => <span class="str">'Unknown'</span>,
+};
+<span class="fn">echo</span> <span class="var">$label</span>; <span class="cm">// Pending</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q72</span>
+      <span class="q-text">What are the major new features in PHP 8.x?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>PHP 8.0 (2020):</strong></p>
+      <ul>
+        <li>JIT (Just-In-Time) Compiler — significant performance boost for CPU-bound code</li>
+        <li>Union types: <code>int|string</code></li>
+        <li>Named arguments: <code>array_slice(array: $a, offset: 1)</code></li>
+        <li>Match expression (see Q71)</li>
+        <li>Nullsafe operator: <code>$user?->address?->city</code></li>
+        <li>Attributes (see Q70)</li>
+        <li>Constructor property promotion: <code>__construct(public string $name)</code></li>
+      </ul>
+      <p><strong>PHP 8.1 (2021):</strong> Enums, Fibers, Readonly properties, Intersection types, never return type</p>
+      <p><strong>PHP 8.2 (2022):</strong> Readonly classes, Disjunctive Normal Form types, <code>true</code>/<code>false</code>/<code>null</code> as standalone types</p>
+      <p><strong>PHP 8.3 (2023):</strong> Typed class constants, <code>json_validate()</code>, <code>array_find()</code>, readonly property improvements</p>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<script>
+  function toggle(head) {
+    head.parentElement.classList.toggle('open');
+  }
+  function switchTab(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  function expandAll(id) {
+    document.querySelectorAll('#' + id + ' .q-block').forEach(b => b.classList.add('open'));
+  }
+</script>
+</body>
+</html>
