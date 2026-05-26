@@ -1,0 +1,1995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript — Complete Interview Q&A Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; }
+  header { background: #1a1a2e; color: #fff; padding: 24px 32px; border-bottom: 4px solid #f7df1e; }
+  header h1 { font-size: 22px; font-weight: 600; }
+  header p { font-size: 13px; color: #aaa; margin-top: 4px; }
+  .stats { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+  .stat { background: rgba(247,223,30,0.12); border-radius: 8px; padding: 8px 14px; font-size: 13px; border: 1px solid rgba(247,223,30,0.25); }
+  .stat strong { display: block; font-size: 18px; color: #f7df1e; }
+
+  .tab-bar { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 0 20px; display: flex; gap: 2px; overflow-x: auto; position: sticky; top: 0; z-index: 100; scrollbar-width: none; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab { padding: 13px 14px; font-size: 12.5px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; color: #666; transition: all 0.15s; }
+  .tab:hover { color: #333; }
+  .tab.active { color: #b8860b; border-bottom-color: #f7df1e; }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 24px 18px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header { margin-bottom: 18px; }
+  .section-header h2 { font-size: 18px; font-weight: 600; }
+  .section-header p { font-size: 13px; color: #666; margin-top: 4px; }
+
+  .q-block { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .q-head { padding: 13px 16px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px; }
+  .q-head:hover { background: #fafafa; }
+  .q-num { font-size: 11px; font-weight: 700; color: #fff; border-radius: 5px; padding: 3px 7px; min-width: 34px; text-align: center; margin-top: 2px; white-space: nowrap; flex-shrink: 0; }
+  .green  { background: #16a34a; }
+  .blue   { background: #0ea5e9; }
+  .amber  { background: #d97706; }
+  .red    { background: #dc2626; }
+  .purple { background: #7c3aed; }
+  .teal   { background: #0d9488; }
+  .pink   { background: #db2777; }
+  .indigo { background: #4338ca; }
+
+  .q-text { font-size: 14.5px; font-weight: 500; flex: 1; line-height: 1.5; }
+  .q-arrow { font-size: 14px; color: #bbb; margin-left: auto; transition: transform 0.2s; flex-shrink: 0; margin-top: 3px; }
+  .q-block.open .q-arrow { transform: rotate(180deg); }
+
+  .q-answer { display: none; border-top: 1px solid #f0f0f0; padding: 14px 16px 16px 60px; }
+  .q-block.open .q-answer { display: block; }
+  .q-answer p { font-size: 13.5px; line-height: 1.75; color: #333; margin-bottom: 10px; }
+  .q-answer p:last-child { margin-bottom: 0; }
+  .q-answer code { background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 4px; padding: 1px 5px; font-family: 'Courier New', monospace; font-size: 12.5px; color: #374151; }
+  .q-answer pre { background: #1e1e2e; color: #cdd6f4; border-radius: 8px; padding: 13px 15px; font-size: 12.5px; font-family: 'Courier New', monospace; line-height: 1.65; overflow-x: auto; margin: 9px 0; }
+  .kw  { color: #cba6f7; }
+  .str { color: #a6e3a1; }
+  .cm  { color: #6c7086; }
+  .fn  { color: #89b4fa; }
+  .num { color: #fab387; }
+  .q-answer ul { margin: 7px 0 7px 18px; }
+  .q-answer ul li { font-size: 13.5px; line-height: 1.75; color: #333; margin-bottom: 3px; }
+  .tip    { background: #eff6ff; border-left: 3px solid #3b82f6; border-radius: 0 6px 6px 0; padding: 9px 13px; margin-top: 9px; font-size: 13px; color: #1e40af; }
+  .tip strong { font-weight: 600; }
+  .warn   { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 9px 13px; margin-top: 9px; font-size: 13px; color: #854d0e; }
+  .warn strong { font-weight: 600; }
+  .danger { background: #fef2f2; border-left: 3px solid #ef4444; border-radius: 0 6px 6px 0; padding: 9px 13px; margin-top: 9px; font-size: 13px; color: #991b1b; }
+
+  .expand-all { background: #1a1a2e; color: #f7df1e; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 16px; }
+  .expand-all:hover { background: #252540; }
+  .group-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin: 20px 0 9px; padding-bottom: 5px; border-bottom: 1px dashed #ddd; }
+</style>
+<script>
+  window.QNADRILL_PAGE = 'javascript';
+</script>
+<script src="common.js" defer></script>
+</head>
+<body>
+
+<header>
+  <h1>🟨 JavaScript — Complete Interview Q&amp;A Guide</h1>
+  <p>75+ questions across all levels: Basics → Closures & Scope → Async → OOP → DOM → ES6+ → Performance</p>
+  <div class="stats">
+    <div class="stat"><strong>75+</strong> Questions</div>
+    <div class="stat"><strong>7</strong> Topic Sections</div>
+    <div class="stat"><strong>All Levels</strong> Covered</div>
+    <div class="stat"><strong>Code Examples</strong> Included</div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('basics',this)">🟢 Basics Q1–Q12</div>
+  <div class="tab" onclick="switchTab('scope',this)">🔵 Scope & Closures Q13–Q24</div>
+  <div class="tab" onclick="switchTab('async',this)">🟡 Async JS Q25–Q36</div>
+  <div class="tab" onclick="switchTab('oop',this)">🟠 OOP & Prototypes Q37–Q48</div>
+  <div class="tab" onclick="switchTab('dom',this)">🔴 DOM & Events Q49–Q57</div>
+  <div class="tab" onclick="switchTab('es6',this)">🟣 ES6+ Features Q58–Q68</div>
+  <div class="tab" onclick="switchTab('advanced',this)">⚫ Advanced Q69–Q77</div>
+</div>
+
+<div class="content">
+
+<!-- ========================= BASICS ========================= -->
+<div id="basics" class="section active">
+  <div class="section-header">
+    <h2>🟢 Basics — Q1 to Q12</h2>
+    <p>Core JavaScript fundamentals every developer must know</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('basics')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q1</span>
+      <span class="q-text">What is JavaScript? What are its key features?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>JavaScript is a lightweight, interpreted, single-threaded, dynamically-typed programming language that conforms to the ECMAScript specification. Originally built for browsers, it now also runs server-side via Node.js.</p>
+      <ul>
+        <li><strong>Dynamic typing</strong> — variables can hold any type at runtime</li>
+        <li><strong>First-class functions</strong> — functions are values, can be passed around</li>
+        <li><strong>Prototype-based OOP</strong> — inheritance via prototypes, not classical classes</li>
+        <li><strong>Single-threaded + Event Loop</strong> — non-blocking async via callbacks, promises, async/await</li>
+        <li><strong>Closures</strong> — functions remember their lexical scope</li>
+        <li><strong>Ubiquitous</strong> — runs in every browser; Node.js for backend</li>
+      </ul>
+      <div class="tip"><strong>Interview tip:</strong> JavaScript is single-threaded but non-blocking because the event loop offloads I/O to the browser/OS.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q2</span>
+      <span class="q-text">What are JavaScript data types?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>JavaScript has <strong>8 data types</strong> — 7 primitives and 1 object type:</p>
+      <ul>
+        <li><strong>Primitives:</strong> <code>number</code>, <code>string</code>, <code>boolean</code>, <code>undefined</code>, <code>null</code>, <code>symbol</code> (ES6), <code>bigint</code> (ES2020)</li>
+        <li><strong>Object:</strong> Arrays, functions, dates, maps, sets — all are objects</li>
+      </ul>
+      <pre><span class="kw">typeof</span> <span class="num">42</span>           <span class="cm">// "number"</span>
+<span class="kw">typeof</span> <span class="str">"hello"</span>       <span class="cm">// "string"</span>
+<span class="kw">typeof</span> <span class="kw">true</span>         <span class="cm">// "boolean"</span>
+<span class="kw">typeof</span> <span class="kw">undefined</span>    <span class="cm">// "undefined"</span>
+<span class="kw">typeof</span> <span class="kw">null</span>         <span class="cm">// "object" ← famous bug!</span>
+<span class="kw">typeof</span> Symbol()     <span class="cm">// "symbol"</span>
+<span class="kw">typeof</span> <span class="num">9007199254740993n</span> <span class="cm">// "bigint"</span>
+<span class="kw">typeof</span> {}           <span class="cm">// "object"</span>
+<span class="kw">typeof</span> []           <span class="cm">// "object" (use Array.isArray())</span>
+<span class="kw">typeof</span> <span class="kw">function</span>(){} <span class="cm">// "function"</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q3</span>
+      <span class="q-text">What is the difference between var, let, and const?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>var:</strong> Function-scoped. Hoisted and initialized to <code>undefined</code>. Can be re-declared and re-assigned. Avoid in modern JS.</li>
+        <li><strong>let:</strong> Block-scoped. Hoisted but NOT initialized (Temporal Dead Zone). Can be re-assigned, not re-declared in same scope.</li>
+        <li><strong>const:</strong> Block-scoped. Must be initialized. Cannot be re-assigned. Objects/arrays declared with const are still mutable.</li>
+      </ul>
+      <pre><span class="kw">var</span> x = <span class="num">1</span>; <span class="kw">var</span> x = <span class="num">2</span>;  <span class="cm">// OK — re-declared</span>
+<span class="kw">let</span> y = <span class="num">1</span>; y = <span class="num">2</span>;       <span class="cm">// OK — re-assigned</span>
+<span class="kw">const</span> z = {};
+z.name = <span class="str">"Alice"</span>;       <span class="cm">// OK — object mutation</span>
+z = {};                  <span class="cm">// ❌ TypeError — reassignment</span></pre>
+      <div class="tip">Use <code>const</code> by default. Switch to <code>let</code> only when you need to reassign. Never use <code>var</code>.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q4</span>
+      <span class="q-text">What is the difference between == and === in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong><code>==</code> (Loose equality):</strong> Compares values after type coercion. Converts operands to the same type first.</li>
+        <li><strong><code>===</code> (Strict equality):</strong> Compares value AND type. No coercion.</li>
+      </ul>
+      <pre><span class="num">0</span>   == <span class="str">""</span>     <span class="cm">// true  (both coerce to 0 / false)</span>
+<span class="num">0</span>   === <span class="str">""</span>    <span class="cm">// false</span>
+<span class="kw">null</span> == <span class="kw">undefined</span> <span class="cm">// true</span>
+<span class="kw">null</span> === <span class="kw">undefined</span> <span class="cm">// false</span>
+<span class="str">"1"</span> == <span class="num">1</span>     <span class="cm">// true</span>
+<span class="str">"1"</span> === <span class="num">1</span>    <span class="cm">// false</span>
+<span class="kw">false</span> == <span class="num">0</span>   <span class="cm">// true</span></pre>
+      <div class="warn"><strong>Always use <code>===</code></strong> unless you explicitly need type coercion (e.g., <code>x == null</code> to catch both null and undefined).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q5</span>
+      <span class="q-text">What is Hoisting in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Hoisting is JavaScript's behavior of moving declarations (not initializations) to the top of their scope during the compilation phase.</p>
+      <pre><span class="cm">// var — hoisted and initialized to undefined</span>
+console.log(x); <span class="cm">// undefined (no error)</span>
+<span class="kw">var</span> x = <span class="num">5</span>;
+
+<span class="cm">// let/const — hoisted but NOT initialized (TDZ)</span>
+console.log(y); <span class="cm">// ReferenceError: Cannot access before init</span>
+<span class="kw">let</span> y = <span class="num">5</span>;
+
+<span class="cm">// Function declarations — fully hoisted</span>
+sayHi(); <span class="cm">// "Hi!" — works before declaration</span>
+<span class="kw">function</span> <span class="fn">sayHi</span>() { console.log(<span class="str">"Hi!"</span>); }
+
+<span class="cm">// Function expressions — NOT hoisted</span>
+greet(); <span class="cm">// TypeError: greet is not a function</span>
+<span class="kw">var</span> greet = <span class="kw">function</span>() {};</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q6</span>
+      <span class="q-text">What are truthy and falsy values in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Falsy values</strong> — evaluate to <code>false</code> in a boolean context. There are exactly 8:</p>
+      <pre><span class="kw">false</span>, <span class="num">0</span>, <span class="num">-0</span>, <span class="num">0n</span>, <span class="str">""</span>, <span class="str">''</span>, <span class="str">``</span>, <span class="kw">null</span>, <span class="kw">undefined</span>, NaN</pre>
+      <p><strong>Everything else is truthy</strong> — including <code>"0"</code>, <code>"false"</code>, <code>[]</code>, <code>{}</code>.</p>
+      <pre><span class="kw">if</span> ([]) console.log(<span class="str">"truthy"</span>); <span class="cm">// "truthy" — empty array is truthy!</span>
+<span class="kw">if</span> (<span class="str">"0"</span>) console.log(<span class="str">"truthy"</span>); <span class="cm">// "truthy" — non-empty string</span>
+Boolean([])  <span class="cm">// true</span>
+Boolean(<span class="str">""</span>) <span class="cm">// false</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q7</span>
+      <span class="q-text">What is NaN? How do you check for it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>NaN</code> (Not a Number) is a special numeric value that results from invalid math operations. It has a quirk: <code>NaN !== NaN</code> (it's not equal to itself).</p>
+      <pre>parseInt(<span class="str">"abc"</span>)   <span class="cm">// NaN</span>
+<span class="num">0</span> / <span class="num">0</span>            <span class="cm">// NaN</span>
+Math.sqrt(-<span class="num">1</span>)    <span class="cm">// NaN</span>
+
+NaN === NaN      <span class="cm">// false  ← unique!</span>
+
+<span class="cm">// Checking for NaN</span>
+isNaN(<span class="str">"abc"</span>)    <span class="cm">// true  (but coerces: isNaN("") = false!)</span>
+Number.isNaN(<span class="str">"abc"</span>) <span class="cm">// false (strict — only true for actual NaN)</span>
+Number.isNaN(NaN)    <span class="cm">// true  ← preferred method</span></pre>
+      <div class="tip">Always use <code>Number.isNaN()</code>, not the global <code>isNaN()</code>, which coerces its argument first.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q8</span>
+      <span class="q-text">What is the difference between null and undefined?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>undefined:</strong> A variable has been declared but not yet assigned a value. Also returned by functions with no return statement, and accessing missing object properties.</li>
+        <li><strong>null:</strong> An explicit assignment representing "no value" or "empty." Must be deliberately set by the developer.</li>
+      </ul>
+      <pre><span class="kw">let</span> x;           <span class="cm">// undefined (auto)</span>
+<span class="kw">let</span> y = <span class="kw">null</span>;   <span class="cm">// null (intentional)</span>
+
+<span class="kw">typeof</span> <span class="kw">undefined</span> <span class="cm">// "undefined"</span>
+<span class="kw">typeof</span> <span class="kw">null</span>      <span class="cm">// "object" (historical bug)</span>
+
+<span class="kw">null</span> == <span class="kw">undefined</span>  <span class="cm">// true  (loose)</span>
+<span class="kw">null</span> === <span class="kw">undefined</span> <span class="cm">// false (strict)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q9</span>
+      <span class="q-text">What is type coercion in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Type coercion is JavaScript's automatic conversion of values from one type to another when operators or conditions expect a different type.</p>
+      <pre><span class="cm">// Implicit coercion (automatic)</span>
+<span class="str">"5"</span> + <span class="num">3</span>        <span class="cm">// "53"  — number coerced to string</span>
+<span class="str">"5"</span> - <span class="num">3</span>        <span class="cm">// 2     — string coerced to number</span>
+<span class="kw">true</span> + <span class="kw">true</span>   <span class="cm">// 2     — booleans coerced to numbers</span>
+[] + []        <span class="cm">// ""    — arrays coerced to strings</span>
+[] + {}        <span class="cm">// "[object Object]"</span>
+{} + []        <span class="cm">// 0     (in console — {} = empty block)</span>
+
+<span class="cm">// Explicit coercion (manual)</span>
+Number(<span class="str">"42"</span>)   <span class="cm">// 42</span>
+String(<span class="num">42</span>)    <span class="cm">// "42"</span>
+Boolean(<span class="num">0</span>)    <span class="cm">// false</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q10</span>
+      <span class="q-text">What are JavaScript's comparison quirks with objects?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Primitives are compared by <strong>value</strong>. Objects are compared by <strong>reference</strong> (memory address). Two objects with identical contents are NOT equal unless they are the same object.</p>
+      <pre><span class="cm">// Primitives — value comparison</span>
+<span class="str">"hello"</span> === <span class="str">"hello"</span>  <span class="cm">// true</span>
+
+<span class="cm">// Objects — reference comparison</span>
+{} === {}              <span class="cm">// false (different objects in memory)</span>
+[] === []              <span class="cm">// false</span>
+
+<span class="kw">const</span> a = { x: <span class="num">1</span> };
+<span class="kw">const</span> b = a;          <span class="cm">// same reference</span>
+a === b                <span class="cm">// true</span>
+a.x = <span class="num">99</span>;
+console.log(b.x)       <span class="cm">// 99 — mutation visible via b</span>
+
+<span class="cm">// Deep equality — use libraries or JSON trick</span>
+JSON.stringify(a) === JSON.stringify(b)</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q11</span>
+      <span class="q-text">What is the difference between pass by value and pass by reference?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Primitives</strong> are passed by value — a copy is made. The original is unaffected.</li>
+        <li><strong>Objects and arrays</strong> are passed by reference — both the variable and the parameter point to the same object in memory.</li>
+      </ul>
+      <pre><span class="cm">// Primitive — pass by value</span>
+<span class="kw">function</span> <span class="fn">double</span>(n) { n *= <span class="num">2</span>; }
+<span class="kw">let</span> x = <span class="num">5</span>;
+<span class="fn">double</span>(x);
+console.log(x); <span class="cm">// 5 — unchanged</span>
+
+<span class="cm">// Object — pass by reference</span>
+<span class="kw">function</span> <span class="fn">rename</span>(obj) { obj.name = <span class="str">"Bob"</span>; }
+<span class="kw">const</span> user = { name: <span class="str">"Alice"</span> };
+<span class="fn">rename</span>(user);
+console.log(user.name); <span class="cm">// "Bob" — mutated!</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q12</span>
+      <span class="q-text">What is the difference between for...in and for...of?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>for...in:</strong> Iterates over <em>enumerable property keys</em> of an object (including inherited ones). Use for objects, not arrays.</li>
+        <li><strong>for...of:</strong> Iterates over <em>iterable values</em> — arrays, strings, Maps, Sets, generators. Not for plain objects.</li>
+      </ul>
+      <pre><span class="kw">const</span> arr = [<span class="str">'a'</span>, <span class="str">'b'</span>, <span class="str">'c'</span>];
+
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">of</span> arr) console.log(key);   <span class="cm">// 'a', 'b', 'c' (values)</span>
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> arr) console.log(key);   <span class="cm">// '0', '1', '2' (indices)</span>
+
+<span class="kw">const</span> obj = { a: <span class="num">1</span>, b: <span class="num">2</span> };
+<span class="kw">for</span> (<span class="kw">const</span> key <span class="kw">in</span> obj) console.log(key);   <span class="cm">// 'a', 'b'</span>
+<span class="cm">// for...of on plain object → TypeError</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= SCOPE & CLOSURES ========================= -->
+<div id="scope" class="section">
+  <div class="section-header">
+    <h2>🔵 Scope & Closures — Q13 to Q24</h2>
+    <p>Lexical scope, the scope chain, closures, and the this keyword</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('scope')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q13</span>
+      <span class="q-text">What is scope in JavaScript? What types of scope exist?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Scope defines where variables are accessible. JavaScript uses <strong>lexical scoping</strong> — a variable's scope is determined by where it is written in the code.</p>
+      <ul>
+        <li><strong>Global scope:</strong> Accessible everywhere. Avoid polluting it.</li>
+        <li><strong>Function scope:</strong> Variables inside a function — only accessible within that function.</li>
+        <li><strong>Block scope:</strong> <code>let</code>/<code>const</code> inside <code>{}</code> — accessible only within that block.</li>
+        <li><strong>Module scope:</strong> Variables in ES modules are scoped to the module, not global.</li>
+      </ul>
+      <pre><span class="kw">const</span> global = <span class="str">"I'm global"</span>;
+
+<span class="kw">function</span> <span class="fn">outer</span>() {
+  <span class="kw">const</span> outerVar = <span class="str">"outer"</span>;
+  <span class="kw">if</span> (<span class="kw">true</span>) {
+    <span class="kw">let</span> blockVar = <span class="str">"block"</span>;   <span class="cm">// only inside this {}</span>
+    console.log(outerVar);    <span class="cm">// accessible (outer scope)</span>
+  }
+  console.log(blockVar);      <span class="cm">// ReferenceError!</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q14</span>
+      <span class="q-text">What is a Closure in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A closure is a function that <strong>remembers the variables from its outer (enclosing) scope</strong> even after that scope has finished executing. The inner function "closes over" the outer variables.</p>
+      <pre><span class="kw">function</span> <span class="fn">makeCounter</span>() {
+  <span class="kw">let</span> count = <span class="num">0</span>;             <span class="cm">// outer variable</span>
+  <span class="kw">return function</span>() {
+    count++;                   <span class="cm">// inner function closes over count</span>
+    <span class="kw">return</span> count;
+  };
+}
+
+<span class="kw">const</span> counter = <span class="fn">makeCounter</span>();
+counter(); <span class="cm">// 1</span>
+counter(); <span class="cm">// 2</span>
+counter(); <span class="cm">// 3 — count is remembered!</span></pre>
+      <p>Closures are used for: data privacy (module pattern), factory functions, memoization, event handlers, and currying.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q15</span>
+      <span class="q-text">What is the Scope Chain?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>When JavaScript can't find a variable in the current scope, it walks up the chain of parent scopes until it either finds the variable or reaches the global scope (where it throws a <code>ReferenceError</code>).</p>
+      <pre><span class="kw">const</span> x = <span class="str">"global"</span>;
+
+<span class="kw">function</span> <span class="fn">outer</span>() {
+  <span class="kw">const</span> x = <span class="str">"outer"</span>;
+  <span class="kw">function</span> <span class="fn">inner</span>() {
+    <span class="cm">// no local x — looks up scope chain</span>
+    console.log(x); <span class="cm">// "outer" (found in parent scope)</span>
+  }
+  <span class="fn">inner</span>();
+}
+<span class="fn">outer</span>();</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q16</span>
+      <span class="q-text">What is the Temporal Dead Zone (TDZ)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The TDZ is the period between entering the scope where a <code>let</code>/<code>const</code> is declared and the point where that declaration is actually initialized. Accessing the variable in this window throws a <code>ReferenceError</code>.</p>
+      <pre><span class="cm">// TDZ starts here for 'name'</span>
+console.log(name); <span class="cm">// ReferenceError (TDZ!)</span>
+<span class="kw">let</span> name = <span class="str">"Alice"</span>;  <span class="cm">// TDZ ends here</span>
+console.log(name); <span class="cm">// "Alice"</span></pre>
+      <div class="tip">TDZ exists to catch bugs from using variables before they're ready. It's why <code>let</code>/<code>const</code> are safer than <code>var</code>.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q17</span>
+      <span class="q-text">What is 'this' in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>this</code> refers to the object that called the function. Its value depends on <em>how</em> the function is called, not where it's defined.</p>
+      <pre><span class="cm">// 1. Global / standalone call</span>
+<span class="kw">function</span> <span class="fn">show</span>() { console.log(<span class="kw">this</span>); }
+<span class="fn">show</span>();          <span class="cm">// window (browser) / global (Node) / undefined (strict mode)</span>
+
+<span class="cm">// 2. Method call — this = the object</span>
+<span class="kw">const</span> user = { name: <span class="str">"Alice"</span>, greet() { console.log(<span class="kw">this</span>.name); } };
+user.greet();    <span class="cm">// "Alice"</span>
+
+<span class="cm">// 3. Arrow function — this = enclosing scope's this</span>
+<span class="kw">const</span> obj = {
+  name: <span class="str">"Bob"</span>,
+  greet: () => console.log(<span class="kw">this</span>.name) <span class="cm">// 'this' is NOT obj</span>
+};</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q18</span>
+      <span class="q-text">What is the difference between call(), apply(), and bind()?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>All three explicitly set the value of <code>this</code> for a function:</p>
+      <ul>
+        <li><strong>call(thisArg, arg1, arg2):</strong> Calls immediately. Args passed individually.</li>
+        <li><strong>apply(thisArg, [args]):</strong> Calls immediately. Args passed as array.</li>
+        <li><strong>bind(thisArg, arg1):</strong> Returns a NEW function with <code>this</code> permanently bound. Does not call immediately.</li>
+      </ul>
+      <pre><span class="kw">function</span> <span class="fn">greet</span>(greeting, punct) {
+  console.log(<span class="str">`${greeting}, ${this.name}${punct}`</span>);
+}
+<span class="kw">const</span> user = { name: <span class="str">"Alice"</span> };
+
+greet.<span class="fn">call</span>(user, <span class="str">"Hello"</span>, <span class="str">"!"</span>);     <span class="cm">// "Hello, Alice!"</span>
+greet.<span class="fn">apply</span>(user, [<span class="str">"Hi"</span>, <span class="str">"."</span>]);    <span class="cm">// "Hi, Alice."</span>
+<span class="kw">const</span> bound = greet.<span class="fn">bind</span>(user, <span class="str">"Hey"</span>);
+<span class="fn">bound</span>(<span class="str">"?"</span>);                        <span class="cm">// "Hey, Alice?"</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q19</span>
+      <span class="q-text">What is an IIFE (Immediately Invoked Function Expression)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>An IIFE is a function that is defined and called immediately. It creates a private scope to avoid polluting the global namespace — heavily used before ES modules.</p>
+      <pre><span class="cm">// IIFE syntax</span>
+(<span class="kw">function</span>() {
+  <span class="kw">const</span> private = <span class="str">"Can't access me outside"</span>;
+  console.log(private); <span class="cm">// works</span>
+})();
+
+<span class="cm">// Arrow function IIFE</span>
+(() => {
+  <span class="kw">const</span> x = <span class="num">42</span>;
+  console.log(x);
+})();
+
+console.log(private); <span class="cm">// ReferenceError — private scope!</span></pre>
+      <div class="tip">IIFEs are less common now with ES modules (which have their own scope), but still appear in older codebases and some build tool patterns.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q20</span>
+      <span class="q-text">What is currying in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Currying transforms a function that takes multiple arguments into a sequence of functions each taking one argument. It relies on closures.</p>
+      <pre><span class="cm">// Normal function</span>
+<span class="kw">const</span> <span class="fn">add</span> = (a, b, c) => a + b + c;
+
+<span class="cm">// Curried version</span>
+<span class="kw">const</span> <span class="fn">curriedAdd</span> = a => b => c => a + b + c;
+<span class="fn">curriedAdd</span>(<span class="num">1</span>)(<span class="num">2</span>)(<span class="num">3</span>); <span class="cm">// 6</span>
+
+<span class="cm">// Partial application — pre-fill args</span>
+<span class="kw">const</span> addFive = <span class="fn">curriedAdd</span>(<span class="num">5</span>);
+<span class="fn">addFive</span>(<span class="num">3</span>)(<span class="num">2</span>); <span class="cm">// 10</span>
+
+<span class="cm">// Real use: reusable validators, event handlers</span>
+<span class="kw">const</span> hasPermission = role => user => user.roles.includes(role);
+<span class="kw">const</span> isAdmin = <span class="fn">hasPermission</span>(<span class="str">'admin'</span>);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q21</span>
+      <span class="q-text">What is memoization?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Memoization is a caching optimization — a function stores previously computed results so the same computation isn't repeated for the same inputs. Implemented using closures.</p>
+      <pre><span class="kw">function</span> <span class="fn">memoize</span>(fn) {
+  <span class="kw">const</span> cache = <span class="kw">new</span> Map();
+  <span class="kw">return function</span>(...args) {
+    <span class="kw">const</span> key = JSON.stringify(args);
+    <span class="kw">if</span> (cache.has(key)) <span class="kw">return</span> cache.get(key);
+    <span class="kw">const</span> result = fn.apply(<span class="kw">this</span>, args);
+    cache.set(key, result);
+    <span class="kw">return</span> result;
+  };
+}
+
+<span class="kw">const</span> slowFib = n => n <= <span class="num">1</span> ? n : <span class="fn">slowFib</span>(n-<span class="num">1</span>) + <span class="fn">slowFib</span>(n-<span class="num">2</span>);
+<span class="kw">const</span> fastFib = <span class="fn">memoize</span>(slowFib);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q22</span>
+      <span class="q-text">What is the classic closure-in-loop bug and how do you fix it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">// ❌ Bug — all callbacks share the same 'i' reference</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+  setTimeout(() => console.log(i), <span class="num">100</span>);
+}
+<span class="cm">// Prints: 3, 3, 3</span>
+
+<span class="cm">// ✅ Fix 1: use let (block-scoped per iteration)</span>
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+  setTimeout(() => console.log(i), <span class="num">100</span>);
+}
+<span class="cm">// Prints: 0, 1, 2</span>
+
+<span class="cm">// ✅ Fix 2: IIFE to capture each value</span>
+<span class="kw">for</span> (<span class="kw">var</span> i = <span class="num">0</span>; i < <span class="num">3</span>; i++) {
+  (j => setTimeout(() => console.log(j), <span class="num">100</span>))(i);
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q23</span>
+      <span class="q-text">What is the difference between regular functions and arrow functions regarding 'this'?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Regular functions:</strong> <code>this</code> is dynamic — determined at call time by how the function is called.</li>
+        <li><strong>Arrow functions:</strong> <code>this</code> is lexical — inherited from the surrounding code where the arrow function was defined. Arrow functions have no own <code>this</code>.</li>
+      </ul>
+      <pre><span class="kw">const</span> timer = {
+  seconds: <span class="num">0</span>,
+  startRegular() {
+    setInterval(<span class="kw">function</span>() {
+      <span class="kw">this</span>.seconds++; <span class="cm">// ❌ 'this' = window, not timer</span>
+    }, <span class="num">1000</span>);
+  },
+  startArrow() {
+    setInterval(() => {
+      <span class="kw">this</span>.seconds++; <span class="cm">// ✅ 'this' = timer (lexical)</span>
+    }, <span class="num">1000</span>);
+  }
+};</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q24</span>
+      <span class="q-text">What is function composition?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Function composition combines two or more functions so that the output of one becomes the input of the next. A core concept in functional programming.</p>
+      <pre><span class="kw">const</span> double    = x => x * <span class="num">2</span>;
+<span class="kw">const</span> addOne    = x => x + <span class="num">1</span>;
+<span class="kw">const</span> square    = x => x * x;
+
+<span class="cm">// Manual composition</span>
+<span class="fn">square</span>(<span class="fn">addOne</span>(<span class="fn">double</span>(<span class="num">3</span>)));  <span class="cm">// square(addOne(6)) = square(7) = 49</span>
+
+<span class="cm">// Generic compose utility (right-to-left)</span>
+<span class="kw">const</span> compose = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x);
+<span class="kw">const</span> transform = <span class="fn">compose</span>(square, addOne, double);
+<span class="fn">transform</span>(<span class="num">3</span>); <span class="cm">// 49</span></pre>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========================= ASYNC JS ========================= -->
+<div id="async" class="section">
+  <div class="section-header">
+    <h2>🟡 Asynchronous JavaScript — Q25 to Q36</h2>
+    <p>Event loop, callbacks, promises, async/await, and concurrency patterns</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('async')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q25</span>
+      <span class="q-text">How does the JavaScript Event Loop work?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>JavaScript is single-threaded — it runs one task at a time. The event loop manages async operations via queues:</p>
+      <ul>
+        <li><strong>Call Stack:</strong> Where synchronous code executes (LIFO)</li>
+        <li><strong>Web APIs / Node APIs:</strong> Browser/Node handles async ops (setTimeout, fetch, I/O)</li>
+        <li><strong>Microtask Queue:</strong> Resolved promises, <code>queueMicrotask()</code> — processed before macrotasks</li>
+        <li><strong>Macrotask Queue (Task Queue):</strong> setTimeout, setInterval, I/O callbacks — processed one per loop iteration</li>
+      </ul>
+      <pre>console.log(<span class="str">'1'</span>);
+setTimeout(() => console.log(<span class="str">'2'</span>), <span class="num">0</span>);
+Promise.resolve().then(() => console.log(<span class="str">'3'</span>));
+console.log(<span class="str">'4'</span>);
+<span class="cm">// Output: 1, 4, 3, 2</span>
+<span class="cm">// Sync → Microtask (Promise) → Macrotask (setTimeout)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q26</span>
+      <span class="q-text">What is a callback? What is callback hell?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A callback is a function passed as an argument to another function, to be called when an async operation completes. Callback hell (pyramid of doom) is deeply nested callbacks that become unreadable.</p>
+      <pre><span class="cm">// Callback hell</span>
+<span class="fn">getUser</span>(id, (user) => {
+  <span class="fn">getOrders</span>(user.id, (orders) => {
+    <span class="fn">getOrderDetails</span>(orders[<span class="num">0</span>].id, (details) => {
+      <span class="fn">sendEmail</span>(details, (result) => {
+        console.log(<span class="str">"Done"</span>); <span class="cm">// 4 levels deep — unmanageable</span>
+      });
+    });
+  });
+});
+
+<span class="cm">// Fixed with async/await</span>
+<span class="kw">const</span> user    = <span class="kw">await</span> <span class="fn">getUser</span>(id);
+<span class="kw">const</span> orders  = <span class="kw">await</span> <span class="fn">getOrders</span>(user.id);
+<span class="kw">const</span> details = <span class="kw">await</span> <span class="fn">getOrderDetails</span>(orders[<span class="num">0</span>].id);
+<span class="kw">await</span> <span class="fn">sendEmail</span>(details);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q27</span>
+      <span class="q-text">What is a Promise? Explain its states.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A Promise is an object representing the eventual completion or failure of an async operation. It has 3 states:</p>
+      <ul>
+        <li><strong>Pending:</strong> Initial state — neither fulfilled nor rejected</li>
+        <li><strong>Fulfilled:</strong> Operation succeeded — <code>.then()</code> callback is called</li>
+        <li><strong>Rejected:</strong> Operation failed — <code>.catch()</code> callback is called</li>
+      </ul>
+      <pre><span class="kw">const</span> fetchUser = (<span class="num">id</span>) => <span class="kw">new</span> Promise((resolve, reject) => {
+  <span class="kw">if</span> (id > <span class="num">0</span>) resolve({ id, name: <span class="str">"Alice"</span> });
+  <span class="kw">else</span> reject(<span class="kw">new</span> Error(<span class="str">"Invalid ID"</span>));
+});
+
+<span class="fn">fetchUser</span>(<span class="num">1</span>)
+  .then(user  => console.log(user.name))  <span class="cm">// "Alice"</span>
+  .catch(err  => console.error(err))
+  .finally(() => console.log(<span class="str">"Done"</span>));  <span class="cm">// always runs</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q28</span>
+      <span class="q-text">What is async/await and how does it work?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>async/await</code> is syntactic sugar over Promises, making async code look and behave like synchronous code. An <code>async</code> function always returns a Promise. <code>await</code> pauses execution inside the function until the Promise resolves.</p>
+      <pre><span class="kw">async function</span> <span class="fn">loadData</span>() {
+  <span class="kw">try</span> {
+    <span class="kw">const</span> response = <span class="kw">await</span> fetch(<span class="str">'/api/data'</span>);
+    <span class="kw">const</span> data = <span class="kw">await</span> response.json();
+    <span class="kw">return</span> data;
+  } <span class="kw">catch</span> (err) {
+    console.error(<span class="str">'Failed:'</span>, err);
+  }
+}
+
+<span class="cm">// await only works inside async functions</span>
+<span class="cm">// Or at the top level of ES modules (Top-level await)</span>
+<span class="kw">const</span> data = <span class="kw">await</span> <span class="fn">loadData</span>(); <span class="cm">// Top-level (ES2022)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q29</span>
+      <span class="q-text">What is the difference between Promise.all, Promise.race, Promise.allSettled, and Promise.any?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Promise.all([...]):</strong> Resolves when ALL resolve. Rejects immediately if ANY rejects. Results in array of values.</li>
+        <li><strong>Promise.race([...]):</strong> Resolves/rejects as soon as the FIRST promise settles (win or lose).</li>
+        <li><strong>Promise.allSettled([...]):</strong> Waits for ALL to settle (fulfilled or rejected). Never rejects. Results in array of status objects.</li>
+        <li><strong>Promise.any([...]):</strong> Resolves as soon as ANY resolves. Rejects only if ALL reject (AggregateError).</li>
+      </ul>
+      <pre><span class="kw">const</span> [users, posts] = <span class="kw">await</span> Promise.all([<span class="fn">fetchUsers</span>(), <span class="fn">fetchPosts</span>()]);
+
+<span class="kw">const</span> results = <span class="kw">await</span> Promise.allSettled([p1, p2, p3]);
+results.forEach(r => console.log(r.status, r.value ?? r.reason));</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q30</span>
+      <span class="q-text">What is the difference between microtasks and macrotasks?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Microtasks:</strong> Processed immediately after the current task, before the next macrotask. Include: resolved Promises (<code>.then/.catch/.finally</code>), <code>queueMicrotask()</code>, <code>MutationObserver</code>.</li>
+        <li><strong>Macrotasks:</strong> Processed one per event loop iteration. Include: <code>setTimeout</code>, <code>setInterval</code>, <code>setImmediate</code> (Node), I/O, UI rendering.</li>
+      </ul>
+      <pre>setTimeout(() => console.log(<span class="str">'macro'</span>), <span class="num">0</span>);
+queueMicrotask(() => console.log(<span class="str">'micro'</span>));
+Promise.resolve().then(() => console.log(<span class="str">'promise'</span>));
+
+<span class="cm">// Output: micro, promise, macro</span>
+<span class="cm">// All microtasks drain before next macrotask</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q31</span>
+      <span class="q-text">What is the Fetch API? How does it differ from XMLHttpRequest?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Fetch is a modern Promise-based API for HTTP requests, replacing the older callback-based <code>XMLHttpRequest</code> (XHR).</p>
+      <pre><span class="cm">// Fetch — clean and Promise-based</span>
+<span class="kw">const</span> data = <span class="kw">await</span> fetch(<span class="str">'/api/users'</span>, {
+  method: <span class="str">'POST'</span>,
+  headers: { <span class="str">'Content-Type'</span>: <span class="str">'application/json'</span> },
+  body: JSON.stringify({ name: <span class="str">'Alice'</span> })
+}).then(res => {
+  <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> Error(<span class="str">`HTTP ${res.status}`</span>);
+  <span class="kw">return</span> res.json();
+});</pre>
+      <div class="warn"><strong>Note:</strong> <code>fetch()</code> only rejects on network errors. HTTP 4xx/5xx responses still resolve — you must check <code>res.ok</code> manually.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q32</span>
+      <span class="q-text">What are JavaScript generators?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Generators are functions that can pause (<code>yield</code>) and resume execution. They return an iterator and are useful for lazy sequences, infinite data, and async control flow.</p>
+      <pre><span class="kw">function*</span> <span class="fn">range</span>(start, end) {
+  <span class="kw">for</span> (<span class="kw">let</span> i = start; i <= end; i++) {
+    <span class="kw">yield</span> i;
+  }
+}
+
+<span class="kw">const</span> gen = <span class="fn">range</span>(<span class="num">1</span>, <span class="num">3</span>);
+gen.next(); <span class="cm">// { value: 1, done: false }</span>
+gen.next(); <span class="cm">// { value: 2, done: false }</span>
+gen.next(); <span class="cm">// { value: 3, done: false }</span>
+gen.next(); <span class="cm">// { value: undefined, done: true }</span>
+
+<span class="cm">// Use with for...of</span>
+<span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> <span class="fn">range</span>(<span class="num">1</span>, <span class="num">5</span>)) console.log(n);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q33</span>
+      <span class="q-text">What is an AbortController and when would you use it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>AbortController</code> lets you cancel in-flight fetch requests or async operations — useful for search-as-you-type (cancel previous request) or component cleanup.</p>
+      <pre><span class="kw">const</span> controller = <span class="kw">new</span> AbortController();
+
+<span class="cm">// Cancel if user types again</span>
+inputEl.addEventListener(<span class="str">'input'</span>, () => {
+  controller.abort();
+});
+
+<span class="kw">try</span> {
+  <span class="kw">const</span> res = <span class="kw">await</span> fetch(<span class="str">'/search'</span>, { signal: controller.signal });
+  <span class="kw">const</span> data = <span class="kw">await</span> res.json();
+} <span class="kw">catch</span> (err) {
+  <span class="kw">if</span> (err.name === <span class="str">'AbortError'</span>) console.log(<span class="str">'Cancelled'</span>);
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q34</span>
+      <span class="q-text">What is debouncing and throttling in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Debounce:</strong> Delays execution until after a pause. Use for search inputs — fire API call only after user stops typing.</li>
+        <li><strong>Throttle:</strong> Limits execution to at most once per time window. Use for scroll/resize handlers.</li>
+      </ul>
+      <pre><span class="cm">// Debounce — wait for pause</span>
+<span class="kw">function</span> <span class="fn">debounce</span>(fn, delay) {
+  <span class="kw">let</span> timer;
+  <span class="kw">return</span> (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
+
+<span class="cm">// Throttle — max once per interval</span>
+<span class="kw">function</span> <span class="fn">throttle</span>(fn, interval) {
+  <span class="kw">let</span> lastTime = <span class="num">0</span>;
+  <span class="kw">return</span> (...args) => {
+    <span class="kw">const</span> now = Date.now();
+    <span class="kw">if</span> (now - lastTime >= interval) { lastTime = now; fn(...args); }
+  };
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q35</span>
+      <span class="q-text">What is a Web Worker?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Web Workers run JavaScript in a background thread, separate from the main thread — preventing heavy CPU operations from freezing the UI. Workers communicate via <code>postMessage</code>.</p>
+      <pre><span class="cm">// main.js</span>
+<span class="kw">const</span> worker = <span class="kw">new</span> Worker(<span class="str">'worker.js'</span>);
+worker.postMessage({ data: bigArray });
+worker.onmessage = e => console.log(<span class="str">'Result:'</span>, e.data);
+
+<span class="cm">// worker.js (runs in separate thread)</span>
+onmessage = (e) => {
+  <span class="kw">const</span> result = heavyCrunch(e.data.data);
+  postMessage(result);
+};</pre>
+      <div class="tip">Workers cannot access the DOM. Use them for image processing, encryption, sorting large datasets, or any CPU-intensive task.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q36</span>
+      <span class="q-text">What is an Observable vs a Promise?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Promise:</strong> Single value, one-time. Eager (starts immediately). Not cancellable natively.</li>
+        <li><strong>Observable (RxJS):</strong> Multiple values over time (stream). Lazy (starts on subscribe). Cancellable. Powerful operators (map, filter, merge, debounce).</li>
+      </ul>
+      <pre><span class="cm">// Promise — one value</span>
+<span class="kw">const</span> p = fetch(<span class="str">'/api'</span>).then(r => r.json()); <span class="cm">// resolves once</span>
+
+<span class="cm">// Observable — stream of values</span>
+<span class="kw">import</span> { fromEvent } <span class="kw">from</span> <span class="str">'rxjs'</span>;
+<span class="kw">const</span> clicks$ = fromEvent(button, <span class="str">'click'</span>);
+<span class="kw">const</span> sub = clicks$.subscribe(e => console.log(<span class="str">'Clicked!'</span>));
+sub.unsubscribe(); <span class="cm">// cancel</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= OOP ========================= -->
+<div id="oop" class="section">
+  <div class="section-header">
+    <h2>🟠 OOP & Prototypes — Q37 to Q48</h2>
+    <p>Prototypal inheritance, classes, and object-oriented patterns in JavaScript</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('oop')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q37</span>
+      <span class="q-text">What is the Prototype Chain in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Every JavaScript object has an internal <code>[[Prototype]]</code> link to another object (its prototype). When you access a property, JS first checks the object, then walks up the prototype chain until it finds it or reaches <code>null</code>.</p>
+      <pre><span class="kw">const</span> animal = { eats: <span class="kw">true</span> };
+<span class="kw">const</span> dog = Object.create(animal);
+dog.barks = <span class="kw">true</span>;
+
+console.log(dog.barks); <span class="cm">// true  (own property)</span>
+console.log(dog.eats);  <span class="cm">// true  (from prototype chain)</span>
+console.log(dog.flies); <span class="cm">// undefined (not found in chain)</span>
+
+Object.getPrototypeOf(dog) === animal; <span class="cm">// true</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q38</span>
+      <span class="q-text">What is the difference between __proto__ and prototype?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong><code>prototype</code>:</strong> A property on constructor <em>functions</em>. It's the object that will become the <code>[[Prototype]]</code> of instances created with <code>new</code>.</li>
+        <li><strong><code>__proto__</code>:</strong> A property on <em>instances/objects</em> that points to their prototype. Deprecated — use <code>Object.getPrototypeOf()</code>.</li>
+      </ul>
+      <pre><span class="kw">function</span> <span class="fn">Dog</span>(name) { <span class="kw">this</span>.name = name; }
+Dog.prototype.bark = <span class="kw">function</span>() { console.log(<span class="str">"Woof!"</span>); };
+
+<span class="kw">const</span> rex = <span class="kw">new</span> Dog(<span class="str">"Rex"</span>);
+rex.bark();  <span class="cm">// "Woof!" — found via prototype</span>
+
+rex.__proto__ === Dog.prototype  <span class="cm">// true</span>
+Object.getPrototypeOf(rex) === Dog.prototype <span class="cm">// true (preferred)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q39</span>
+      <span class="q-text">How does the 'new' keyword work in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>When you call a function with <code>new</code>, JavaScript does 4 things automatically:</p>
+      <ul>
+        <li>Creates a new empty object <code>{}</code></li>
+        <li>Sets its <code>[[Prototype]]</code> to the constructor's <code>.prototype</code></li>
+        <li>Binds <code>this</code> inside the constructor to the new object</li>
+        <li>Returns the new object (unless the constructor explicitly returns a different object)</li>
+      </ul>
+      <pre><span class="kw">function</span> <span class="fn">Person</span>(name) {
+  <span class="cm">// 'this' = new empty object</span>
+  <span class="kw">this</span>.name = name;
+  <span class="cm">// return this; (implicit)</span>
+}
+
+<span class="kw">const</span> alice = <span class="kw">new</span> Person(<span class="str">"Alice"</span>);
+alice instanceof Person; <span class="cm">// true</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q40</span>
+      <span class="q-text">What are ES6 Classes? Are they different from constructor functions?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>ES6 <code>class</code> syntax is <strong>syntactic sugar</strong> over prototype-based inheritance. Under the hood, they still use prototypes — classes are just a cleaner way to write constructor functions.</p>
+      <pre><span class="cm">// Constructor function (old way)</span>
+<span class="kw">function</span> <span class="fn">Animal</span>(name) { <span class="kw">this</span>.name = name; }
+Animal.prototype.speak = <span class="kw">function</span>() { console.log(<span class="kw">this</span>.name); };
+
+<span class="cm">// ES6 Class (syntactic sugar)</span>
+<span class="kw">class</span> Animal {
+  <span class="kw">constructor</span>(name) { <span class="kw">this</span>.name = name; }
+  speak() { console.log(<span class="kw">this</span>.name); }
+  <span class="kw">static</span> create(name) { <span class="kw">return new</span> Animal(name); }
+}
+
+<span class="kw">class</span> Dog <span class="kw">extends</span> Animal {
+  speak() { console.log(<span class="str">`${this.name} barks!`</span>); }
+  <span class="kw">constructor</span>(name) { <span class="kw">super</span>(name); } <span class="cm">// must call super</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q41</span>
+      <span class="q-text">What are private class fields? (ES2022)</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Private class fields use the <code>#</code> prefix and are only accessible within the class body — true encapsulation in JavaScript.</p>
+      <pre><span class="kw">class</span> BankAccount {
+  #balance = <span class="num">0</span>;        <span class="cm">// private field</span>
+  #owner;               <span class="cm">// private field</span>
+
+  <span class="kw">constructor</span>(owner, initial) {
+    <span class="kw">this</span>.#owner   = owner;
+    <span class="kw">this</span>.#balance = initial;
+  }
+
+  deposit(amount) { <span class="kw">this</span>.#balance += amount; }
+  get balance()   { <span class="kw">return</span> <span class="kw">this</span>.#balance; }
+}
+
+<span class="kw">const</span> acc = <span class="kw">new</span> BankAccount(<span class="str">"Alice"</span>, <span class="num">100</span>);
+acc.deposit(<span class="num">50</span>);
+acc.balance;  <span class="cm">// 150</span>
+acc.#balance; <span class="cm">// SyntaxError — private!</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q42</span>
+      <span class="q-text">What is Object.create() and how is it different from new?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>Object.create(proto)</code> creates a new object with the specified prototype, without calling any constructor. More explicit control over prototype chain.</p>
+      <pre><span class="kw">const</span> proto = {
+  greet() { console.log(<span class="str">`Hi, I'm ${this.name}`</span>); }
+};
+
+<span class="kw">const</span> alice = Object.create(proto);
+alice.name = <span class="str">"Alice"</span>;
+alice.greet(); <span class="cm">// "Hi, I'm Alice"</span>
+
+<span class="cm">// Object with no prototype (pure dictionary)</span>
+<span class="kw">const</span> dict = Object.create(<span class="kw">null</span>);
+<span class="cm">// No toString, hasOwnProperty etc — clean slate</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q43</span>
+      <span class="q-text">What are getters and setters in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Getters and setters define computed properties — they look like properties but run functions when accessed or assigned. Useful for validation and derived data.</p>
+      <pre><span class="kw">class</span> Temperature {
+  #celsius;
+  <span class="kw">constructor</span>(c) { <span class="kw">this</span>.#celsius = c; }
+
+  <span class="kw">get</span> fahrenheit() {
+    <span class="kw">return</span> <span class="kw">this</span>.#celsius * <span class="num">9</span>/<span class="num">5</span> + <span class="num">32</span>;
+  }
+  <span class="kw">set</span> fahrenheit(f) {
+    <span class="kw">this</span>.#celsius = (f - <span class="num">32</span>) * <span class="num">5</span>/<span class="num">9</span>;
+  }
+}
+
+<span class="kw">const</span> t = <span class="kw">new</span> Temperature(<span class="num">0</span>);
+t.fahrenheit;        <span class="cm">// 32  (getter)</span>
+t.fahrenheit = <span class="num">212</span>; <span class="cm">// setter → celsius becomes 100</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q44</span>
+      <span class="q-text">What is a Proxy in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A <code>Proxy</code> wraps an object and intercepts fundamental operations (get, set, delete, etc.) using "traps." Used for validation, logging, reactive systems (Vue 3 uses Proxy for reactivity).</p>
+      <pre><span class="kw">const</span> handler = {
+  get(target, prop) {
+    console.log(<span class="str">`Getting ${prop}`</span>);
+    <span class="kw">return</span> prop <span class="kw">in</span> target ? target[prop] : <span class="str">`Property ${prop} not found`</span>;
+  },
+  set(target, prop, value) {
+    <span class="kw">if</span> (<span class="kw">typeof</span> value !== <span class="str">'number'</span>) <span class="kw">throw new</span> TypeError(<span class="str">'Numbers only!'</span>);
+    target[prop] = value;
+    <span class="kw">return</span> <span class="kw">true</span>;
+  }
+};
+
+<span class="kw">const</span> proxy = <span class="kw">new</span> Proxy({}, handler);
+proxy.age = <span class="num">25</span>;      <span class="cm">// OK</span>
+proxy.age = <span class="str">"old"</span>; <span class="cm">// TypeError</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q45</span>
+      <span class="q-text">What is the difference between Object.freeze() and Object.seal()?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Object.freeze(obj):</strong> Prevents adding, removing, or modifying properties. Makes the object fully immutable (shallow).</li>
+        <li><strong>Object.seal(obj):</strong> Prevents adding or removing properties, but existing properties can still be modified.</li>
+      </ul>
+      <pre><span class="kw">const</span> frozen = Object.freeze({ x: <span class="num">1</span>, y: <span class="num">2</span> });
+frozen.x = <span class="num">99</span>;   <span class="cm">// silently ignored (or TypeError in strict mode)</span>
+frozen.z = <span class="num">3</span>;   <span class="cm">// ignored</span>
+
+<span class="kw">const</span> sealed = Object.seal({ x: <span class="num">1</span>, y: <span class="num">2</span> });
+sealed.x = <span class="num">99</span>;  <span class="cm">// ✅ OK — can modify existing</span>
+sealed.z = <span class="num">3</span>;  <span class="cm">// ❌ ignored — can't add new</span></pre>
+      <div class="warn">Both are <strong>shallow</strong> — nested objects are not frozen/sealed automatically.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q46</span>
+      <span class="q-text">What is a Symbol in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A <code>Symbol</code> is a primitive that creates a guaranteed-unique identifier. Two symbols with the same description are never equal. Used for unique object keys that avoid naming collisions.</p>
+      <pre><span class="kw">const</span> id1 = Symbol(<span class="str">'id'</span>);
+<span class="kw">const</span> id2 = Symbol(<span class="str">'id'</span>);
+id1 === id2; <span class="cm">// false — always unique</span>
+
+<span class="kw">const</span> user = {
+  name: <span class="str">'Alice'</span>,
+  [id1]: <span class="num">42</span>  <span class="cm">// symbol key — won't clash with 'id' string key</span>
+};
+user[id1]; <span class="cm">// 42</span>
+
+<span class="cm">// Well-known symbols</span>
+<span class="kw">class</span> Range {
+  [Symbol.iterator]() { <span class="cm">/* make iterable */</span> }
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q47</span>
+      <span class="q-text">What is a WeakMap and WeakSet? How are they different from Map and Set?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Map/Set:</strong> Strong references to keys/values. Prevent garbage collection. Iterable.</li>
+        <li><strong>WeakMap/WeakSet:</strong> Keys must be objects. Hold <em>weak references</em> — if the object is garbage-collected, the entry is automatically removed. Not iterable. Useful for caches and private data.</li>
+      </ul>
+      <pre><span class="kw">const</span> cache = <span class="kw">new</span> WeakMap();
+
+<span class="kw">function</span> <span class="fn">process</span>(obj) {
+  <span class="kw">if</span> (cache.has(obj)) <span class="kw">return</span> cache.get(obj);
+  <span class="kw">const</span> result = heavyComputation(obj);
+  cache.set(obj, result); <span class="cm">// auto-cleaned when obj is GC'd</span>
+  <span class="kw">return</span> result;
+}</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber" style="background:#ea580c">Q48</span>
+      <span class="q-text">What is the Reflect API?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The <code>Reflect</code> API provides methods for interceptable JavaScript operations. It mirrors the operations that Proxy traps intercept, making it the correct way to perform default behavior inside Proxy handlers.</p>
+      <pre><span class="kw">const</span> handler = {
+  set(target, prop, value) {
+    console.log(<span class="str">`Setting ${prop} = ${value}`</span>);
+    <span class="kw">return</span> Reflect.set(target, prop, value); <span class="cm">// perform default behavior</span>
+  }
+};
+
+<span class="cm">// Other Reflect methods mirror Object methods</span>
+Reflect.ownKeys(obj);       <span class="cm">// like Object.getOwnPropertyNames</span>
+Reflect.has(obj, <span class="str">'prop'</span>); <span class="cm">// like 'prop' in obj</span>
+Reflect.deleteProperty(obj, <span class="str">'prop'</span>); <span class="cm">// like delete obj.prop</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= DOM & EVENTS ========================= -->
+<div id="dom" class="section">
+  <div class="section-header">
+    <h2>🔴 DOM & Events — Q49 to Q57</h2>
+    <p>Document Object Model manipulation and browser event handling</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('dom')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q49</span>
+      <span class="q-text">What is the DOM? How do you select and manipulate elements?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The DOM (Document Object Model) is a tree-like in-memory representation of an HTML document. JavaScript can read and modify it to change the page dynamically.</p>
+      <pre><span class="cm">// Selecting elements</span>
+document.getElementById(<span class="str">'app'</span>);
+document.querySelector(<span class="str">'.card'</span>);         <span class="cm">// first match</span>
+document.querySelectorAll(<span class="str">'li'</span>);          <span class="cm">// NodeList of all</span>
+
+<span class="cm">// Modifying elements</span>
+<span class="kw">const</span> el = document.querySelector(<span class="str">'#title'</span>);
+el.textContent = <span class="str">'New Title'</span>;
+el.innerHTML   = <span class="str">'&lt;strong&gt;Bold&lt;/strong&gt;'</span>;
+el.style.color = <span class="str">'red'</span>;
+el.classList.add(<span class="str">'active'</span>);
+el.setAttribute(<span class="str">'data-id'</span>, <span class="str">'42'</span>);
+
+<span class="cm">// Creating and appending elements</span>
+<span class="kw">const</span> li = document.createElement(<span class="str">'li'</span>);
+li.textContent = <span class="str">'New item'</span>;
+document.querySelector(<span class="str">'ul'</span>).appendChild(li);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q50</span>
+      <span class="q-text">What is event bubbling and event capturing?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>When an event fires on an element, it travels through the DOM in 3 phases:</p>
+      <ul>
+        <li><strong>Capturing phase:</strong> Event travels DOWN from document root to the target element.</li>
+        <li><strong>Target phase:</strong> Event fires on the target element.</li>
+        <li><strong>Bubbling phase:</strong> Event travels UP from the target back to the root.</li>
+      </ul>
+      <pre>el.addEventListener(<span class="str">'click'</span>, handler);       <span class="cm">// bubbling (default)</span>
+el.addEventListener(<span class="str">'click'</span>, handler, <span class="kw">true</span>);  <span class="cm">// capturing</span>
+
+<span class="cm">// Stop bubbling</span>
+el.addEventListener(<span class="str">'click'</span>, e => {
+  e.stopPropagation(); <span class="cm">// don't bubble up</span>
+  e.preventDefault();  <span class="cm">// prevent default action (e.g. form submit)</span>
+});</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q51</span>
+      <span class="q-text">What is event delegation?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Instead of adding listeners to every child element, attach ONE listener to the parent and use the event's <code>target</code> to identify which child was clicked. More efficient — especially for dynamic lists.</p>
+      <pre><span class="cm">// ❌ Inefficient — listener on every item</span>
+document.querySelectorAll(<span class="str">'li'</span>).forEach(li =>
+  li.addEventListener(<span class="str">'click'</span>, handler)
+);
+
+<span class="cm">// ✅ Delegation — one listener on parent</span>
+document.querySelector(<span class="str">'ul'</span>).addEventListener(<span class="str">'click'</span>, e => {
+  <span class="kw">if</span> (e.target.tagName === <span class="str">'LI'</span>) {
+    console.log(<span class="str">'Clicked:'</span>, e.target.textContent);
+  }
+});</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q52</span>
+      <span class="q-text">What is the difference between innerHTML, textContent, and innerText?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>innerHTML:</strong> Gets/sets raw HTML markup including tags. Risk of XSS if used with user input.</li>
+        <li><strong>textContent:</strong> Gets/sets plain text only — strips all tags. Safe, fast, includes hidden elements.</li>
+        <li><strong>innerText:</strong> Gets/sets visible text. Triggers layout reflow (slow). Respects CSS visibility and line breaks.</li>
+      </ul>
+      <pre>el.innerHTML   = <span class="str">'&lt;b&gt;Bold&lt;/b&gt;'</span>; <span class="cm">// rendered as bold</span>
+el.textContent = <span class="str">'&lt;b&gt;Bold&lt;/b&gt;'</span>; <span class="cm">// shows literal "&lt;b&gt;Bold&lt;/b&gt;"</span>
+el.innerText   = <span class="str">'Hello'</span>;       <span class="cm">// visible text only</span></pre>
+      <div class="danger">Never use <code>el.innerHTML = userInput</code> without sanitization — it can execute malicious scripts (XSS).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q53</span>
+      <span class="q-text">What is the difference between window.onload and DOMContentLoaded?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>DOMContentLoaded:</strong> Fires when the HTML is fully parsed and the DOM is ready — before images, stylesheets, and iframes finish loading. Faster.</li>
+        <li><strong>window.load (or load event):</strong> Fires when the ENTIRE page is loaded including all resources (images, fonts, CSS). Slower.</li>
+      </ul>
+      <pre>document.addEventListener(<span class="str">'DOMContentLoaded'</span>, () => {
+  <span class="cm">// DOM ready — safe to query elements</span>
+  initApp();
+});
+
+window.addEventListener(<span class="str">'load'</span>, () => {
+  <span class="cm">// Everything loaded — images, fonts etc.</span>
+  hideLoadingScreen();
+});</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q54</span>
+      <span class="q-text">What is the difference between localStorage, sessionStorage, and cookies?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>localStorage:</strong> Persists until explicitly cleared. ~5-10MB. Not sent to server. String values only.</li>
+        <li><strong>sessionStorage:</strong> Cleared when browser tab is closed. Same size limit. Not sent to server.</li>
+        <li><strong>Cookies:</strong> Sent to server with every request. Smaller (~4KB). Can set expiry. Support HttpOnly (no JS access) and Secure flags.</li>
+      </ul>
+      <pre>localStorage.setItem(<span class="str">'theme'</span>, <span class="str">'dark'</span>);
+localStorage.getItem(<span class="str">'theme'</span>);     <span class="cm">// 'dark'</span>
+localStorage.removeItem(<span class="str">'theme'</span>);
+
+<span class="cm">// Store objects</span>
+localStorage.setItem(<span class="str">'user'</span>, JSON.stringify({ name: <span class="str">'Alice'</span> }));
+<span class="kw">const</span> user = JSON.parse(localStorage.getItem(<span class="str">'user'</span>));</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q55</span>
+      <span class="q-text">What is requestAnimationFrame?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>requestAnimationFrame(callback)</code> schedules a function to run before the next browser repaint — synchronized with the display refresh rate (typically 60fps). The correct way to write smooth animations.</p>
+      <pre><span class="kw">function</span> <span class="fn">animate</span>(timestamp) {
+  <span class="cm">// Update animation state</span>
+  element.style.left = Math.sin(timestamp / <span class="num">1000</span>) * <span class="num">100</span> + <span class="str">'px'</span>;
+  requestAnimationFrame(animate); <span class="cm">// schedule next frame</span>
+}
+
+requestAnimationFrame(animate); <span class="cm">// start</span></pre>
+      <div class="tip">Use <code>requestAnimationFrame</code> instead of <code>setInterval</code> for animations — it pauses when the tab is hidden and is much more efficient.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q56</span>
+      <span class="q-text">What is the Intersection Observer API?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The Intersection Observer API watches when an element enters or exits the viewport — without expensive scroll event listeners. Used for lazy loading, infinite scroll, and animations on scroll.</p>
+      <pre><span class="kw">const</span> observer = <span class="kw">new</span> IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    <span class="kw">if</span> (entry.isIntersecting) {
+      entry.target.classList.add(<span class="str">'visible'</span>);
+      observer.unobserve(entry.target); <span class="cm">// stop watching</span>
+    }
+  });
+}, { threshold: <span class="num">0.1</span> }); <span class="cm">// 10% visible</span>
+
+document.querySelectorAll(<span class="str">'.card'</span>).forEach(el => observer.observe(el));</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q57</span>
+      <span class="q-text">What is a MutationObserver?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A <code>MutationObserver</code> watches for changes to the DOM tree (added/removed nodes, attribute changes, text changes) and fires a callback when they occur.</p>
+      <pre><span class="kw">const</span> observer = <span class="kw">new</span> MutationObserver(mutations => {
+  mutations.forEach(mutation => {
+    console.log(<span class="str">'Changed:'</span>, mutation.type, mutation.addedNodes);
+  });
+});
+
+observer.observe(document.body, {
+  childList: <span class="kw">true</span>,  <span class="cm">// watch for child nodes added/removed</span>
+  subtree: <span class="kw">true</span>,     <span class="cm">// watch all descendants</span>
+  attributes: <span class="kw">true</span>   <span class="cm">// watch attribute changes</span>
+});</pre>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========================= ES6+ ========================= -->
+<div id="es6" class="section">
+  <div class="section-header">
+    <h2>🟣 ES6+ Features — Q58 to Q68</h2>
+    <p>Modern JavaScript syntax and features from ES2015 onwards</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('es6')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q58</span>
+      <span class="q-text">What is destructuring in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Destructuring lets you unpack values from arrays or properties from objects into distinct variables with concise syntax.</p>
+      <pre><span class="cm">// Array destructuring</span>
+<span class="kw">const</span> [a, b, ...rest] = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>];
+<span class="cm">// a=1, b=2, rest=[3,4]</span>
+
+<span class="kw">const</span> [, second] = [<span class="num">1</span>, <span class="num">2</span>]; <span class="cm">// skip first</span>
+
+<span class="cm">// Object destructuring</span>
+<span class="kw">const</span> { name, age = <span class="num">25</span>, address: { city } } = user; <span class="cm">// default + nested</span>
+
+<span class="cm">// Rename while destructuring</span>
+<span class="kw">const</span> { name: userName } = user;
+
+<span class="cm">// In function parameters</span>
+<span class="kw">function</span> <span class="fn">display</span>({ name, age }) { console.log(name, age); }</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q59</span>
+      <span class="q-text">What are template literals?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Template literals use backticks and support multi-line strings and embedded expressions with <code>${}</code> syntax.</p>
+      <pre><span class="kw">const</span> name = <span class="str">"Alice"</span>;
+<span class="kw">const</span> age = <span class="num">30</span>;
+
+<span class="cm">// Interpolation</span>
+<span class="kw">const</span> msg = <span class="str">`Hello, ${name}! You are ${age > 18 ? 'adult' : 'minor'}.`</span>;
+
+<span class="cm">// Multi-line</span>
+<span class="kw">const</span> html = <span class="str">`
+  &lt;div&gt;
+    &lt;h1&gt;${name}&lt;/h1&gt;
+  &lt;/div&gt;
+`</span>;
+
+<span class="cm">// Tagged templates (advanced)</span>
+<span class="kw">function</span> <span class="fn">safe</span>(strings, ...values) { <span class="cm">/* sanitize values */</span> }
+<span class="kw">const</span> query = safe<span class="str">`SELECT * FROM users WHERE id = ${userId}`</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q60</span>
+      <span class="q-text">What is the spread operator and rest parameters?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Spread (<code>...</code>):</strong> Expands an iterable into individual elements. Used in function calls, array/object literals.</li>
+        <li><strong>Rest (<code>...</code>):</strong> Collects remaining arguments into an array. Used in function parameters.</li>
+      </ul>
+      <pre><span class="cm">// Spread — expand</span>
+<span class="kw">const</span> arr = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+Math.max(...arr);        <span class="cm">// 3</span>
+<span class="kw">const</span> copy = [...arr, <span class="num">4</span>]; <span class="cm">// [1,2,3,4]</span>
+<span class="kw">const</span> merged = { ...obj1, ...obj2 }; <span class="cm">// shallow merge</span>
+
+<span class="cm">// Rest — collect</span>
+<span class="kw">function</span> <span class="fn">sum</span>(first, ...rest) {
+  <span class="kw">return</span> first + rest.reduce((a, b) => a + b, <span class="num">0</span>);
+}
+<span class="fn">sum</span>(<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>); <span class="cm">// 10</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q61</span>
+      <span class="q-text">What are ES6 Modules? How are they different from CommonJS?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>ES Modules (ESM):</strong> <code>import</code>/<code>export</code>. Static analysis (tree-shakeable). Async loading. Runs in strict mode. Native in browsers and Node.js.</li>
+        <li><strong>CommonJS (CJS):</strong> <code>require()</code>/<code>module.exports</code>. Synchronous. Dynamic — can require inside conditionals. Node.js default (pre-ESM).</li>
+      </ul>
+      <pre><span class="cm">// ES Modules</span>
+<span class="kw">export const</span> PI = <span class="num">3.14</span>;
+<span class="kw">export default function</span> <span class="fn">add</span>(a, b) { <span class="kw">return</span> a + b; }
+
+<span class="kw">import</span> add, { PI } <span class="kw">from</span> <span class="str">'./math.js'</span>;
+<span class="kw">import</span> * <span class="kw">as</span> Math <span class="kw">from</span> <span class="str">'./math.js'</span>;
+
+<span class="cm">// Dynamic import (lazy loading)</span>
+<span class="kw">const</span> module = <span class="kw">await</span> <span class="kw">import</span>(<span class="str">'./heavy.js'</span>);
+module.default();</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q62</span>
+      <span class="q-text">What are Map and Set in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Map:</strong> Like an object but keys can be ANY type (functions, objects, primitives). Maintains insertion order. Has a <code>size</code> property.</li>
+        <li><strong>Set:</strong> A collection of UNIQUE values (no duplicates). Maintains insertion order. O(1) lookup.</li>
+      </ul>
+      <pre><span class="cm">// Map</span>
+<span class="kw">const</span> map = <span class="kw">new</span> Map();
+map.set(<span class="str">'key'</span>, <span class="str">'value'</span>);
+map.set(obj, <span class="num">42</span>);         <span class="cm">// object as key!</span>
+map.get(<span class="str">'key'</span>);          <span class="cm">// 'value'</span>
+map.size;                  <span class="cm">// 2</span>
+
+<span class="cm">// Set — deduplicate array</span>
+<span class="kw">const</span> unique = [...<span class="kw">new</span> Set([<span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">3</span>])]; <span class="cm">// [1,2,3]</span>
+<span class="kw">const</span> set = <span class="kw">new</span> Set([<span class="str">'a'</span>, <span class="str">'b'</span>, <span class="str">'a'</span>]);
+set.has(<span class="str">'a'</span>); <span class="cm">// true</span>
+set.size;     <span class="cm">// 2</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q63</span>
+      <span class="q-text">What is optional chaining (?.) and nullish coalescing (??)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Optional chaining (<code>?.</code>):</strong> Safely access deeply nested properties — returns <code>undefined</code> instead of throwing a TypeError if any part is null/undefined.</p>
+      <p><strong>Nullish coalescing (<code>??</code>):</strong> Returns right side only if left side is <code>null</code> or <code>undefined</code> (unlike <code>||</code> which also triggers for <code>0</code>, <code>""</code>, <code>false</code>).</p>
+      <pre><span class="cm">// Optional chaining</span>
+user?.address?.city          <span class="cm">// undefined if any is null</span>
+arr?.[<span class="num">0</span>]                     <span class="cm">// safe array access</span>
+obj?.method?.()              <span class="cm">// safe method call</span>
+
+<span class="cm">// Nullish coalescing</span>
+<span class="kw">const</span> count = data.count ?? <span class="num">0</span>; <span class="cm">// 0 only if null/undefined</span>
+<span class="kw">const</span> name  = user?.name ?? <span class="str">'Guest'</span>;
+
+<span class="cm">// ??= (nullish assignment, ES2021)</span>
+user.settings ??= {}; <span class="cm">// assign only if null/undefined</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q64</span>
+      <span class="q-text">What are iterators and iterables?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>An <strong>iterable</strong> is any object with a <code>[Symbol.iterator]()</code> method (arrays, strings, Maps, Sets). An <strong>iterator</strong> is an object with a <code>next()</code> method returning <code>{ value, done }</code>.</p>
+      <pre><span class="cm">// Custom iterable range</span>
+<span class="kw">const</span> range = {
+  from: <span class="num">1</span>, to: <span class="num">5</span>,
+  [Symbol.iterator]() {
+    <span class="kw">let</span> current = <span class="kw">this</span>.from;
+    <span class="kw">const</span> last = <span class="kw">this</span>.to;
+    <span class="kw">return</span> {
+      next() {
+        <span class="kw">return</span> current <= last
+          ? { value: current++, done: <span class="kw">false</span> }
+          : { value: <span class="kw">undefined</span>, done: <span class="kw">true</span> };
+      }
+    };
+  }
+};
+
+<span class="kw">for</span> (<span class="kw">const</span> n <span class="kw">of</span> range) console.log(n); <span class="cm">// 1,2,3,4,5</span>
+[...range]; <span class="cm">// [1,2,3,4,5]</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q65</span>
+      <span class="q-text">What is the difference between Array.from() and the spread operator?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li>Both convert iterables to arrays, but <strong>Array.from()</strong> also accepts a mapping function and works on array-like objects (e.g., <code>NodeList</code>, <code>arguments</code>) that aren't iterable.</li>
+      </ul>
+      <pre><span class="cm">// Both work on iterables</span>
+[...new Set([<span class="num">1</span>,<span class="num">2</span>,<span class="num">2</span>])];         <span class="cm">// [1,2]</span>
+Array.from(<span class="kw">new</span> Set([<span class="num">1</span>,<span class="num">2</span>,<span class="num">2</span>]));  <span class="cm">// [1,2]</span>
+
+<span class="cm">// Array.from with map fn</span>
+Array.from({ length: <span class="num">5</span> }, (_, i) => i * <span class="num">2</span>); <span class="cm">// [0,2,4,6,8]</span>
+
+<span class="cm">// Array-like (not iterable) — only Array.from works</span>
+Array.from(document.querySelectorAll(<span class="str">'li'</span>));
+<span class="cm">// [...nodeList] also works since NodeList IS iterable</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q66</span>
+      <span class="q-text">What are common array methods in modern JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre>[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].map(x => x * <span class="num">2</span>)          <span class="cm">// [2,4,6]</span>
+[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>].filter(x => x > <span class="num">2</span>)    <span class="cm">// [3,4]</span>
+[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].reduce((a, b) => a+b, <span class="num">0</span>) <span class="cm">// 6</span>
+[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].find(x => x > <span class="num">1</span>)         <span class="cm">// 2 (first match)</span>
+[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].findIndex(x => x > <span class="num">1</span>)    <span class="cm">// 1</span>
+[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].some(x => x > <span class="num">2</span>)         <span class="cm">// true</span>
+[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].every(x => x > <span class="num">0</span>)        <span class="cm">// true</span>
+[<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>].includes(<span class="num">2</span>)             <span class="cm">// true</span>
+[[<span class="num">1</span>,<span class="num">2</span>],[<span class="num">3</span>,<span class="num">4</span>]].flat()             <span class="cm">// [1,2,3,4]</span>
+[<span class="num">1</span>,<span class="num">2</span>].flatMap(x => [x, x*<span class="num">2</span>])    <span class="cm">// [1,2,2,4]</span>
+[<span class="num">3</span>,<span class="num">1</span>,<span class="num">2</span>].sort((a,b) => a-b)       <span class="cm">// [1,2,3]</span>
+Array.at(-<span class="num">1</span>)                      <span class="cm">// last element (ES2022)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q67</span>
+      <span class="q-text">What are tagged template literals?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A tagged template is a function placed before a template literal. The function receives the string parts and the interpolated values separately, enabling powerful custom processing.</p>
+      <pre><span class="kw">function</span> <span class="fn">highlight</span>(strings, ...values) {
+  <span class="kw">return</span> strings.reduce((result, str, i) => {
+    <span class="kw">const</span> val = values[i - <span class="num">1</span>];
+    <span class="kw">return</span> result + (<span class="kw">typeof</span> val === <span class="str">'number'</span>
+      ? <span class="str">`&lt;b&gt;${val}&lt;/b&gt;`</span>
+      : val ?? <span class="str">''</span>) + str;
+  });
+}
+
+<span class="kw">const</span> age = <span class="num">25</span>;
+highlight<span class="str">`User is ${age} years old`</span>;
+<span class="cm">// "User is &lt;b&gt;25&lt;/b&gt; years old"</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q68</span>
+      <span class="q-text">What are some useful Object methods in ES6+?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="kw">const</span> obj = { a: <span class="num">1</span>, b: <span class="num">2</span>, c: <span class="num">3</span> };
+
+Object.keys(obj)         <span class="cm">// ['a','b','c']</span>
+Object.values(obj)       <span class="cm">// [1,2,3]</span>
+Object.entries(obj)      <span class="cm">// [['a',1],['b',2],['c',3]]</span>
+Object.fromEntries(...)  <span class="cm">// reverse of entries</span>
+Object.assign({}, obj)   <span class="cm">// shallow copy</span>
+{ ...obj }               <span class="cm">// spread copy (preferred)</span>
+Object.freeze(obj)       <span class="cm">// immutable</span>
+Object.hasOwn(obj, <span class="str">'a'</span>) <span class="cm">// true (ES2022 — safer than hasOwnProperty)</span>
+
+<span class="cm">// Transform an object</span>
+<span class="kw">const</span> doubled = Object.fromEntries(
+  Object.entries(obj).map(([k, v]) => [k, v * <span class="num">2</span>])
+); <span class="cm">// { a:2, b:4, c:6 }</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= ADVANCED ========================= -->
+<div id="advanced" class="section">
+  <div class="section-header">
+    <h2>⚫ Advanced JavaScript — Q69 to Q77</h2>
+    <p>Memory, performance, design patterns, and engine internals</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('advanced')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q69</span>
+      <span class="q-text">How does garbage collection work in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>JavaScript uses automatic memory management via the <strong>Mark-and-Sweep</strong> algorithm. The garbage collector periodically marks all reachable objects (starting from roots like global variables, the call stack), then sweeps away unmarked (unreachable) objects.</p>
+      <ul>
+        <li>An object is reachable if it can be accessed via a chain of references from a root</li>
+        <li>Once no references point to an object, it becomes eligible for collection</li>
+      </ul>
+      <div class="tip">Modern V8 uses generational GC (Young/Old generation), incremental marking, and concurrent sweeping to minimize pauses.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q70</span>
+      <span class="q-text">What is a memory leak in JavaScript? How do you find and fix them?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A memory leak occurs when memory that is no longer needed is not released — usually because unintended references keep objects alive.</p>
+      <p><strong>Common causes:</strong></p>
+      <ul>
+        <li>Global variables — never garbage collected</li>
+        <li>Forgotten event listeners — not removed when component unmounts</li>
+        <li>Closures holding large data unnecessarily</li>
+        <li>DOM references to removed elements</li>
+        <li>setInterval that never gets cleared</li>
+      </ul>
+      <pre><span class="cm">// ❌ Leak — listener never removed</span>
+window.addEventListener(<span class="str">'resize'</span>, heavyHandler);
+
+<span class="cm">// ✅ Fix — remove when done</span>
+window.addEventListener(<span class="str">'resize'</span>, heavyHandler);
+<span class="cm">// On cleanup:</span>
+window.removeEventListener(<span class="str">'resize'</span>, heavyHandler);</pre>
+      <div class="tip"><strong>Find leaks:</strong> Chrome DevTools → Memory → Take heap snapshots and compare. Look for objects growing over time.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q71</span>
+      <span class="q-text">What is the V8 engine? What is JIT compilation?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>V8 is Google's open-source JavaScript engine (used in Chrome and Node.js). It compiles JavaScript to native machine code using JIT (Just-In-Time) compilation instead of interpreting it line by line.</p>
+      <ul>
+        <li><strong>Parser:</strong> Parses JS source into an AST (Abstract Syntax Tree)</li>
+        <li><strong>Ignition (Interpreter):</strong> Compiles AST to bytecode and executes it</li>
+        <li><strong>TurboFan (Optimizing Compiler):</strong> Identifies "hot" code paths and compiles them to highly optimized machine code</li>
+        <li><strong>Deoptimization:</strong> If assumptions change (e.g., type changes), V8 deoptimizes back to bytecode</li>
+      </ul>
+      <div class="tip">Write consistent types in hot code paths to help V8 optimize effectively (avoid hidden class changes).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q72</span>
+      <span class="q-text">What is tail call optimization?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A tail call is when a function's last action is calling another function. In tail call optimization (TCO), the engine reuses the current stack frame instead of creating a new one, preventing stack overflows in deep recursion.</p>
+      <pre><span class="cm">// NOT tail call — must keep frame for * operation</span>
+<span class="kw">function</span> <span class="fn">factorial</span>(n) {
+  <span class="kw">if</span> (n === <span class="num">1</span>) <span class="kw">return</span> <span class="num">1</span>;
+  <span class="kw">return</span> n * <span class="fn">factorial</span>(n - <span class="num">1</span>); <span class="cm">// not last operation</span>
+}
+
+<span class="cm">// Tail call — accumulator pattern</span>
+<span class="kw">function</span> <span class="fn">factorial</span>(n, acc = <span class="num">1</span>) {
+  <span class="kw">if</span> (n === <span class="num">1</span>) <span class="kw">return</span> acc;
+  <span class="kw">return</span> <span class="fn">factorial</span>(n - <span class="num">1</span>, n * acc); <span class="cm">// last operation is the call</span>
+}</pre>
+      <div class="warn">TCO is only specified in strict mode and is inconsistently implemented across engines. Safari implements it; V8 does not yet.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q73</span>
+      <span class="q-text">What is the Module Pattern in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The Module Pattern uses closures (often IIFEs) to create private state and expose a public API. It was the standard way to encapsulate code before ES modules.</p>
+      <pre><span class="kw">const</span> CartModule = (() => {
+  <span class="cm">// Private</span>
+  <span class="kw">let</span> items = [];
+
+  <span class="cm">// Public API</span>
+  <span class="kw">return</span> {
+    add(item)    { items.push(item); },
+    remove(id)   { items = items.filter(i => i.id !== id); },
+    getCount()   { <span class="kw">return</span> items.length; },
+    getTotal()   { <span class="kw">return</span> items.reduce((s, i) => s + i.price, <span class="num">0</span>); }
+  };
+})();
+
+CartModule.add({ id: <span class="num">1</span>, price: <span class="num">9.99</span> });
+CartModule.getCount(); <span class="cm">// 1</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q74</span>
+      <span class="q-text">What is the Observer Pattern in JavaScript?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The Observer Pattern defines a one-to-many dependency — when one object changes state, all its subscribers are notified. The basis for event emitters and reactive programming.</p>
+      <pre><span class="kw">class</span> EventEmitter {
+  #listeners = <span class="kw">new</span> Map();
+
+  on(event, fn) {
+    <span class="kw">if</span> (!<span class="kw">this</span>.#listeners.has(event)) <span class="kw">this</span>.#listeners.set(event, []);
+    <span class="kw">this</span>.#listeners.get(event).push(fn);
+  }
+  emit(event, ...args) {
+    <span class="kw">this</span>.#listeners.get(event)?.forEach(fn => fn(...args));
+  }
+  off(event, fn) {
+    <span class="kw">this</span>.#listeners.set(event, <span class="kw">this</span>.#listeners.get(event)?.filter(f => f !== fn));
+  }
+}
+
+<span class="kw">const</span> bus = <span class="kw">new</span> EventEmitter();
+bus.on(<span class="str">'login'</span>, user => console.log(<span class="str">`Welcome ${user.name}`</span>));
+bus.emit(<span class="str">'login'</span>, { name: <span class="str">'Alice'</span> }); <span class="cm">// "Welcome Alice"</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q75</span>
+      <span class="q-text">What are JavaScript design patterns? Name the most important ones.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Singleton:</strong> One instance only — global state management, DB connection</li>
+        <li><strong>Factory:</strong> Creates objects without specifying exact class — hides creation complexity</li>
+        <li><strong>Observer/PubSub:</strong> Event-driven communication between components</li>
+        <li><strong>Module:</strong> Encapsulate private state, expose public API</li>
+        <li><strong>Decorator:</strong> Add behavior to objects dynamically</li>
+        <li><strong>Strategy:</strong> Swap algorithms at runtime (sorting, validation, payment methods)</li>
+        <li><strong>Command:</strong> Encapsulate operations as objects — enables undo/redo</li>
+        <li><strong>Proxy:</strong> Intercept and control access to objects</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q76</span>
+      <span class="q-text">What is tree shaking and dead code elimination?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Tree shaking is a build-time optimization where bundlers (Webpack, Rollup, Vite) remove unused code from the final bundle. It works because ES modules have static imports — the bundler can determine exactly what's used at build time.</p>
+      <pre><span class="cm">// math.js — exports 3 functions</span>
+<span class="kw">export const</span> add    = (a, b) => a + b;
+<span class="kw">export const</span> sub    = (a, b) => a - b;
+<span class="kw">export const</span> square = n => n * n;
+
+<span class="cm">// app.js — only imports add</span>
+<span class="kw">import</span> { add } <span class="kw">from</span> <span class="str">'./math.js'</span>;
+
+<span class="cm">// After tree shaking: sub and square are removed from bundle</span></pre>
+      <div class="tip">Avoid barrel files (<code>index.js</code> re-exporting everything) — they often defeat tree shaking. Use direct imports instead.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num indigo">Q77</span>
+      <span class="q-text">What are the latest major JavaScript features? (ES2022–ES2024)</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>ES2022:</strong></p>
+      <ul>
+        <li>Private class fields and methods (<code>#field</code>)</li>
+        <li><code>Array.at(-1)</code> — negative indexing</li>
+        <li><code>Object.hasOwn()</code> — safer than <code>hasOwnProperty</code></li>
+        <li>Top-level <code>await</code> in ES modules</li>
+        <li>Error <code>cause</code>: <code>new Error('msg', { cause: originalErr })</code></li>
+      </ul>
+      <p><strong>ES2023:</strong></p>
+      <ul>
+        <li><code>Array.findLast()</code>, <code>Array.findLastIndex()</code></li>
+        <li><code>Array.toSorted()</code>, <code>toReversed()</code>, <code>toSpliced()</code>, <code>with()</code> — non-mutating array methods</li>
+        <li>Hashbang grammar (<code>#!/usr/bin/env node</code>)</li>
+      </ul>
+      <p><strong>ES2024:</strong></p>
+      <ul>
+        <li><code>Promise.withResolvers()</code> — create promise with external resolve/reject</li>
+        <li><code>Object.groupBy()</code> / <code>Map.groupBy()</code> — group array items</li>
+        <li>Regex <code>/v</code> flag (Unicode sets)</li>
+        <li><code>ArrayBuffer.resize()</code></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .content -->
+
+<script>
+  function toggle(head) {
+    head.parentElement.classList.toggle('open');
+  }
+  function switchTab(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  function expandAll(id) {
+    document.querySelectorAll('#' + id + ' .q-block').forEach(b => b.classList.add('open'));
+  }
+</script>
+</body>
+</html>
