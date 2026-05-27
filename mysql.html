@@ -1,0 +1,2061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MySQL — Complete Interview Q&A Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f0; color: #1a1a1a; }
+  header { background: #00618a; color: #fff; padding: 24px 32px; border-bottom: 4px solid #f29111; }
+  header h1 { font-size: 22px; font-weight: 600; }
+  header p { font-size: 13px; color: #b8d8e8; margin-top: 4px; }
+  .stats { display: flex; gap: 16px; margin-top: 14px; flex-wrap: wrap; }
+  .stat { background: rgba(255,255,255,0.12); border-radius: 8px; padding: 8px 14px; font-size: 13px; border: 1px solid rgba(242,145,17,0.3); }
+  .stat strong { display: block; font-size: 18px; color: #f29111; }
+
+  .tab-bar { background: #fff; border-bottom: 1px solid #e5e5e5; padding: 0 20px; display: flex; gap: 2px; overflow-x: auto; position: sticky; top: 0; z-index: 100; scrollbar-width: none; }
+  .tab-bar::-webkit-scrollbar { display: none; }
+  .tab { padding: 13px 14px; font-size: 12.5px; font-weight: 500; cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; color: #666; transition: all 0.15s; }
+  .tab:hover { color: #333; }
+  .tab.active { color: #00618a; border-bottom-color: #f29111; }
+
+  .content { max-width: 860px; margin: 0 auto; padding: 24px 18px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header { margin-bottom: 18px; }
+  .section-header h2 { font-size: 18px; font-weight: 600; }
+  .section-header p { font-size: 13px; color: #666; margin-top: 4px; }
+
+  .q-block { background: #fff; border: 1px solid #e8e8e8; border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+  .q-head { padding: 13px 16px; cursor: pointer; display: flex; align-items: flex-start; gap: 10px; }
+  .q-head:hover { background: #fafafa; }
+  .q-num { font-size: 11px; font-weight: 700; color: #fff; border-radius: 5px; padding: 3px 7px; min-width: 34px; text-align: center; margin-top: 2px; white-space: nowrap; flex-shrink: 0; }
+  .green  { background: #16a34a; }
+  .blue   { background: #0ea5e9; }
+  .amber  { background: #d97706; }
+  .red    { background: #dc2626; }
+  .purple { background: #7c3aed; }
+  .teal   { background: #0d9488; }
+  .mysql  { background: #00618a; }
+  .orange { background: #ea580c; }
+
+  .q-text { font-size: 14.5px; font-weight: 500; flex: 1; line-height: 1.5; }
+  .q-arrow { font-size: 14px; color: #bbb; margin-left: auto; transition: transform 0.2s; flex-shrink: 0; margin-top: 3px; }
+  .q-block.open .q-arrow { transform: rotate(180deg); }
+
+  .q-answer { display: none; border-top: 1px solid #f0f0f0; padding: 14px 16px 16px 60px; }
+  .q-block.open .q-answer { display: block; }
+  .q-answer p { font-size: 13.5px; line-height: 1.75; color: #333; margin-bottom: 10px; }
+  .q-answer p:last-child { margin-bottom: 0; }
+  .q-answer code { background: #f3f4f6; border: 1px solid #e5e7eb; border-radius: 4px; padding: 1px 5px; font-family: 'Courier New', monospace; font-size: 12.5px; color: #374151; }
+  .q-answer pre { background: #1e1e2e; color: #cdd6f4; border-radius: 8px; padding: 13px 15px; font-size: 12.5px; font-family: 'Courier New', monospace; line-height: 1.65; overflow-x: auto; margin: 9px 0; }
+  .kw  { color: #cba6f7; }
+  .str { color: #a6e3a1; }
+  .cm  { color: #6c7086; }
+  .fn  { color: #89b4fa; }
+  .num { color: #fab387; }
+  .col { color: #f38ba8; }
+  .q-answer ul { margin: 7px 0 7px 18px; }
+  .q-answer ul li { font-size: 13.5px; line-height: 1.75; color: #333; margin-bottom: 3px; }
+  .tip    { background: #eff6ff; border-left: 3px solid #3b82f6; border-radius: 0 6px 6px 0; padding: 9px 13px; margin-top: 9px; font-size: 13px; color: #1e40af; }
+  .tip strong { font-weight: 600; }
+  .warn   { background: #fefce8; border-left: 3px solid #eab308; border-radius: 0 6px 6px 0; padding: 9px 13px; margin-top: 9px; font-size: 13px; color: #854d0e; }
+  .warn strong { font-weight: 600; }
+  .danger { background: #fef2f2; border-left: 3px solid #ef4444; border-radius: 0 6px 6px 0; padding: 9px 13px; margin-top: 9px; font-size: 13px; color: #991b1b; }
+  .danger strong { font-weight: 600; }
+
+  .expand-all { background: #00618a; color: #fff; border: none; border-radius: 8px; padding: 8px 16px; font-size: 13px; font-weight: 500; cursor: pointer; margin-bottom: 16px; }
+  .expand-all:hover { background: #004d6e; }
+</style>
+<script>
+  window.QNADRILL_PAGE = 'mysql';
+</script>
+<script src="common.js" defer></script>
+</head>
+<body>
+
+<header>
+  <h1>🐬 MySQL — Complete Interview Q&amp;A Guide</h1>
+  <p>75+ questions across all levels: Basics → Joins → Indexes → Stored Procedures → Transactions → Performance → Advanced</p>
+  <div class="stats">
+    <div class="stat"><strong>75+</strong> Questions</div>
+    <div class="stat"><strong>7</strong> Topic Sections</div>
+    <div class="stat"><strong>All Levels</strong> Covered</div>
+    <div class="stat"><strong>SQL Examples</strong> Included</div>
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="switchTab('basics',this)">🟢 Basics Q1–Q12</div>
+  <div class="tab" onclick="switchTab('queries',this)">🔵 Queries & Joins Q13–Q26</div>
+  <div class="tab" onclick="switchTab('indexes',this)">🟡 Indexes & Keys Q27–Q36</div>
+  <div class="tab" onclick="switchTab('stored',this)">🟠 Stored Procs & Functions Q37–Q46</div>
+  <div class="tab" onclick="switchTab('transactions',this)">🔴 Transactions & Locks Q47–Q56</div>
+  <div class="tab" onclick="switchTab('normalization',this)">🟣 Normalization & Design Q57–Q65</div>
+  <div class="tab" onclick="switchTab('advanced',this)">⚫ Performance & Advanced Q66–Q77</div>
+</div>
+
+<div class="content">
+
+<!-- ========================= BASICS ========================= -->
+<div id="basics" class="section active">
+  <div class="section-header">
+    <h2>🟢 Basics — Q1 to Q12</h2>
+    <p>Core MySQL fundamentals every developer must know</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('basics')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q1</span>
+      <span class="q-text">What is MySQL? What are its key features?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>MySQL is an open-source relational database management system (RDBMS) that uses Structured Query Language (SQL). It is one of the world's most popular databases, used by companies like Facebook, Twitter, YouTube, and Airbnb.</p>
+      <ul>
+        <li><strong>Relational model</strong> — data stored in structured tables with rows and columns</li>
+        <li><strong>ACID compliance</strong> — Atomicity, Consistency, Isolation, Durability (with InnoDB engine)</li>
+        <li><strong>Multiple storage engines</strong> — InnoDB, MyISAM, MEMORY, CSV, etc.</li>
+        <li><strong>Cross-platform</strong> — runs on Windows, Linux, macOS</li>
+        <li><strong>Replication support</strong> — master-slave and master-master replication</li>
+        <li><strong>Full-text search</strong> — FULLTEXT indexes for text search</li>
+        <li><strong>Stored procedures, triggers, views</strong> — server-side programming</li>
+        <li><strong>Partitioning</strong> — split large tables across storage for performance</li>
+      </ul>
+      <div class="tip"><strong>Interview tip:</strong> MySQL 8.0 (2018) added window functions, CTEs, roles, and many PostgreSQL-like features. Always mention the version when discussing features.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q2</span>
+      <span class="q-text">What is the difference between DDL, DML, DCL, and TCL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>DDL (Data Definition Language):</strong> Defines/modifies database structure. Auto-commits. Commands: <code>CREATE</code>, <code>ALTER</code>, <code>DROP</code>, <code>TRUNCATE</code>, <code>RENAME</code></li>
+        <li><strong>DML (Data Manipulation Language):</strong> Manipulates data in tables. Can be rolled back. Commands: <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code></li>
+        <li><strong>DCL (Data Control Language):</strong> Controls access and permissions. Commands: <code>GRANT</code>, <code>REVOKE</code></li>
+        <li><strong>TCL (Transaction Control Language):</strong> Manages transactions. Commands: <code>COMMIT</code>, <code>ROLLBACK</code>, <code>SAVEPOINT</code>, <code>SET TRANSACTION</code></li>
+      </ul>
+      <pre><span class="cm">-- DDL</span>
+<span class="kw">CREATE TABLE</span> users (id <span class="fn">INT</span> <span class="kw">PRIMARY KEY</span>, name <span class="fn">VARCHAR</span>(<span class="num">100</span>));
+<span class="kw">ALTER TABLE</span> users <span class="kw">ADD COLUMN</span> email <span class="fn">VARCHAR</span>(<span class="num">255</span>);
+
+<span class="cm">-- DML</span>
+<span class="kw">INSERT INTO</span> users (id, name) <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'Alice'</span>);
+<span class="kw">UPDATE</span> users <span class="kw">SET</span> name = <span class="str">'Bob'</span> <span class="kw">WHERE</span> id = <span class="num">1</span>;
+
+<span class="cm">-- DCL</span>
+<span class="kw">GRANT SELECT, INSERT ON</span> mydb.* <span class="kw">TO</span> <span class="str">'dev'</span>@<span class="str">'localhost'</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q3</span>
+      <span class="q-text">What are MySQL data types? Explain the most important ones.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Numeric:</strong> <code>INT</code>, <code>TINYINT</code>, <code>BIGINT</code>, <code>FLOAT</code>, <code>DOUBLE</code>, <code>DECIMAL(p,s)</code> — use DECIMAL for money!</li>
+        <li><strong>String:</strong> <code>CHAR(n)</code> — fixed length, <code>VARCHAR(n)</code> — variable length, <code>TEXT</code> — large text, <code>ENUM</code>, <code>SET</code></li>
+        <li><strong>Date/Time:</strong> <code>DATE</code> (YYYY-MM-DD), <code>TIME</code>, <code>DATETIME</code>, <code>TIMESTAMP</code> (auto timezone), <code>YEAR</code></li>
+        <li><strong>Binary:</strong> <code>BLOB</code>, <code>BINARY</code>, <code>VARBINARY</code></li>
+        <li><strong>JSON:</strong> Native JSON type (MySQL 5.7.8+)</li>
+      </ul>
+      <pre><span class="kw">CREATE TABLE</span> products (
+  id         <span class="fn">INT UNSIGNED AUTO_INCREMENT PRIMARY KEY</span>,
+  name       <span class="fn">VARCHAR</span>(<span class="num">200</span>) <span class="kw">NOT NULL</span>,
+  price      <span class="fn">DECIMAL</span>(<span class="num">10</span>, <span class="num">2</span>) <span class="kw">NOT NULL</span>,   <span class="cm">-- e.g. 99999999.99</span>
+  status     <span class="fn">ENUM</span>(<span class="str">'active'</span>,<span class="str">'inactive'</span>) <span class="kw">DEFAULT</span> <span class="str">'active'</span>,
+  meta       <span class="fn">JSON</span>,
+  created_at <span class="fn">TIMESTAMP DEFAULT CURRENT_TIMESTAMP</span>
+);</pre>
+      <div class="warn"><strong>Never use FLOAT/DOUBLE for money</strong> — floating point imprecision causes errors. Always use DECIMAL.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q4</span>
+      <span class="q-text">What is the difference between CHAR and VARCHAR?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>CHAR(n):</strong> Fixed-length. Always uses n bytes (pads with spaces). Faster for fixed-length data. Max 255 chars.</li>
+        <li><strong>VARCHAR(n):</strong> Variable-length. Uses actual length + 1-2 bytes overhead. More space-efficient. Max 65,535 bytes (row limit).</li>
+      </ul>
+      <pre><span class="cm">-- CHAR: always 10 bytes</span>
+country_code <span class="fn">CHAR</span>(<span class="num">2</span>)    <span class="cm">-- 'IN' always 2 bytes</span>
+phone_ext    <span class="fn">CHAR</span>(<span class="num">5</span>)    <span class="cm">-- '123' stored as '123  '</span>
+
+<span class="cm">-- VARCHAR: variable</span>
+email        <span class="fn">VARCHAR</span>(<span class="num">255</span>) <span class="cm">-- 'a@b.com' = 7+1 bytes</span>
+description  <span class="fn">VARCHAR</span>(<span class="num">1000</span>)</pre>
+      <div class="tip">Use CHAR for fixed-length data (country codes, UUIDs, status flags). Use VARCHAR for variable-length data (names, emails, descriptions).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q5</span>
+      <span class="q-text">What is the difference between DELETE, TRUNCATE, and DROP?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>DELETE:</strong> DML — removes specific rows (with WHERE). Can be rolled back. Fires triggers. Slow for large datasets. AUTO_INCREMENT not reset.</li>
+        <li><strong>TRUNCATE:</strong> DDL — removes ALL rows. Cannot be rolled back (auto-commits). Does NOT fire triggers. Fast (resets storage). AUTO_INCREMENT resets.</li>
+        <li><strong>DROP:</strong> DDL — removes the entire table structure AND data. Cannot be rolled back. Table no longer exists.</li>
+      </ul>
+      <pre><span class="kw">DELETE FROM</span> orders <span class="kw">WHERE</span> status = <span class="str">'cancelled'</span>; <span class="cm">-- selective, rollback-able</span>
+<span class="kw">TRUNCATE TABLE</span> temp_logs;   <span class="cm">-- wipe all, fast, auto-commits</span>
+<span class="kw">DROP TABLE</span> old_reports;     <span class="cm">-- remove table entirely</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q6</span>
+      <span class="q-text">What are constraints in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Constraints enforce rules on data in tables, ensuring data integrity.</p>
+      <ul>
+        <li><strong>PRIMARY KEY:</strong> Uniquely identifies each row. NOT NULL + UNIQUE. One per table.</li>
+        <li><strong>FOREIGN KEY:</strong> Links to PRIMARY KEY in another table. Enforces referential integrity.</li>
+        <li><strong>UNIQUE:</strong> Ensures all values in a column are distinct. Allows NULL (multiple NULLs allowed).</li>
+        <li><strong>NOT NULL:</strong> Column cannot contain NULL values.</li>
+        <li><strong>CHECK:</strong> Ensures values satisfy a condition (MySQL 8.0.16+).</li>
+        <li><strong>DEFAULT:</strong> Sets a default value when none is provided.</li>
+      </ul>
+      <pre><span class="kw">CREATE TABLE</span> orders (
+  id         <span class="fn">INT AUTO_INCREMENT PRIMARY KEY</span>,
+  user_id    <span class="fn">INT NOT NULL</span>,
+  amount     <span class="fn">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>) <span class="kw">CHECK</span> (amount > <span class="num">0</span>),
+  email      <span class="fn">VARCHAR</span>(<span class="num">255</span>) <span class="kw">UNIQUE</span>,
+  status     <span class="fn">VARCHAR</span>(<span class="num">20</span>) <span class="kw">DEFAULT</span> <span class="str">'pending'</span>,
+  <span class="kw">FOREIGN KEY</span> (user_id) <span class="kw">REFERENCES</span> users(id) <span class="kw">ON DELETE CASCADE</span>
+);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q7</span>
+      <span class="q-text">What is the difference between InnoDB and MyISAM storage engines?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>InnoDB (default since MySQL 5.5):</strong> ACID compliant, supports transactions, foreign keys, row-level locking, crash recovery, MVCC. Best for OLTP (most apps).</li>
+        <li><strong>MyISAM (legacy):</strong> No transactions, no foreign keys, table-level locking only. Supports FULLTEXT index. Fast for read-heavy, non-critical data. Not crash-safe.</li>
+      </ul>
+      <pre><span class="kw">CREATE TABLE</span> logs (
+  id  <span class="fn">INT PRIMARY KEY</span>,
+  msg <span class="fn">TEXT</span>
+) <span class="kw">ENGINE</span>=InnoDB;   <span class="cm">-- transactions, FK support</span>
+
+<span class="kw">SHOW TABLE STATUS LIKE</span> <span class="str">'users'</span>;  <span class="cm">-- shows engine type</span>
+<span class="kw">ALTER TABLE</span> myisam_table <span class="kw">ENGINE</span>=InnoDB;  <span class="cm">-- convert engine</span></pre>
+      <div class="tip">Always use InnoDB unless you have a specific reason. MyISAM is largely obsolete for new development.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q8</span>
+      <span class="q-text">What are NULL values in MySQL? How do you handle them?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>NULL means "unknown" or "missing" — it is NOT zero, empty string, or false. Any comparison with NULL returns NULL (not true/false), which is why you must use <code>IS NULL</code> / <code>IS NOT NULL</code>.</p>
+      <pre><span class="cm">-- Wrong: returns no rows even if name IS NULL</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> name = <span class="kw">NULL</span>;
+
+<span class="cm">-- Correct</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> name <span class="kw">IS NULL</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> name <span class="kw">IS NOT NULL</span>;
+
+<span class="cm">-- COALESCE: return first non-NULL value</span>
+<span class="kw">SELECT</span> <span class="fn">COALESCE</span>(nickname, first_name, <span class="str">'Anonymous'</span>) <span class="kw">FROM</span> users;
+
+<span class="cm">-- IFNULL: return alternative if NULL</span>
+<span class="kw">SELECT</span> <span class="fn">IFNULL</span>(phone, <span class="str">'N/A'</span>) <span class="kw">FROM</span> users;
+
+<span class="cm">-- NULLIF: return NULL if two values are equal</span>
+<span class="kw">SELECT</span> <span class="fn">NULLIF</span>(score, <span class="num">0</span>) <span class="kw">FROM</span> results; <span class="cm">-- returns NULL instead of 0</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q9</span>
+      <span class="q-text">What is AUTO_INCREMENT in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>AUTO_INCREMENT</code> automatically generates a unique numeric value for a column (typically the primary key) each time a new row is inserted.</p>
+      <pre><span class="kw">CREATE TABLE</span> users (
+  id   <span class="fn">INT UNSIGNED AUTO_INCREMENT PRIMARY KEY</span>,
+  name <span class="fn">VARCHAR</span>(<span class="num">100</span>)
+);
+
+<span class="kw">INSERT INTO</span> users (name) <span class="kw">VALUES</span> (<span class="str">'Alice'</span>), (<span class="str">'Bob'</span>);
+<span class="cm">-- Alice gets id=1, Bob gets id=2</span>
+
+<span class="cm">-- Get last inserted ID</span>
+<span class="kw">SELECT</span> <span class="fn">LAST_INSERT_ID</span>();
+
+<span class="cm">-- Reset auto_increment</span>
+<span class="kw">ALTER TABLE</span> users <span class="fn">AUTO_INCREMENT</span> = <span class="num">1000</span>;
+
+<span class="cm">-- Check current value</span>
+<span class="kw">SHOW TABLE STATUS LIKE</span> <span class="str">'users'</span>;</pre>
+      <div class="warn">AUTO_INCREMENT values are never reused — deleting a row does not recycle its ID (except after TRUNCATE).</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q10</span>
+      <span class="q-text">What is the difference between HAVING and WHERE?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>WHERE:</strong> Filters rows BEFORE grouping. Cannot use aggregate functions (<code>SUM</code>, <code>COUNT</code>, etc.).</li>
+        <li><strong>HAVING:</strong> Filters groups AFTER <code>GROUP BY</code>. CAN use aggregate functions.</li>
+      </ul>
+      <pre><span class="cm">-- WHERE filters rows before grouping</span>
+<span class="kw">SELECT</span> department, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> emp_count
+<span class="kw">FROM</span> employees
+<span class="kw">WHERE</span> status = <span class="str">'active'</span>        <span class="cm">-- filters rows first</span>
+<span class="kw">GROUP BY</span> department
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">5</span>;           <span class="cm">-- then filters groups</span>
+
+<span class="cm">-- Find departments with total salary > 100000</span>
+<span class="kw">SELECT</span> department, <span class="fn">SUM</span>(salary) <span class="kw">AS</span> total
+<span class="kw">FROM</span> employees
+<span class="kw">GROUP BY</span> department
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(salary) > <span class="num">100000</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q11</span>
+      <span class="q-text">What are aggregate functions in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Aggregate functions perform calculations on a set of rows and return a single value. They are used with <code>GROUP BY</code>.</p>
+      <pre><span class="kw">SELECT</span>
+  <span class="fn">COUNT</span>(*)           <span class="kw">AS</span> total_rows,      <span class="cm">-- all rows including NULLs</span>
+  <span class="fn">COUNT</span>(email)       <span class="kw">AS</span> with_email,      <span class="cm">-- NULLs excluded</span>
+  <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> city) <span class="kw">AS</span> unique_cities,
+  <span class="fn">SUM</span>(amount)        <span class="kw">AS</span> total_sales,
+  <span class="fn">AVG</span>(salary)        <span class="kw">AS</span> avg_salary,
+  <span class="fn">MIN</span>(created_at)    <span class="kw">AS</span> oldest,
+  <span class="fn">MAX</span>(created_at)    <span class="kw">AS</span> newest,
+  <span class="fn">GROUP_CONCAT</span>(name <span class="kw">ORDER BY</span> name <span class="kw">SEPARATOR</span> <span class="str">', '</span>) <span class="kw">AS</span> names
+<span class="kw">FROM</span> orders;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num green">Q12</span>
+      <span class="q-text">What is the order of SQL query execution?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>SQL clauses are written in one order but executed in a different order. Understanding this prevents confusion about why aliases aren't available in WHERE.</p>
+      <pre><span class="cm">-- Written order:</span>
+<span class="kw">SELECT</span> department, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> cnt
+<span class="kw">FROM</span> employees
+<span class="kw">WHERE</span> status = <span class="str">'active'</span>
+<span class="kw">GROUP BY</span> department
+<span class="kw">HAVING</span> cnt > <span class="num">5</span>
+<span class="kw">ORDER BY</span> cnt <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre>
+      <p><strong>Execution order:</strong></p>
+      <ul>
+        <li>1. <code>FROM</code> / <code>JOIN</code> — identify tables</li>
+        <li>2. <code>WHERE</code> — filter rows</li>
+        <li>3. <code>GROUP BY</code> — group rows</li>
+        <li>4. <code>HAVING</code> — filter groups</li>
+        <li>5. <code>SELECT</code> — select columns, compute expressions</li>
+        <li>6. <code>DISTINCT</code> — remove duplicates</li>
+        <li>7. <code>ORDER BY</code> — sort results</li>
+        <li>8. <code>LIMIT</code> / <code>OFFSET</code> — paginate</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= QUERIES & JOINS ========================= -->
+<div id="queries" class="section">
+  <div class="section-header">
+    <h2>🔵 Queries & Joins — Q13 to Q26</h2>
+    <p>SELECT queries, all types of JOINs, subqueries, and set operations</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('queries')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q13</span>
+      <span class="q-text">What are the different types of JOINs in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>INNER JOIN:</strong> Returns rows where there is a match in BOTH tables.</li>
+        <li><strong>LEFT JOIN (LEFT OUTER):</strong> Returns ALL rows from left table + matched rows from right. NULLs for no match.</li>
+        <li><strong>RIGHT JOIN (RIGHT OUTER):</strong> Returns ALL rows from right table + matched rows from left. NULLs for no match.</li>
+        <li><strong>CROSS JOIN:</strong> Cartesian product — every row from left paired with every row from right.</li>
+        <li><strong>SELF JOIN:</strong> A table joined with itself (using aliases).</li>
+      </ul>
+      <pre><span class="cm">-- INNER JOIN: only matching rows</span>
+<span class="kw">SELECT</span> u.name, o.amount
+<span class="kw">FROM</span> users u
+<span class="kw">INNER JOIN</span> orders o <span class="kw">ON</span> u.id = o.user_id;
+
+<span class="cm">-- LEFT JOIN: all users, even without orders</span>
+<span class="kw">SELECT</span> u.name, o.amount
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> u.id = o.user_id;
+
+<span class="cm">-- Find users with NO orders</span>
+<span class="kw">SELECT</span> u.name
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> u.id = o.user_id
+<span class="kw">WHERE</span> o.id <span class="kw">IS NULL</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q14</span>
+      <span class="q-text">What is a SELF JOIN? Give a practical example.</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A self join joins a table to itself using two different aliases. Useful for hierarchical data like organizational structures or finding related rows in the same table.</p>
+      <pre><span class="cm">-- employees table has: id, name, manager_id (references id)</span>
+<span class="kw">SELECT</span>
+  e.name        <span class="kw">AS</span> employee,
+  m.name        <span class="kw">AS</span> manager
+<span class="kw">FROM</span> employees e
+<span class="kw">LEFT JOIN</span> employees m <span class="kw">ON</span> e.manager_id = m.id;
+<span class="cm">-- Alice | Bob (Alice reports to Bob)</span>
+<span class="cm">-- Bob   | NULL (Bob has no manager = CEO)</span>
+
+<span class="cm">-- Find employees in same department</span>
+<span class="kw">SELECT</span> a.name, b.name, a.department
+<span class="kw">FROM</span> employees a
+<span class="kw">JOIN</span> employees b <span class="kw">ON</span> a.department = b.department
+<span class="kw">WHERE</span> a.id < b.id; <span class="cm">-- avoid duplicates and self-pairing</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q15</span>
+      <span class="q-text">What is a subquery? What are its types?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A subquery is a query nested inside another query. Types:</p>
+      <ul>
+        <li><strong>Scalar subquery:</strong> Returns a single value — used in SELECT or WHERE</li>
+        <li><strong>Row subquery:</strong> Returns a single row with multiple columns</li>
+        <li><strong>Column subquery:</strong> Returns a single column — used with IN, ANY, ALL</li>
+        <li><strong>Table subquery:</strong> Returns a virtual table — used in FROM clause</li>
+        <li><strong>Correlated subquery:</strong> References the outer query — executed once per outer row</li>
+      </ul>
+      <pre><span class="cm">-- Scalar: single value in WHERE</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders
+<span class="kw">WHERE</span> amount > (<span class="kw">SELECT</span> <span class="fn">AVG</span>(amount) <span class="kw">FROM</span> orders);
+
+<span class="cm">-- Column: IN with subquery</span>
+<span class="kw">SELECT</span> name <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> id <span class="kw">IN</span> (<span class="kw">SELECT</span> user_id <span class="kw">FROM</span> orders <span class="kw">WHERE</span> status=<span class="str">'paid'</span>);
+
+<span class="cm">-- Correlated: references outer query</span>
+<span class="kw">SELECT</span> name,
+  (<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> orders o <span class="kw">WHERE</span> o.user_id = u.id) <span class="kw">AS</span> order_count
+<span class="kw">FROM</span> users u;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q16</span>
+      <span class="q-text">What is the difference between IN, EXISTS, and ANY/ALL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>IN:</strong> Checks if value matches any item in a list or subquery result. The subquery runs once.</li>
+        <li><strong>EXISTS:</strong> Returns true if the subquery returns at least one row. Stops scanning as soon as a match is found — often faster for large datasets.</li>
+        <li><strong>ANY / ALL:</strong> Compares a value with a set. <code>ANY</code> = at least one, <code>ALL</code> = all values must satisfy.</li>
+      </ul>
+      <pre><span class="cm">-- IN (subquery runs once)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> id <span class="kw">IN</span> (<span class="kw">SELECT</span> user_id <span class="kw">FROM</span> orders);
+
+<span class="cm">-- EXISTS (faster for large sets — short circuits)</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users u
+<span class="kw">WHERE EXISTS</span> (<span class="kw">SELECT</span> <span class="num">1</span> <span class="kw">FROM</span> orders o <span class="kw">WHERE</span> o.user_id = u.id);
+
+<span class="cm">-- ANY/ALL</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> products
+<span class="kw">WHERE</span> price > <span class="kw">ANY</span> (<span class="kw">SELECT</span> price <span class="kw">FROM</span> products <span class="kw">WHERE</span> category=<span class="str">'A'</span>);
+<span class="cm">-- greater than at least one price in category A</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q17</span>
+      <span class="q-text">What is a Common Table Expression (CTE)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A CTE (introduced in MySQL 8.0) defines a temporary named result set that you can reference multiple times in the same query. Makes complex queries more readable than nested subqueries. Use <code>WITH</code> keyword.</p>
+      <pre><span class="cm">-- Simple CTE</span>
+<span class="kw">WITH</span> high_value_orders <span class="kw">AS</span> (
+  <span class="kw">SELECT</span> user_id, <span class="fn">SUM</span>(amount) <span class="kw">AS</span> total
+  <span class="kw">FROM</span> orders
+  <span class="kw">GROUP BY</span> user_id
+  <span class="kw">HAVING</span> total > <span class="num">1000</span>
+)
+<span class="kw">SELECT</span> u.name, hvo.total
+<span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> high_value_orders hvo <span class="kw">ON</span> u.id = hvo.user_id;
+
+<span class="cm">-- Multiple CTEs</span>
+<span class="kw">WITH</span>
+  active_users <span class="kw">AS</span> (<span class="kw">SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> status=<span class="str">'active'</span>),
+  recent_orders <span class="kw">AS</span> (<span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> created_at > <span class="str">'2024-01-01'</span>)
+<span class="kw">SELECT</span> u.name, o.amount
+<span class="kw">FROM</span> active_users u <span class="kw">JOIN</span> recent_orders o <span class="kw">ON</span> u.id = o.user_id;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q18</span>
+      <span class="q-text">What are Recursive CTEs?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Recursive CTEs reference themselves to traverse hierarchical data (org charts, category trees, bills of materials) without knowing the depth in advance.</p>
+      <pre><span class="cm">-- employees: id, name, manager_id</span>
+<span class="kw">WITH RECURSIVE</span> org_chart <span class="kw">AS</span> (
+  <span class="cm">-- Base case: top-level (CEO)</span>
+  <span class="kw">SELECT</span> id, name, manager_id, <span class="num">0</span> <span class="kw">AS</span> level
+  <span class="kw">FROM</span> employees <span class="kw">WHERE</span> manager_id <span class="kw">IS NULL</span>
+
+  <span class="kw">UNION ALL</span>
+
+  <span class="cm">-- Recursive case: employees reporting to previous level</span>
+  <span class="kw">SELECT</span> e.id, e.name, e.manager_id, oc.level + <span class="num">1</span>
+  <span class="kw">FROM</span> employees e
+  <span class="kw">JOIN</span> org_chart oc <span class="kw">ON</span> e.manager_id = oc.id
+)
+<span class="kw">SELECT</span> <span class="fn">CONCAT</span>(<span class="fn">REPEAT</span>(<span class="str">'  '</span>, level), name) <span class="kw">AS</span> hierarchy
+<span class="kw">FROM</span> org_chart;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q19</span>
+      <span class="q-text">What are Window Functions in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Window functions (MySQL 8.0+) perform calculations across a set of rows related to the current row without collapsing them into groups. They use the <code>OVER()</code> clause.</p>
+      <pre><span class="cm">-- ROW_NUMBER: unique rank per partition</span>
+<span class="kw">SELECT</span> name, department, salary,
+  <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> department <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> dept_rank,
+  <span class="fn">RANK</span>()       <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> overall_rank,
+  <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> dense_rank,
+  <span class="fn">LAG</span>(salary)  <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary)        <span class="kw">AS</span> prev_salary,
+  <span class="fn">SUM</span>(salary)  <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> department) <span class="kw">AS</span> dept_total
+<span class="kw">FROM</span> employees;
+
+<span class="cm">-- Top 1 salary per department</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> (
+  <span class="kw">SELECT</span> *, <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">PARTITION BY</span> dept <span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) rn
+  <span class="kw">FROM</span> employees
+) ranked <span class="kw">WHERE</span> rn = <span class="num">1</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q20</span>
+      <span class="q-text">What is the difference between UNION and UNION ALL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>UNION:</strong> Combines results of two SELECT statements, removing duplicates. Slower (requires sorting/hashing to find duplicates).</li>
+        <li><strong>UNION ALL:</strong> Combines results including duplicates. Faster — no deduplication.</li>
+      </ul>
+      <pre><span class="cm">-- UNION: unique emails from both tables</span>
+<span class="kw">SELECT</span> email <span class="kw">FROM</span> customers
+<span class="kw">UNION</span>
+<span class="kw">SELECT</span> email <span class="kw">FROM</span> suppliers;
+
+<span class="cm">-- UNION ALL: all emails including duplicates (faster)</span>
+<span class="kw">SELECT</span> email, <span class="str">'customer'</span> <span class="kw">AS</span> type <span class="kw">FROM</span> customers
+<span class="kw">UNION ALL</span>
+<span class="kw">SELECT</span> email, <span class="str">'supplier'</span> <span class="kw">AS</span> type <span class="kw">FROM</span> suppliers;</pre>
+      <div class="tip">Use <code>UNION ALL</code> by default. Only switch to <code>UNION</code> when you specifically need deduplication.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q21</span>
+      <span class="q-text">What is the difference between RANK(), DENSE_RANK(), and ROW_NUMBER()?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>ROW_NUMBER():</strong> Sequential numbers — no ties. Every row gets a unique number.</li>
+        <li><strong>RANK():</strong> Same rank for ties, but skips numbers after ties (1,1,3 — skips 2).</li>
+        <li><strong>DENSE_RANK():</strong> Same rank for ties, no gaps (1,1,2 — no skip).</li>
+      </ul>
+      <pre><span class="cm">-- Given salaries: 100, 90, 90, 80</span>
+<span class="kw">SELECT</span> salary,
+  <span class="fn">ROW_NUMBER</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>), <span class="cm">-- 1, 2, 3, 4</span>
+  <span class="fn">RANK</span>()       <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>), <span class="cm">-- 1, 2, 2, 4</span>
+  <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>)  <span class="cm">-- 1, 2, 2, 3</span>
+<span class="kw">FROM</span> employees;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q22</span>
+      <span class="q-text">How does GROUP BY work? What is the ONLY_FULL_GROUP_BY mode?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>GROUP BY</code> groups rows with the same values in specified columns. In <strong>ONLY_FULL_GROUP_BY</strong> mode (default in MySQL 5.7.5+), all columns in SELECT must either be in GROUP BY or be aggregated.</p>
+      <pre><span class="kw">SELECT</span> department, <span class="fn">COUNT</span>(*), <span class="fn">AVG</span>(salary)
+<span class="kw">FROM</span> employees
+<span class="kw">GROUP BY</span> department;
+
+<span class="cm">-- ❌ Error in ONLY_FULL_GROUP_BY: 'name' not in GROUP BY</span>
+<span class="kw">SELECT</span> department, name, <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> employees <span class="kw">GROUP BY</span> department;
+
+<span class="cm">-- ✅ Fix: include name in GROUP BY or use ANY_VALUE()</span>
+<span class="kw">SELECT</span> department, <span class="fn">ANY_VALUE</span>(name), <span class="fn">COUNT</span>(*) <span class="kw">FROM</span> employees <span class="kw">GROUP BY</span> department;
+
+<span class="cm">-- GROUP BY with ROLLUP (subtotals)</span>
+<span class="kw">SELECT</span> department, <span class="fn">SUM</span>(salary) <span class="kw">FROM</span> employees
+<span class="kw">GROUP BY</span> department <span class="kw">WITH ROLLUP</span>; <span class="cm">-- adds grand total row</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q23</span>
+      <span class="q-text">How do you write a query to find the second highest salary?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A classic interview question with multiple approaches:</p>
+      <pre><span class="cm">-- Method 1: Subquery (handles NULLs gracefully)</span>
+<span class="kw">SELECT</span> <span class="fn">MAX</span>(salary) <span class="kw">AS</span> second_highest
+<span class="kw">FROM</span> employees
+<span class="kw">WHERE</span> salary < (<span class="kw">SELECT</span> <span class="fn">MAX</span>(salary) <span class="kw">FROM</span> employees);
+
+<span class="cm">-- Method 2: LIMIT with OFFSET</span>
+<span class="kw">SELECT DISTINCT</span> salary
+<span class="kw">FROM</span> employees
+<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">1</span> <span class="kw">OFFSET</span> <span class="num">1</span>;
+
+<span class="cm">-- Method 3: Dense rank (Nth highest generalized)</span>
+<span class="kw">SELECT</span> salary <span class="kw">FROM</span> (
+  <span class="kw">SELECT</span> salary, <span class="fn">DENSE_RANK</span>() <span class="kw">OVER</span> (<span class="kw">ORDER BY</span> salary <span class="kw">DESC</span>) <span class="kw">AS</span> rnk
+  <span class="kw">FROM</span> employees
+) ranked <span class="kw">WHERE</span> rnk = <span class="num">2</span> <span class="kw">LIMIT</span> <span class="num">1</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q24</span>
+      <span class="q-text">How do you find duplicate rows in a table?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="cm">-- Find duplicate emails</span>
+<span class="kw">SELECT</span> email, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> occurrences
+<span class="kw">FROM</span> users
+<span class="kw">GROUP BY</span> email
+<span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">1</span>;
+
+<span class="cm">-- Show full duplicate rows</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> users
+<span class="kw">WHERE</span> email <span class="kw">IN</span> (
+  <span class="kw">SELECT</span> email <span class="kw">FROM</span> users
+  <span class="kw">GROUP BY</span> email <span class="kw">HAVING</span> <span class="fn">COUNT</span>(*) > <span class="num">1</span>
+);
+
+<span class="cm">-- Delete duplicates, keeping lowest ID</span>
+<span class="kw">DELETE</span> u1 <span class="kw">FROM</span> users u1
+<span class="kw">INNER JOIN</span> users u2
+  <span class="kw">ON</span> u1.email = u2.email <span class="kw">AND</span> u1.id > u2.id;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q25</span>
+      <span class="q-text">What are string functions in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="fn">CONCAT</span>(<span class="str">'Hello'</span>, <span class="str">' '</span>, <span class="str">'World'</span>)   <span class="cm">-- 'Hello World'</span>
+<span class="fn">CONCAT_WS</span>(<span class="str">', '</span>, <span class="str">'Alice'</span>, <span class="str">'Bob'</span>) <span class="cm">-- 'Alice, Bob' (with separator)</span>
+<span class="fn">LENGTH</span>(<span class="str">'hello'</span>)                   <span class="cm">-- 5 (bytes)</span>
+<span class="fn">CHAR_LENGTH</span>(<span class="str">'hello'</span>)              <span class="cm">-- 5 (characters, UTF-8 safe)</span>
+<span class="fn">UPPER</span>(<span class="str">'hello'</span>)                    <span class="cm">-- 'HELLO'</span>
+<span class="fn">LOWER</span>(<span class="str">'HELLO'</span>)                    <span class="cm">-- 'hello'</span>
+<span class="fn">TRIM</span>(<span class="str">'  hello  '</span>)                 <span class="cm">-- 'hello'</span>
+<span class="fn">SUBSTRING</span>(<span class="str">'Hello World'</span>, <span class="num">7</span>, <span class="num">5</span>)   <span class="cm">-- 'World'</span>
+<span class="fn">REPLACE</span>(<span class="str">'Hello'</span>, <span class="str">'l'</span>, <span class="str">'r'</span>)       <span class="cm">-- 'Herro'</span>
+<span class="fn">INSTR</span>(<span class="str">'Hello'</span>, <span class="str">'ll'</span>)             <span class="cm">-- 3 (position)</span>
+<span class="fn">LEFT</span>(<span class="str">'Hello'</span>, <span class="num">3</span>)                  <span class="cm">-- 'Hel'</span>
+<span class="fn">RIGHT</span>(<span class="str">'Hello'</span>, <span class="num">3</span>)                 <span class="cm">-- 'llo'</span>
+<span class="fn">LPAD</span>(<span class="str">'5'</span>, <span class="num">3</span>, <span class="str">'0'</span>)                 <span class="cm">-- '005'</span>
+<span class="fn">FORMAT</span>(<span class="num">1234567.89</span>, <span class="num">2</span>)            <span class="cm">-- '1,234,567.89'</span>
+<span class="fn">REGEXP_REPLACE</span>(col, <span class="str">'[^a-z]'</span>, <span class="str">''</span>) <span class="cm">-- MySQL 8.0+</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num blue">Q26</span>
+      <span class="q-text">What are date/time functions in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="fn">NOW</span>()                            <span class="cm">-- '2025-05-27 14:30:00'</span>
+<span class="fn">CURDATE</span>()                        <span class="cm">-- '2025-05-27'</span>
+<span class="fn">CURTIME</span>()                        <span class="cm">-- '14:30:00'</span>
+<span class="fn">DATE_FORMAT</span>(NOW(), <span class="str">'%d %M %Y'</span>)  <span class="cm">-- '27 May 2025'</span>
+<span class="fn">DATE_ADD</span>(NOW(), <span class="kw">INTERVAL</span> <span class="num">7</span> <span class="kw">DAY</span>) <span class="cm">-- add 7 days</span>
+<span class="fn">DATE_SUB</span>(NOW(), <span class="kw">INTERVAL</span> <span class="num">1</span> <span class="kw">MONTH</span>)
+<span class="fn">DATEDIFF</span>(<span class="str">'2025-12-31'</span>, NOW())    <span class="cm">-- days between</span>
+<span class="fn">TIMESTAMPDIFF</span>(<span class="kw">HOUR</span>, start, end)  <span class="cm">-- hours between</span>
+<span class="fn">YEAR</span>(NOW())                      <span class="cm">-- 2025</span>
+<span class="fn">MONTH</span>(NOW())                     <span class="cm">-- 5</span>
+<span class="fn">DAY</span>(NOW())                       <span class="cm">-- 27</span>
+<span class="fn">DAYNAME</span>(NOW())                   <span class="cm">-- 'Tuesday'</span>
+<span class="fn">WEEKDAY</span>(NOW())                   <span class="cm">-- 1 (Mon=0, Sun=6)</span>
+<span class="fn">UNIX_TIMESTAMP</span>()                 <span class="cm">-- seconds since epoch</span>
+<span class="fn">FROM_UNIXTIME</span>(<span class="num">1716800000</span>)       <span class="cm">-- unix → datetime</span>
+<span class="fn">LAST_DAY</span>(<span class="str">'2025-02-01'</span>)          <span class="cm">-- '2025-02-28'</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= INDEXES & KEYS ========================= -->
+<div id="indexes" class="section">
+  <div class="section-header">
+    <h2>🟡 Indexes & Keys — Q27 to Q36</h2>
+    <p>Index types, how they work, and when to use them</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('indexes')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q27</span>
+      <span class="q-text">What is an index in MySQL? How does it improve performance?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>An index is a data structure (B-Tree by default in InnoDB) that allows MySQL to find rows without scanning the entire table — like a book's index pointing to page numbers.</p>
+      <ul>
+        <li><strong>Without index:</strong> Full table scan — O(n) — reads every row</li>
+        <li><strong>With index:</strong> B-Tree lookup — O(log n) — navigates the tree to the data</li>
+      </ul>
+      <pre><span class="cm">-- Create index</span>
+<span class="kw">CREATE INDEX</span> idx_email <span class="kw">ON</span> users(email);
+<span class="kw">CREATE UNIQUE INDEX</span> idx_username <span class="kw">ON</span> users(username);
+<span class="kw">CREATE INDEX</span> idx_dept_salary <span class="kw">ON</span> employees(department, salary); <span class="cm">-- composite</span>
+
+<span class="cm">-- View indexes on a table</span>
+<span class="kw">SHOW INDEX FROM</span> users;
+
+<span class="cm">-- Drop index</span>
+<span class="kw">DROP INDEX</span> idx_email <span class="kw">ON</span> users;
+<span class="kw">ALTER TABLE</span> users <span class="kw">DROP INDEX</span> idx_email;</pre>
+      <div class="warn">Indexes speed up reads but slow down writes (INSERT/UPDATE/DELETE must update index). Don't over-index.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q28</span>
+      <span class="q-text">What are the different types of indexes in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>PRIMARY KEY:</strong> Clustered index. Table rows physically ordered by it. One per table. Always unique and NOT NULL.</li>
+        <li><strong>UNIQUE INDEX:</strong> Ensures column values are unique. Allows one NULL.</li>
+        <li><strong>INDEX (non-unique):</strong> Speeds up queries. Duplicates allowed.</li>
+        <li><strong>COMPOSITE INDEX:</strong> Index on multiple columns. Order matters — leftmost prefix rule.</li>
+        <li><strong>FULLTEXT INDEX:</strong> For text search using MATCH...AGAINST. Only on CHAR, VARCHAR, TEXT columns.</li>
+        <li><strong>SPATIAL INDEX:</strong> For geometric data types (MyISAM, InnoDB 5.7+).</li>
+        <li><strong>COVERING INDEX:</strong> Not a type — when an index contains all columns needed by the query (no table lookup needed).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q29</span>
+      <span class="q-text">What is the difference between clustered and non-clustered indexes?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Clustered Index (PRIMARY KEY in InnoDB):</strong> Table rows are physically stored in index order. Each table can have ONLY ONE. Lookups are very fast since data IS the index leaf.</li>
+        <li><strong>Non-clustered Index (Secondary Index):</strong> A separate structure that stores index key + pointer (primary key) to the actual row. Requires an extra lookup to get full row data ("bookmark lookup").</li>
+      </ul>
+      <pre><span class="cm">-- InnoDB: PRIMARY KEY is always the clustered index</span>
+<span class="cm">-- Secondary index on email stores: email + id (PK)</span>
+<span class="cm">-- Looking up by email: B-Tree lookup → get id → clustered lookup</span>
+
+<span class="cm">-- Covering index avoids second lookup</span>
+<span class="kw">SELECT</span> id, email <span class="kw">FROM</span> users <span class="kw">WHERE</span> email = <span class="str">'a@b.com'</span>;
+<span class="cm">-- If index on (email, id): all data from index alone!</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q30</span>
+      <span class="q-text">What is a composite index and the leftmost prefix rule?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A composite index covers multiple columns. MySQL can use this index for queries that start from the leftmost column(s) of the index definition — this is the leftmost prefix rule.</p>
+      <pre><span class="kw">CREATE INDEX</span> idx_dept_status_date <span class="kw">ON</span> employees(department, status, hire_date);
+
+<span class="cm">-- ✅ Uses index (starts from leftmost)</span>
+<span class="kw">WHERE</span> department = <span class="str">'Engineering'</span>
+<span class="kw">WHERE</span> department = <span class="str">'Engineering'</span> <span class="kw">AND</span> status = <span class="str">'active'</span>
+<span class="kw">WHERE</span> department = <span class="str">'Engineering'</span> <span class="kw">AND</span> status = <span class="str">'active'</span> <span class="kw">AND</span> hire_date > <span class="str">'2023-01-01'</span>
+
+<span class="cm">-- ❌ Cannot use index (skips department)</span>
+<span class="kw">WHERE</span> status = <span class="str">'active'</span>
+<span class="kw">WHERE</span> hire_date > <span class="str">'2023-01-01'</span></pre>
+      <div class="tip">Design composite indexes with the most selective column first, and match your most common query patterns.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q31</span>
+      <span class="q-text">What is EXPLAIN and how do you use it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><code>EXPLAIN</code> shows how MySQL will execute a query — whether it uses indexes, how many rows it will scan, and which join type it will use. Essential for query optimization.</p>
+      <pre><span class="kw">EXPLAIN SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> email = <span class="str">'alice@example.com'</span>;
+
+<span class="cm">-- Key columns to check:</span>
+<span class="cm">-- type:  ALL (full scan❌) | range | ref | eq_ref | const ✅</span>
+<span class="cm">-- key:   which index is used (NULL = no index ❌)</span>
+<span class="cm">-- rows:  estimated rows examined (lower = better)</span>
+<span class="cm">-- Extra: 'Using filesort'❌ | 'Using index'✅ | 'Using where'</span>
+
+<span class="cm">-- EXPLAIN ANALYZE (MySQL 8.0.18+) — actual execution stats</span>
+<span class="kw">EXPLAIN ANALYZE SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> email = <span class="str">'a@b.com'</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q32</span>
+      <span class="q-text">When does MySQL NOT use an index?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>MySQL will skip an index in several situations:</p>
+      <pre><span class="cm">-- 1. Function on indexed column</span>
+<span class="kw">WHERE</span> <span class="fn">YEAR</span>(created_at) = <span class="num">2024</span>       <span class="cm">-- ❌ no index</span>
+<span class="kw">WHERE</span> created_at >= <span class="str">'2024-01-01'</span>     <span class="cm">-- ✅ uses index</span>
+
+<span class="cm">-- 2. Type mismatch (implicit cast)</span>
+<span class="kw">WHERE</span> phone_number = <span class="num">1234567890</span>      <span class="cm">-- ❌ phone is VARCHAR</span>
+<span class="kw">WHERE</span> phone_number = <span class="str">'1234567890'</span>    <span class="cm">-- ✅</span>
+
+<span class="cm">-- 3. Leading wildcard</span>
+<span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="str">'%son'</span>              <span class="cm">-- ❌ no index</span>
+<span class="kw">WHERE</span> name <span class="kw">LIKE</span> <span class="str">'Ali%'</span>              <span class="cm">-- ✅ uses index</span>
+
+<span class="cm">-- 4. OR without indexes on all columns</span>
+<span class="cm">-- 5. Low selectivity (column with few distinct values)</span>
+<span class="cm">-- 6. Very small tables (full scan is faster than index lookup)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q33</span>
+      <span class="q-text">What is a covering index?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A covering index includes all columns required by a query so MySQL can satisfy the entire query from the index alone — without reading the actual table rows (no "table heap" lookup). This is shown as "Using index" in EXPLAIN.</p>
+      <pre><span class="kw">CREATE INDEX</span> idx_cover <span class="kw">ON</span> orders(user_id, status, amount, created_at);
+
+<span class="cm">-- This query is fully covered by the index above</span>
+<span class="kw">SELECT</span> status, amount, created_at
+<span class="kw">FROM</span> orders
+<span class="kw">WHERE</span> user_id = <span class="num">42</span>
+  <span class="kw">AND</span> status = <span class="str">'paid'</span>;
+<span class="cm">-- EXPLAIN shows: Using index (no table lookup needed!)</span></pre>
+      <div class="tip">Covering indexes are one of the most powerful optimizations. Design them around your most expensive queries.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q34</span>
+      <span class="q-text">What is FULLTEXT search in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>FULLTEXT indexes enable natural language text search — much more powerful than <code>LIKE '%keyword%'</code>. Supports relevance ranking, boolean mode, and phrase search.</p>
+      <pre><span class="kw">ALTER TABLE</span> articles <span class="kw">ADD FULLTEXT INDEX</span> idx_ft (title, content);
+
+<span class="cm">-- Natural language search (relevance ranked)</span>
+<span class="kw">SELECT</span> title, <span class="fn">MATCH</span>(title, content) <span class="kw">AGAINST</span> (<span class="str">'mysql performance'</span>) <span class="kw">AS</span> score
+<span class="kw">FROM</span> articles
+<span class="kw">WHERE</span> <span class="fn">MATCH</span>(title, content) <span class="kw">AGAINST</span> (<span class="str">'mysql performance'</span>)
+<span class="kw">ORDER BY</span> score <span class="kw">DESC</span>;
+
+<span class="cm">-- Boolean mode: +required -excluded "exact phrase"</span>
+<span class="kw">WHERE</span> <span class="fn">MATCH</span>(title, content) <span class="kw">AGAINST</span> (<span class="str">'+mysql -oracle "query optimization"'</span> <span class="kw">IN BOOLEAN MODE</span>);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q35</span>
+      <span class="q-text">What is a foreign key and what are ON DELETE / ON UPDATE actions?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A foreign key enforces referential integrity between two tables. The <code>ON DELETE</code> / <code>ON UPDATE</code> clauses define what happens to child rows when the parent row is deleted or updated.</p>
+      <ul>
+        <li><strong>CASCADE:</strong> Delete/update child rows automatically</li>
+        <li><strong>SET NULL:</strong> Set child FK column to NULL</li>
+        <li><strong>RESTRICT / NO ACTION:</strong> Prevent delete/update if child rows exist (default)</li>
+        <li><strong>SET DEFAULT:</strong> Set to default value (rarely used)</li>
+      </ul>
+      <pre><span class="kw">CREATE TABLE</span> orders (
+  id      <span class="fn">INT PRIMARY KEY</span>,
+  user_id <span class="fn">INT NOT NULL</span>,
+  <span class="kw">FOREIGN KEY</span> (user_id) <span class="kw">REFERENCES</span> users(id)
+    <span class="kw">ON DELETE CASCADE</span>    <span class="cm">-- delete orders when user deleted</span>
+    <span class="kw">ON UPDATE CASCADE</span>    <span class="cm">-- update FK if user PK changes</span>
+);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num amber">Q36</span>
+      <span class="q-text">What is index cardinality and selectivity?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Cardinality:</strong> The number of unique values in an index. Higher = more selective.</li>
+        <li><strong>Selectivity:</strong> Cardinality / Total rows. Closer to 1.0 = index is very effective.</li>
+      </ul>
+      <pre><span class="cm">-- Check cardinality</span>
+<span class="kw">SHOW INDEX FROM</span> users;
+<span class="cm">-- Cardinality column shows estimated unique values</span>
+
+<span class="cm">-- High selectivity (good for index):</span>
+<span class="cm">-- email (unique): selectivity = 1.0</span>
+<span class="cm">-- user_id: selectivity ~0.9</span>
+
+<span class="cm">-- Low selectivity (index rarely helps):</span>
+<span class="cm">-- gender (M/F): selectivity = 2/1000000 = 0.000002</span>
+<span class="cm">-- is_active (true/false): selectivity ~0.5</span>
+
+<span class="kw">ANALYZE TABLE</span> users; <span class="cm">-- update index statistics</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= STORED PROCEDURES ========================= -->
+<div id="stored" class="section">
+  <div class="section-header">
+    <h2>🟠 Stored Procedures, Functions & Triggers — Q37 to Q46</h2>
+    <p>Server-side programming in MySQL</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('stored')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q37</span>
+      <span class="q-text">What is a Stored Procedure? How is it different from a function?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Stored Procedure:</strong> A saved block of SQL code. Can have IN, OUT, INOUT parameters. Can return multiple result sets. Called with <code>CALL</code>. Can use DML, DDL, transactions.</li>
+        <li><strong>Function:</strong> Must return a single value. Used inside SQL expressions (<code>SELECT</code>, <code>WHERE</code>). Cannot use transactions or modify data (strictly). Deterministic/non-deterministic.</li>
+      </ul>
+      <pre><span class="cm">-- Stored Procedure</span>
+<span class="fn">DELIMITER</span> //
+<span class="kw">CREATE PROCEDURE</span> GetUserOrders(
+  <span class="kw">IN</span>  p_user_id <span class="fn">INT</span>,
+  <span class="kw">OUT</span> p_count   <span class="fn">INT</span>
+)
+<span class="kw">BEGIN</span>
+  <span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">INTO</span> p_count <span class="kw">FROM</span> orders <span class="kw">WHERE</span> user_id = p_user_id;
+  <span class="kw">SELECT</span> * <span class="kw">FROM</span> orders <span class="kw">WHERE</span> user_id = p_user_id;
+<span class="kw">END</span>//
+<span class="fn">DELIMITER</span> ;
+
+<span class="kw">CALL</span> GetUserOrders(<span class="num">1</span>, @cnt);
+<span class="kw">SELECT</span> @cnt;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q38</span>
+      <span class="q-text">How do you create a user-defined function (UDF) in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="fn">DELIMITER</span> //
+<span class="kw">CREATE FUNCTION</span> FormatCurrency(amount <span class="fn">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>), currency <span class="fn">VARCHAR</span>(<span class="num">3</span>))
+<span class="kw">RETURNS VARCHAR</span>(<span class="num">20</span>)
+<span class="kw">DETERMINISTIC</span>
+<span class="kw">BEGIN</span>
+  <span class="kw">RETURN CONCAT</span>(currency, <span class="str">' '</span>, <span class="fn">FORMAT</span>(amount, <span class="num">2</span>));
+<span class="kw">END</span>//
+<span class="fn">DELIMITER</span> ;
+
+<span class="cm">-- Use in a query</span>
+<span class="kw">SELECT</span> FormatCurrency(price, <span class="str">'USD'</span>) <span class="kw">FROM</span> products;
+<span class="cm">-- 'USD 9.99'</span>
+
+<span class="cm">-- DETERMINISTIC = same input always gives same output</span>
+<span class="cm">-- NOT DETERMINISTIC = may use NOW(), RAND() etc.</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q39</span>
+      <span class="q-text">What are control flow statements in stored procedures?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <pre><span class="fn">DELIMITER</span> //
+<span class="kw">CREATE PROCEDURE</span> DemoFlow(p_score <span class="fn">INT</span>)
+<span class="kw">BEGIN</span>
+  <span class="cm">-- IF / ELSEIF / ELSE</span>
+  <span class="kw">IF</span> p_score >= <span class="num">90</span> <span class="kw">THEN</span>
+    <span class="kw">SELECT</span> <span class="str">'A'</span>;
+  <span class="kw">ELSEIF</span> p_score >= <span class="num">80</span> <span class="kw">THEN</span>
+    <span class="kw">SELECT</span> <span class="str">'B'</span>;
+  <span class="kw">ELSE</span>
+    <span class="kw">SELECT</span> <span class="str">'C'</span>;
+  <span class="kw">END IF</span>;
+
+  <span class="cm">-- CASE</span>
+  <span class="kw">CASE</span> p_score <span class="kw">DIV</span> <span class="num">10</span>
+    <span class="kw">WHEN</span> <span class="num">10</span> <span class="kw">THEN SELECT</span> <span class="str">'Perfect'</span>;
+    <span class="kw">WHEN</span>  <span class="num">9</span> <span class="kw">THEN SELECT</span> <span class="str">'Excellent'</span>;
+    <span class="kw">ELSE</span>        <span class="kw">SELECT</span> <span class="str">'Good'</span>;
+  <span class="kw">END CASE</span>;
+
+  <span class="cm">-- WHILE loop</span>
+  <span class="kw">SET</span> @i = <span class="num">0</span>;
+  <span class="kw">WHILE</span> @i < <span class="num">5</span> <span class="kw">DO</span>
+    <span class="kw">SET</span> @i = @i + <span class="num">1</span>;
+  <span class="kw">END WHILE</span>;
+
+  <span class="cm">-- LOOP with LEAVE</span>
+  my_loop: <span class="kw">LOOP</span>
+    <span class="kw">IF</span> @i >= <span class="num">10</span> <span class="kw">THEN LEAVE</span> my_loop; <span class="kw">END IF</span>;
+    <span class="kw">SET</span> @i = @i + <span class="num">1</span>;
+  <span class="kw">END LOOP</span>;
+<span class="kw">END</span>//
+<span class="fn">DELIMITER</span> ;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q40</span>
+      <span class="q-text">What is a Cursor in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A cursor allows you to iterate over a result set row by row inside a stored procedure. Always declare in this order: variables → cursor → handler.</p>
+      <pre><span class="fn">DELIMITER</span> //
+<span class="kw">CREATE PROCEDURE</span> ProcessOrders()
+<span class="kw">BEGIN</span>
+  <span class="kw">DECLARE</span> done <span class="fn">BOOLEAN DEFAULT FALSE</span>;
+  <span class="kw">DECLARE</span> order_id <span class="fn">INT</span>;
+  <span class="kw">DECLARE</span> cur <span class="kw">CURSOR FOR</span>
+    <span class="kw">SELECT</span> id <span class="kw">FROM</span> orders <span class="kw">WHERE</span> status = <span class="str">'pending'</span>;
+  <span class="kw">DECLARE CONTINUE HANDLER FOR NOT FOUND SET</span> done = <span class="kw">TRUE</span>;
+
+  <span class="kw">OPEN</span> cur;
+  read_loop: <span class="kw">LOOP</span>
+    <span class="kw">FETCH</span> cur <span class="kw">INTO</span> order_id;
+    <span class="kw">IF</span> done <span class="kw">THEN LEAVE</span> read_loop; <span class="kw">END IF</span>;
+    <span class="cm">-- process each order_id</span>
+    <span class="kw">UPDATE</span> orders <span class="kw">SET</span> status=<span class="str">'processing'</span> <span class="kw">WHERE</span> id=order_id;
+  <span class="kw">END LOOP</span>;
+  <span class="kw">CLOSE</span> cur;
+<span class="kw">END</span>//
+<span class="fn">DELIMITER</span> ;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q41</span>
+      <span class="q-text">What is a Trigger in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A trigger is a stored program that automatically executes (fires) in response to INSERT, UPDATE, or DELETE events on a table. Fires BEFORE or AFTER the event.</p>
+      <pre><span class="fn">DELIMITER</span> //
+<span class="cm">-- Audit log trigger: record changes to users table</span>
+<span class="kw">CREATE TRIGGER</span> after_user_update
+<span class="kw">AFTER UPDATE ON</span> users
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+  <span class="kw">INSERT INTO</span> audit_log (table_name, record_id, old_val, new_val, changed_at)
+  <span class="kw">VALUES</span> (<span class="str">'users'</span>, OLD.id, OLD.email, NEW.email, <span class="fn">NOW</span>());
+<span class="kw">END</span>//
+
+<span class="cm">-- BEFORE INSERT: auto-set timestamps, validate</span>
+<span class="kw">CREATE TRIGGER</span> before_order_insert
+<span class="kw">BEFORE INSERT ON</span> orders
+<span class="kw">FOR EACH ROW</span>
+<span class="kw">BEGIN</span>
+  <span class="kw">IF</span> NEW.amount <= <span class="num">0</span> <span class="kw">THEN</span>
+    <span class="fn">SIGNAL SQLSTATE</span> <span class="str">'45000'</span> <span class="kw">SET</span> MESSAGE_TEXT = <span class="str">'Amount must be positive'</span>;
+  <span class="kw">END IF</span>;
+<span class="kw">END</span>//
+<span class="fn">DELIMITER</span> ;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q42</span>
+      <span class="q-text">What is a View in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A view is a virtual table defined by a stored SELECT query. It doesn't store data — it runs the underlying query each time it's accessed. Useful for simplifying complex queries and controlling data access.</p>
+      <pre><span class="cm">-- Create a view</span>
+<span class="kw">CREATE VIEW</span> active_user_orders <span class="kw">AS</span>
+<span class="kw">SELECT</span>
+  u.id, u.name, u.email,
+  <span class="fn">COUNT</span>(o.id)    <span class="kw">AS</span> order_count,
+  <span class="fn">SUM</span>(o.amount)  <span class="kw">AS</span> total_spent
+<span class="kw">FROM</span> users u
+<span class="kw">LEFT JOIN</span> orders o <span class="kw">ON</span> u.id = o.user_id
+<span class="kw">WHERE</span> u.status = <span class="str">'active'</span>
+<span class="kw">GROUP BY</span> u.id;
+
+<span class="cm">-- Use like a table</span>
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> active_user_orders <span class="kw">WHERE</span> total_spent > <span class="num">1000</span>;
+
+<span class="cm">-- Drop / replace</span>
+<span class="kw">DROP VIEW</span> active_user_orders;
+<span class="kw">CREATE OR REPLACE VIEW</span> active_user_orders <span class="kw">AS</span> ...;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q43</span>
+      <span class="q-text">What is an Event (scheduled job) in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>MySQL Events are tasks that run automatically on a schedule — like cron jobs inside the database. Requires the Event Scheduler to be enabled.</p>
+      <pre><span class="cm">-- Enable event scheduler</span>
+<span class="kw">SET GLOBAL</span> event_scheduler = <span class="kw">ON</span>;
+
+<span class="cm">-- One-time event</span>
+<span class="kw">CREATE EVENT</span> cleanup_once
+<span class="kw">ON SCHEDULE AT</span> <span class="fn">NOW</span>() + <span class="kw">INTERVAL</span> <span class="num">1</span> <span class="kw">HOUR</span>
+<span class="kw">DO DELETE FROM</span> temp_data <span class="kw">WHERE</span> created_at < <span class="fn">NOW</span>() - <span class="kw">INTERVAL</span> <span class="num">7</span> <span class="kw">DAY</span>;
+
+<span class="cm">-- Recurring event</span>
+<span class="kw">CREATE EVENT</span> daily_cleanup
+<span class="kw">ON SCHEDULE EVERY</span> <span class="num">1</span> <span class="kw">DAY</span>
+<span class="kw">STARTS</span> <span class="str">'2025-01-01 02:00:00'</span>
+<span class="kw">DO</span>
+<span class="kw">BEGIN</span>
+  <span class="kw">DELETE FROM</span> sessions <span class="kw">WHERE</span> expires_at < <span class="fn">NOW</span>();
+  <span class="kw">DELETE FROM</span> logs <span class="kw">WHERE</span> created_at < <span class="fn">NOW</span>() - <span class="kw">INTERVAL</span> <span class="num">30</span> <span class="kw">DAY</span>;
+<span class="kw">END</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q44</span>
+      <span class="q-text">What is the CASE expression in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>CASE is an inline conditional expression — like if/else inside a query. Two forms: simple CASE (equality) and searched CASE (conditions).</p>
+      <pre><span class="cm">-- Simple CASE</span>
+<span class="kw">SELECT</span> name,
+  <span class="kw">CASE</span> status
+    <span class="kw">WHEN</span> <span class="str">'A'</span> <span class="kw">THEN</span> <span class="str">'Active'</span>
+    <span class="kw">WHEN</span> <span class="str">'I'</span> <span class="kw">THEN</span> <span class="str">'Inactive'</span>
+    <span class="kw">ELSE</span> <span class="str">'Unknown'</span>
+  <span class="kw">END AS</span> status_label
+<span class="kw">FROM</span> users;
+
+<span class="cm">-- Searched CASE (conditions)</span>
+<span class="kw">SELECT</span> name, salary,
+  <span class="kw">CASE</span>
+    <span class="kw">WHEN</span> salary >= <span class="num">100000</span> <span class="kw">THEN</span> <span class="str">'Senior'</span>
+    <span class="kw">WHEN</span> salary >= <span class="num">60000</span>  <span class="kw">THEN</span> <span class="str">'Mid-level'</span>
+    <span class="kw">ELSE</span> <span class="str">'Junior'</span>
+  <span class="kw">END AS</span> level
+<span class="kw">FROM</span> employees;
+
+<span class="cm">-- CASE in aggregate (pivot-style)</span>
+<span class="kw">SELECT</span>
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> status=<span class="str">'paid'</span>    <span class="kw">THEN</span> amount <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> paid_total,
+  <span class="fn">SUM</span>(<span class="kw">CASE WHEN</span> status=<span class="str">'pending'</span> <span class="kw">THEN</span> amount <span class="kw">ELSE</span> <span class="num">0</span> <span class="kw">END</span>) <span class="kw">AS</span> pending_total
+<span class="kw">FROM</span> orders;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q45</span>
+      <span class="q-text">What are variables in MySQL? What is the difference between user variables and local variables?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>User-defined variables (<code>@var</code>):</strong> Session-scoped. Persist for the entire connection. Can be used outside procedures.</li>
+        <li><strong>Local variables (<code>DECLARE</code>):</strong> Only exist inside a stored procedure/function. More strict typing.</li>
+        <li><strong>System variables (<code>@@var</code>):</strong> Server-wide or session settings (<code>@@max_connections</code>, <code>@@version</code>).</li>
+      </ul>
+      <pre><span class="cm">-- User variable</span>
+<span class="kw">SET</span> @total = <span class="num">0</span>;
+<span class="kw">SELECT</span> @total := <span class="fn">SUM</span>(amount) <span class="kw">FROM</span> orders;
+<span class="kw">SELECT</span> @total;
+
+<span class="cm">-- Local variable (inside procedure only)</span>
+<span class="kw">DECLARE</span> v_count <span class="fn">INT DEFAULT</span> <span class="num">0</span>;
+<span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">INTO</span> v_count <span class="kw">FROM</span> orders;
+
+<span class="cm">-- System variables</span>
+<span class="kw">SELECT</span> @@version, @@max_connections;
+<span class="kw">SET</span> @@session.sql_mode = <span class="str">'STRICT_ALL_TABLES'</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num orange">Q46</span>
+      <span class="q-text">What is the difference between a Stored Procedure and a Trigger?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Stored Procedure:</strong> Called explicitly with <code>CALL</code>. Can accept parameters. Can return result sets. Run on demand.</li>
+        <li><strong>Trigger:</strong> Fires automatically on DML events (INSERT/UPDATE/DELETE). Cannot be called directly. Cannot return result sets. Cannot accept parameters (uses OLD/NEW row data).</li>
+      </ul>
+      <div class="tip">Use stored procedures for reusable business logic. Use triggers for automatic audit logging, validation, and maintaining derived data.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= TRANSACTIONS ========================= -->
+<div id="transactions" class="section">
+  <div class="section-header">
+    <h2>🔴 Transactions & Locks — Q47 to Q56</h2>
+    <p>ACID properties, isolation levels, locking, and concurrency control</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('transactions')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q47</span>
+      <span class="q-text">What is a transaction? What are ACID properties?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A transaction is a sequence of SQL operations treated as a single unit of work — either all succeed or all fail.</p>
+      <ul>
+        <li><strong>Atomicity:</strong> All or nothing. If any step fails, the entire transaction rolls back.</li>
+        <li><strong>Consistency:</strong> Transaction brings the database from one valid state to another. All constraints are satisfied.</li>
+        <li><strong>Isolation:</strong> Concurrent transactions don't interfere with each other. Each sees a consistent snapshot.</li>
+        <li><strong>Durability:</strong> Once committed, data is permanently stored even if the server crashes.</li>
+      </ul>
+      <pre><span class="kw">START TRANSACTION</span>;
+  <span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance = balance - <span class="num">500</span> <span class="kw">WHERE</span> id = <span class="num">1</span>;
+  <span class="kw">UPDATE</span> accounts <span class="kw">SET</span> balance = balance + <span class="num">500</span> <span class="kw">WHERE</span> id = <span class="num">2</span>;
+<span class="kw">COMMIT</span>;   <span class="cm">-- both updates succeed</span>
+<span class="cm">-- or</span>
+<span class="kw">ROLLBACK</span>; <span class="cm">-- neither update applies</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q48</span>
+      <span class="q-text">What are transaction isolation levels?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Isolation levels control how concurrent transactions see each other's uncommitted data. Higher isolation = fewer anomalies, but more locking overhead.</p>
+      <ul>
+        <li><strong>READ UNCOMMITTED:</strong> Can read uncommitted changes (dirty reads). Lowest isolation, highest performance.</li>
+        <li><strong>READ COMMITTED:</strong> Can only read committed data. No dirty reads. Non-repeatable reads possible.</li>
+        <li><strong>REPEATABLE READ (default InnoDB):</strong> Same read within a transaction always returns same data. No dirty/non-repeatable reads. Phantom reads possible.</li>
+        <li><strong>SERIALIZABLE:</strong> Highest isolation. Full serialization — transactions run as if sequential. Slowest.</li>
+      </ul>
+      <pre><span class="kw">SET</span> TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+<span class="kw">SET SESSION</span> transaction_isolation = <span class="str">'READ-COMMITTED'</span>;
+<span class="kw">SELECT</span> @@transaction_isolation;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q49</span>
+      <span class="q-text">What are dirty reads, non-repeatable reads, and phantom reads?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Dirty Read:</strong> Transaction A reads data that Transaction B has modified but not yet committed. If B rolls back, A has read invalid data.</li>
+        <li><strong>Non-repeatable Read:</strong> Transaction A reads a row, Transaction B updates and commits it, Transaction A reads the same row and gets a different value.</li>
+        <li><strong>Phantom Read:</strong> Transaction A queries a set of rows, Transaction B inserts a new matching row and commits, Transaction A re-queries and sees the new "phantom" row.</li>
+      </ul>
+      <pre><span class="cm">Isolation Level     | Dirty | Non-Repeatable | Phantom</span>
+<span class="cm">READ UNCOMMITTED    |  ✅   |      ✅        |   ✅</span>
+<span class="cm">READ COMMITTED      |  ❌   |      ✅        |   ✅</span>
+<span class="cm">REPEATABLE READ     |  ❌   |      ❌        |   ✅ (InnoDB mostly ❌)</span>
+<span class="cm">SERIALIZABLE        |  ❌   |      ❌        |   ❌</span>
+<span class="cm">(✅ = possible, ❌ = prevented)</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q50</span>
+      <span class="q-text">What is SAVEPOINT in transactions?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A SAVEPOINT creates a named checkpoint within a transaction. You can roll back to a savepoint without rolling back the entire transaction — enabling partial rollbacks.</p>
+      <pre><span class="kw">START TRANSACTION</span>;
+
+<span class="kw">INSERT INTO</span> orders (user_id, amount) <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="num">100</span>);
+<span class="kw">SAVEPOINT</span> sp_after_order;
+
+<span class="kw">INSERT INTO</span> payments (order_id, amount) <span class="kw">VALUES</span> (<span class="fn">LAST_INSERT_ID</span>(), <span class="num">100</span>);
+<span class="cm">-- Payment fails, but we want to keep the order</span>
+<span class="kw">ROLLBACK TO SAVEPOINT</span> sp_after_order;
+<span class="cm">-- Order is still inserted, payment is rolled back</span>
+
+<span class="kw">RELEASE SAVEPOINT</span> sp_after_order;
+<span class="kw">COMMIT</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q51</span>
+      <span class="q-text">What is locking in MySQL? What is the difference between row-level and table-level locking?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Table-level locking (MyISAM):</strong> Locks the entire table. Simple but limits concurrency — only one writer at a time.</li>
+        <li><strong>Row-level locking (InnoDB):</strong> Locks only the affected rows. Much better concurrency. Multiple writers on different rows simultaneously.</li>
+      </ul>
+      <pre><span class="cm">-- Explicit table lock</span>
+<span class="kw">LOCK TABLES</span> orders <span class="kw">READ</span>, products <span class="kw">WRITE</span>;
+<span class="cm">-- ... do work ...</span>
+<span class="kw">UNLOCK TABLES</span>;
+
+<span class="cm">-- Row-level: SELECT ... FOR UPDATE (pessimistic lock)</span>
+<span class="kw">START TRANSACTION</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> inventory <span class="kw">WHERE</span> product_id = <span class="num">1</span> <span class="kw">FOR UPDATE</span>;
+<span class="cm">-- Row is locked until COMMIT/ROLLBACK</span>
+<span class="kw">UPDATE</span> inventory <span class="kw">SET</span> qty = qty - <span class="num">1</span> <span class="kw">WHERE</span> product_id = <span class="num">1</span>;
+<span class="kw">COMMIT</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q52</span>
+      <span class="q-text">What is a deadlock? How does MySQL handle it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A deadlock occurs when two transactions each hold a lock that the other needs — a circular wait. Neither can proceed.</p>
+      <pre><span class="cm">-- Deadlock example</span>
+<span class="cm">-- Transaction A: Locks row 1, then tries to lock row 2</span>
+<span class="cm">-- Transaction B: Locks row 2, then tries to lock row 1</span>
+<span class="cm">-- → Deadlock!</span></pre>
+      <p><strong>MySQL's response:</strong> Automatically detects deadlocks and rolls back the transaction with the smallest undo log (least work done). The other transaction proceeds. The rolled-back transaction gets Error 1213.</p>
+      <p><strong>Prevention:</strong> Always access resources in the same order across transactions. Keep transactions short. Use lower isolation levels where safe.</p>
+      <pre><span class="cm">-- Check deadlocks</span>
+<span class="kw">SHOW ENGINE INNODB STATUS</span>; <span class="cm">-- shows last deadlock</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q53</span>
+      <span class="q-text">What is MVCC (Multi-Version Concurrency Control)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>MVCC is how InnoDB provides consistent reads without locking. Instead of blocking readers when a writer holds a lock, InnoDB keeps multiple versions of rows (undo log). Readers see the version that was current when their transaction started.</p>
+      <ul>
+        <li><strong>Writers</strong> create a new version of the row and store the old version in the undo log</li>
+        <li><strong>Readers</strong> read from a consistent snapshot (old version) without blocking</li>
+        <li><strong>Result:</strong> Readers never block writers, writers never block readers</li>
+      </ul>
+      <div class="tip">This is why InnoDB's REPEATABLE READ doesn't need to lock rows for SELECT — it uses snapshots from the undo log.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q54</span>
+      <span class="q-text">What is SELECT ... FOR UPDATE vs SELECT ... FOR SHARE?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>FOR UPDATE (exclusive lock):</strong> Locks selected rows — no other transaction can read (in locking mode) or write them. Use when you intend to update the rows.</li>
+        <li><strong>FOR SHARE / LOCK IN SHARE MODE:</strong> Shared lock — other transactions can read but cannot write. Use when you want to ensure rows aren't changed while you read them.</li>
+      </ul>
+      <pre><span class="cm">-- Pessimistic locking: reserve a seat</span>
+<span class="kw">START TRANSACTION</span>;
+<span class="kw">SELECT</span> * <span class="kw">FROM</span> seats <span class="kw">WHERE</span> id = <span class="num">42</span> <span class="kw">AND</span> status = <span class="str">'available'</span>
+<span class="kw">FOR UPDATE</span>;
+<span class="cm">-- Other transactions block here until we commit</span>
+<span class="kw">UPDATE</span> seats <span class="kw">SET</span> status = <span class="str">'booked'</span> <span class="kw">WHERE</span> id = <span class="num">42</span>;
+<span class="kw">COMMIT</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q55</span>
+      <span class="q-text">What is the difference between optimistic and pessimistic locking?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Pessimistic Locking:</strong> Lock the row when reading it (<code>FOR UPDATE</code>). Prevents conflicts but reduces concurrency. Good when conflicts are frequent.</li>
+        <li><strong>Optimistic Locking:</strong> Read without locking. Check at update time (using a version column) whether anyone else changed the row. Retry if conflict detected. Better concurrency, more complex logic.</li>
+      </ul>
+      <pre><span class="cm">-- Optimistic locking with version column</span>
+<span class="kw">SELECT</span> id, balance, version <span class="kw">FROM</span> accounts <span class="kw">WHERE</span> id = <span class="num">1</span>;
+<span class="cm">-- Got: balance=1000, version=5</span>
+
+<span class="kw">UPDATE</span> accounts
+<span class="kw">SET</span> balance = <span class="num">900</span>, version = <span class="num">6</span>
+<span class="kw">WHERE</span> id = <span class="num">1</span> <span class="kw">AND</span> version = <span class="num">5</span>; <span class="cm">-- fails if someone else updated</span>
+
+<span class="kw">SELECT</span> <span class="fn">ROW_COUNT</span>(); <span class="cm">-- 0 = conflict, retry; 1 = success</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num red">Q56</span>
+      <span class="q-text">What is autocommit in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>In autocommit mode (default ON), every SQL statement is automatically committed as its own transaction. To group multiple statements, you must explicitly use <code>START TRANSACTION</code> ... <code>COMMIT</code>.</p>
+      <pre><span class="cm">-- Check autocommit</span>
+<span class="kw">SELECT</span> @@autocommit; <span class="cm">-- 1 = ON (default)</span>
+
+<span class="cm">-- Disable for session</span>
+<span class="kw">SET</span> autocommit = <span class="num">0</span>;
+<span class="cm">-- Now every statement needs explicit COMMIT</span>
+
+<span class="cm">-- DDL statements always auto-commit (cannot be rolled back)</span>
+<span class="kw">CREATE TABLE</span> test (id <span class="fn">INT</span>);   <span class="cm">-- auto-commited even in transaction</span>
+<span class="kw">DROP TABLE</span> test;               <span class="cm">-- auto-committed</span></pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= NORMALIZATION ========================= -->
+<div id="normalization" class="section">
+  <div class="section-header">
+    <h2>🟣 Normalization & Database Design — Q57 to Q65</h2>
+    <p>Normal forms, schema design, and relationships</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('normalization')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q57</span>
+      <span class="q-text">What is database normalization? Why is it important?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Normalization is the process of organizing a database to reduce data redundancy and improve data integrity. It involves decomposing tables into smaller, well-structured ones following specific rules (normal forms).</p>
+      <p><strong>Benefits:</strong></p>
+      <ul>
+        <li>Eliminates data redundancy — no duplicate data</li>
+        <li>Prevents update anomalies — change data in one place</li>
+        <li>Reduces storage space</li>
+        <li>Improves data integrity and consistency</li>
+      </ul>
+      <p><strong>Trade-off:</strong> More normalized = more JOINs needed = potentially slower reads. Data warehouses often intentionally denormalize for read performance.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q58</span>
+      <span class="q-text">Explain the First, Second, and Third Normal Forms (1NF, 2NF, 3NF).</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>1NF (First Normal Form):</strong> Each column has atomic (indivisible) values. No repeating groups or arrays. Each row is unique (has a primary key).</li>
+        <li><strong>2NF (Second Normal Form):</strong> Must be in 1NF + every non-key column depends on the ENTIRE primary key (no partial dependencies). Mainly applies to composite keys.</li>
+        <li><strong>3NF (Third Normal Form):</strong> Must be in 2NF + no transitive dependencies (non-key columns must not depend on other non-key columns).</li>
+      </ul>
+      <pre><span class="cm">-- 1NF violation: multiple values in one cell</span>
+<span class="cm">-- phones: '555-1234, 555-5678' ❌ → separate rows ✅</span>
+
+<span class="cm">-- 2NF violation (composite PK: order_id + product_id)</span>
+<span class="cm">-- product_name depends only on product_id (partial) ❌</span>
+<span class="cm">-- Solution: move product_name to products table ✅</span>
+
+<span class="cm">-- 3NF violation: zip → city (transitive)</span>
+<span class="cm">-- zip_code → city depends on zip, not on user_id ❌</span>
+<span class="cm">-- Solution: move to zip_codes table ✅</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q59</span>
+      <span class="q-text">What is BCNF (Boyce-Codd Normal Form)?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>BCNF is a stronger version of 3NF. A table is in BCNF if for every functional dependency X → Y, X must be a superkey (a candidate key or superset of a candidate key). In practice, 3NF is usually sufficient for most applications.</p>
+      <div class="tip">Most interview questions stop at 3NF. Mention BCNF to show deeper knowledge, but acknowledge that practical database design often balances normalization with performance.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q60</span>
+      <span class="q-text">What are the types of relationships in a relational database?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>One-to-One (1:1):</strong> One row in A maps to exactly one row in B. Implemented via shared primary key or unique foreign key. Used to split optional or sensitive columns.</li>
+        <li><strong>One-to-Many (1:N):</strong> One row in A maps to many rows in B. Most common. Implemented via foreign key in the "many" table.</li>
+        <li><strong>Many-to-Many (M:N):</strong> Many rows in A map to many rows in B. Requires a junction/bridge table with two foreign keys.</li>
+      </ul>
+      <pre><span class="cm">-- One-to-Many: one user, many orders</span>
+orders.user_id → users.id
+
+<span class="cm">-- Many-to-Many: students ↔ courses</span>
+<span class="kw">CREATE TABLE</span> student_courses (
+  student_id <span class="fn">INT</span> <span class="kw">REFERENCES</span> students(id),
+  course_id  <span class="fn">INT</span> <span class="kw">REFERENCES</span> courses(id),
+  enrolled_at <span class="fn">DATE</span>,
+  <span class="kw">PRIMARY KEY</span> (student_id, course_id)
+);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q61</span>
+      <span class="q-text">What is denormalization and when would you use it?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Denormalization intentionally introduces redundancy into a normalized schema to improve read performance — trading write efficiency and storage for faster queries.</p>
+      <p><strong>When to use:</strong></p>
+      <ul>
+        <li>Read-heavy applications where JOIN performance is a bottleneck</li>
+        <li>Data warehouses / analytics / reporting (OLAP)</li>
+        <li>Aggregate columns that are expensive to compute each time</li>
+      </ul>
+      <pre><span class="cm">-- Denormalized: store total_orders on user row</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">ADD COLUMN</span> order_count <span class="fn">INT DEFAULT</span> <span class="num">0</span>;
+
+<span class="cm">-- Maintain via trigger</span>
+<span class="kw">CREATE TRIGGER</span> after_order_insert
+<span class="kw">AFTER INSERT ON</span> orders <span class="kw">FOR EACH ROW</span>
+<span class="kw">UPDATE</span> users <span class="kw">SET</span> order_count = order_count + <span class="num">1</span>
+<span class="kw">WHERE</span> id = NEW.user_id;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q62</span>
+      <span class="q-text">What is a surrogate key vs a natural key?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>Natural key:</strong> A key derived from the real-world data (email, SSN, ISBN). Meaningful but may change, be long, or not be guaranteed unique.</li>
+        <li><strong>Surrogate key:</strong> An artificial key with no business meaning (AUTO_INCREMENT id, UUID). Stable, simple, and independent of business data. Preferred in most cases.</li>
+      </ul>
+      <pre><span class="cm">-- Natural key (email can change!)</span>
+<span class="kw">CREATE TABLE</span> users (
+  email <span class="fn">VARCHAR</span>(<span class="num">255</span>) <span class="kw">PRIMARY KEY</span>  <span class="cm">-- ❌ risky</span>
+);
+
+<span class="cm">-- Surrogate key (preferred)</span>
+<span class="kw">CREATE TABLE</span> users (
+  id    <span class="fn">INT AUTO_INCREMENT PRIMARY KEY</span>,  <span class="cm">-- ✅ stable</span>
+  email <span class="fn">VARCHAR</span>(<span class="num">255</span>) <span class="kw">UNIQUE NOT NULL</span>
+);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q63</span>
+      <span class="q-text">What is a composite key?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>A composite key is a primary key that consists of two or more columns. Used when no single column uniquely identifies a row, but a combination of columns does — most common in junction tables for many-to-many relationships.</p>
+      <pre><span class="kw">CREATE TABLE</span> order_items (
+  order_id   <span class="fn">INT NOT NULL</span>,
+  product_id <span class="fn">INT NOT NULL</span>,
+  quantity   <span class="fn">INT NOT NULL</span>,
+  price      <span class="fn">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>) <span class="kw">NOT NULL</span>,
+  <span class="kw">PRIMARY KEY</span> (order_id, product_id),     <span class="cm">-- composite PK</span>
+  <span class="kw">FOREIGN KEY</span> (order_id)   <span class="kw">REFERENCES</span> orders(id),
+  <span class="kw">FOREIGN KEY</span> (product_id) <span class="kw">REFERENCES</span> products(id)
+);</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q64</span>
+      <span class="q-text">What are database design best practices?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li>Always define a PRIMARY KEY on every table</li>
+        <li>Use surrogate keys (AUTO_INCREMENT) over natural keys</li>
+        <li>Use appropriate data types — DECIMAL for money, TIMESTAMP for auto-timezone, VARCHAR not CHAR unless fixed</li>
+        <li>Use NOT NULL wherever possible — avoid nullable columns</li>
+        <li>Add indexes on foreign keys and frequently queried columns</li>
+        <li>Use FOREIGN KEY constraints to enforce referential integrity</li>
+        <li>Keep table and column names lowercase, snake_case, descriptive</li>
+        <li>Add <code>created_at</code> and <code>updated_at</code> timestamp columns to every table</li>
+        <li>Avoid storing calculated values — compute them at query time (or use generated columns)</li>
+        <li>Use ENUM for small, fixed sets; use a lookup table for growing sets</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num purple">Q65</span>
+      <span class="q-text">What are Generated (Computed) Columns in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Generated columns (MySQL 5.7+) are columns whose values are computed from other columns automatically. Two types: VIRTUAL (computed on read) and STORED (persisted on write).</p>
+      <pre><span class="kw">CREATE TABLE</span> products (
+  id         <span class="fn">INT PRIMARY KEY</span>,
+  price      <span class="fn">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>),
+  tax_rate   <span class="fn">DECIMAL</span>(<span class="num">5</span>,<span class="num">4</span>) <span class="kw">DEFAULT</span> <span class="num">0.18</span>,
+  price_incl_tax <span class="fn">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>)
+    <span class="kw">AS</span> (price * (<span class="num">1</span> + tax_rate)) <span class="kw">VIRTUAL</span>,   <span class="cm">-- computed on read</span>
+  full_name  <span class="fn">VARCHAR</span>(<span class="num">200</span>),
+  name_upper <span class="fn">VARCHAR</span>(<span class="num">200</span>)
+    <span class="kw">AS</span> (<span class="fn">UPPER</span>(full_name)) <span class="kw">STORED</span>           <span class="cm">-- persisted, indexable</span>
+);
+
+<span class="cm">-- Can index STORED generated columns</span>
+<span class="kw">CREATE INDEX</span> idx_name_upper <span class="kw">ON</span> products(name_upper);</pre>
+    </div>
+  </div>
+</div>
+
+<!-- ========================= ADVANCED / PERFORMANCE ========================= -->
+<div id="advanced" class="section">
+  <div class="section-header">
+    <h2>⚫ Performance & Advanced — Q66 to Q77</h2>
+    <p>Query optimization, replication, partitioning, JSON, and MySQL 8.0+ features</p>
+  </div>
+  <button class="expand-all" onclick="expandAll('advanced')">Expand All</button>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q66</span>
+      <span class="q-text">How do you optimize a slow MySQL query?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Step-by-step optimization process:</strong></p>
+      <ul>
+        <li><strong>1. Enable slow query log</strong> — identify slow queries</li>
+        <li><strong>2. Run EXPLAIN</strong> — find missing indexes, full table scans</li>
+        <li><strong>3. Add indexes</strong> — on WHERE, JOIN, ORDER BY columns</li>
+        <li><strong>4. Rewrite query</strong> — avoid SELECT *, use covering indexes, replace subqueries with JOINs</li>
+        <li><strong>5. Avoid functions on indexed columns</strong> — prevents index use</li>
+        <li><strong>6. Analyze/optimize tables</strong> — update statistics</li>
+        <li><strong>7. Cache results</strong> — Redis for frequently read, rarely changed data</li>
+        <li><strong>8. Consider partitioning</strong> — for very large tables</li>
+      </ul>
+      <pre><span class="cm">-- Enable slow query log</span>
+<span class="kw">SET GLOBAL</span> slow_query_log = <span class="kw">ON</span>;
+<span class="kw">SET GLOBAL</span> long_query_time = <span class="num">1</span>; <span class="cm">-- log queries > 1 second</span>
+
+<span class="cm">-- Update table statistics</span>
+<span class="kw">ANALYZE TABLE</span> orders;
+<span class="kw">OPTIMIZE TABLE</span> orders; <span class="cm">-- defrag, reclaim space</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q67</span>
+      <span class="q-text">What is query caching in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The MySQL Query Cache stored the text of SELECT statements and their results — identical queries were served from cache without re-executing. However, it was deprecated in MySQL 5.7.20 and <strong>removed in MySQL 8.0</strong> because it caused more harm than good under high concurrency (global mutex on cache writes/invalidations).</p>
+      <p><strong>Modern alternatives:</strong></p>
+      <ul>
+        <li><strong>Application-level caching:</strong> Redis, Memcached — cache query results in your app layer</li>
+        <li><strong>MySQL's InnoDB Buffer Pool</strong> — caches data pages and indexes in memory</li>
+        <li><strong>ProxySQL:</strong> Query routing proxy with caching capabilities</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q68</span>
+      <span class="q-text">What is MySQL Replication? What are the types?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Replication copies data from one MySQL server (source/primary) to one or more servers (replicas/secondaries) in near real-time. Used for read scaling, high availability, and backup.</p>
+      <ul>
+        <li><strong>Async Replication (default):</strong> Source doesn't wait for replica to confirm. Fastest but replica may lag. Risk of data loss on source crash.</li>
+        <li><strong>Semi-synchronous:</strong> Source waits for at least one replica to acknowledge before committing. Safer, slightly slower.</li>
+        <li><strong>Group Replication (MySQL 5.7.17+):</strong> Multi-master, fully synchronous, built-in failover. Powers InnoDB Cluster.</li>
+      </ul>
+      <pre><span class="cm">-- Statement-based vs Row-based vs Mixed binlog format</span>
+<span class="kw">SET GLOBAL</span> binlog_format = <span class="str">'ROW'</span>; <span class="cm">-- recommended</span>
+
+<span class="cm">-- Check replication status</span>
+<span class="kw">SHOW REPLICA STATUS</span>\G
+<span class="kw">SHOW MASTER STATUS</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q69</span>
+      <span class="q-text">What is table partitioning in MySQL?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Partitioning splits a large table into smaller physical pieces (partitions) while appearing as one table to queries. Improves performance for queries that can prune partitions and makes archiving/deletion of old data fast.</p>
+      <pre><span class="cm">-- RANGE partitioning by year</span>
+<span class="kw">CREATE TABLE</span> orders (
+  id         <span class="fn">INT NOT NULL</span>,
+  created_at <span class="fn">DATE NOT NULL</span>,
+  amount     <span class="fn">DECIMAL</span>(<span class="num">10</span>,<span class="num">2</span>),
+  <span class="kw">PRIMARY KEY</span> (id, created_at)
+)
+<span class="kw">PARTITION BY RANGE</span> (<span class="fn">YEAR</span>(created_at)) (
+  <span class="kw">PARTITION</span> p2022 <span class="kw">VALUES LESS THAN</span> (<span class="num">2023</span>),
+  <span class="kw">PARTITION</span> p2023 <span class="kw">VALUES LESS THAN</span> (<span class="num">2024</span>),
+  <span class="kw">PARTITION</span> p2024 <span class="kw">VALUES LESS THAN</span> (<span class="num">2025</span>),
+  <span class="kw">PARTITION</span> p_future <span class="kw">VALUES LESS THAN MAXVALUE</span>
+);
+
+<span class="cm">-- Drop old partition (instant, no DELETE overhead)</span>
+<span class="kw">ALTER TABLE</span> orders <span class="kw">DROP PARTITION</span> p2022;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q70</span>
+      <span class="q-text">How does MySQL handle JSON data?</span>
+      <span class="q-answer">
+    </div>
+    <div class="q-answer">
+      <p>MySQL 5.7.8+ has a native JSON data type that validates and stores JSON efficiently in binary format. MySQL 8.0 added multi-valued indexes on JSON arrays.</p>
+      <pre><span class="kw">CREATE TABLE</span> products (
+  id   <span class="fn">INT PRIMARY KEY</span>,
+  meta <span class="fn">JSON</span>
+);
+
+<span class="kw">INSERT INTO</span> products <span class="kw">VALUES</span> (
+  <span class="num">1</span>, <span class="str">'{"color":"red","tags":["sale","featured"],"weight":1.5}'</span>
+);
+
+<span class="cm">-- Access JSON fields</span>
+<span class="kw">SELECT</span>
+  meta-><span class="str">'$.color'</span>          <span class="kw">AS</span> color,      <span class="cm">-- with quotes: "red"</span>
+  meta->><span class="str">'$.color'</span>         <span class="kw">AS</span> color_raw,  <span class="cm">-- unquoted: red</span>
+  <span class="fn">JSON_EXTRACT</span>(meta, <span class="str">'$.weight'</span>) <span class="kw">AS</span> weight
+<span class="kw">FROM</span> products;
+
+<span class="cm">-- Modify JSON</span>
+<span class="kw">UPDATE</span> products
+<span class="kw">SET</span> meta = <span class="fn">JSON_SET</span>(meta, <span class="str">'$.color'</span>, <span class="str">'blue'</span>, <span class="str">'$.size'</span>, <span class="str">'large'</span>)
+<span class="kw">WHERE</span> id = <span class="num">1</span>;
+
+<span class="cm">-- Index JSON array values (MySQL 8.0)</span>
+<span class="kw">CREATE INDEX</span> idx_tags <span class="kw">ON</span> products ((<span class="fn">CAST</span>(meta-><span class="str">'$.tags'</span> <span class="kw">AS</span> <span class="fn">CHAR</span>(<span class="num">50</span>) ARRAY)));</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q71</span>
+      <span class="q-text">What is the InnoDB Buffer Pool?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>The InnoDB Buffer Pool is the most important MySQL performance knob — an in-memory cache that stores data pages and index pages. Reads/writes go through the buffer pool first, avoiding disk I/O.</p>
+      <pre><span class="cm">-- Check buffer pool size</span>
+<span class="kw">SELECT</span> @@innodb_buffer_pool_size / <span class="num">1024</span>/<span class="num">1024</span>/<span class="num">1024</span> <span class="kw">AS</span> GB;
+
+<span class="cm">-- Set to 70-80% of available RAM (in my.cnf)</span>
+<span class="cm">-- innodb_buffer_pool_size = 12G</span>
+
+<span class="cm">-- Monitor buffer pool usage</span>
+<span class="kw">SHOW</span> <span class="kw">STATUS</span> <span class="kw">LIKE</span> <span class="str">'Innodb_buffer_pool%'</span>;
+<span class="cm">-- Innodb_buffer_pool_read_requests / Innodb_buffer_pool_reads</span>
+<span class="cm">-- Hit rate = 1 - (reads / read_requests) → aim for > 99%</span></pre>
+      <div class="tip">The single most impactful MySQL configuration change is setting <code>innodb_buffer_pool_size</code> to 70-80% of available RAM.</div>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q72</span>
+      <span class="q-text">What is the difference between OLTP and OLAP? How does MySQL serve each?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <ul>
+        <li><strong>OLTP (Online Transaction Processing):</strong> Many short, concurrent read/write transactions. Row-oriented. MySQL InnoDB is optimized for this.</li>
+        <li><strong>OLAP (Online Analytical Processing):</strong> Complex analytical queries over large datasets. Column-oriented. MySQL can serve it but dedicated tools (ClickHouse, Snowflake, BigQuery) are better.</li>
+      </ul>
+      <p>MySQL 8.0 improvements for analytics: CTEs, Window Functions, Hash joins, invisible indexes, and better query optimizer.</p>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q73</span>
+      <span class="q-text">What is INSERT ... ON DUPLICATE KEY UPDATE?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>An "upsert" — inserts a new row, or if a duplicate key conflict occurs, updates the existing row. More efficient than separate SELECT + INSERT or UPDATE.</p>
+      <pre><span class="cm">-- Upsert: insert or update page view count</span>
+<span class="kw">INSERT INTO</span> page_views (page_url, view_count, last_viewed)
+<span class="kw">VALUES</span> (<span class="str">'/home'</span>, <span class="num">1</span>, <span class="fn">NOW</span>())
+<span class="kw">ON DUPLICATE KEY UPDATE</span>
+  view_count = view_count + <span class="num">1</span>,
+  last_viewed = <span class="fn">NOW</span>();
+
+<span class="cm">-- MySQL 8.0.20+: aliases for new values</span>
+<span class="kw">INSERT INTO</span> users (id, email, name) <span class="kw">VALUES</span> (<span class="num">1</span>, <span class="str">'a@b.com'</span>, <span class="str">'Alice'</span>)
+<span class="kw">AS</span> new_row
+<span class="kw">ON DUPLICATE KEY UPDATE</span>
+  email = new_row.email,
+  name  = new_row.name;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q74</span>
+      <span class="q-text">What are invisible indexes in MySQL 8.0?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Invisible indexes (MySQL 8.0+) are maintained by MySQL but ignored by the query optimizer — as if they don't exist. This lets you test removing an index without actually dropping it, and roll back instantly if performance degrades.</p>
+      <pre><span class="cm">-- Make index invisible (optimizer ignores it)</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">ALTER INDEX</span> idx_email <span class="kw">INVISIBLE</span>;
+
+<span class="cm">-- Test queries — do they slow down?</span>
+<span class="kw">EXPLAIN SELECT</span> * <span class="kw">FROM</span> users <span class="kw">WHERE</span> email = <span class="str">'a@b.com'</span>;
+
+<span class="cm">-- Restore if needed</span>
+<span class="kw">ALTER TABLE</span> users <span class="kw">ALTER INDEX</span> idx_email <span class="kw">VISIBLE</span>;
+
+<span class="cm">-- Force optimizer to see invisible indexes (for testing)</span>
+<span class="kw">SET SESSION</span> optimizer_switch=<span class="str">'use_invisible_indexes=on'</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q75</span>
+      <span class="q-text">What is the MySQL EXPLAIN FORMAT=JSON and how is it different from regular EXPLAIN?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Regular <code>EXPLAIN</code> shows a tabular output. <code>EXPLAIN FORMAT=JSON</code> provides a much richer, tree-structured output with additional information like cost estimates, loop iterations, and attached conditions.</p>
+      <pre><span class="kw">EXPLAIN FORMAT</span>=JSON
+<span class="kw">SELECT</span> u.name, <span class="fn">COUNT</span>(o.id)
+<span class="kw">FROM</span> users u <span class="kw">JOIN</span> orders o <span class="kw">ON</span> u.id = o.user_id
+<span class="kw">GROUP BY</span> u.id\G
+
+<span class="cm">-- JSON output includes:</span>
+<span class="cm">-- "cost_info": { "query_cost": "125.45" }</span>
+<span class="cm">-- "rows_examined_per_scan": 1</span>
+<span class="cm">-- "rows_produced_per_join": 100</span>
+<span class="cm">-- "filtered": "100.00"</span>
+<span class="cm">-- "using_index": true</span></pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q76</span>
+      <span class="q-text">What are Roles in MySQL 8.0?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p>Roles (MySQL 8.0+) are named collections of privileges that can be granted to users — making permission management much cleaner for large teams.</p>
+      <pre><span class="cm">-- Create roles</span>
+<span class="kw">CREATE ROLE</span> <span class="str">'app_read'</span>, <span class="str">'app_write'</span>, <span class="str">'app_admin'</span>;
+
+<span class="cm">-- Grant privileges to roles</span>
+<span class="kw">GRANT SELECT ON</span> mydb.* <span class="kw">TO</span> <span class="str">'app_read'</span>;
+<span class="kw">GRANT INSERT, UPDATE, DELETE ON</span> mydb.* <span class="kw">TO</span> <span class="str">'app_write'</span>;
+<span class="kw">GRANT ALL ON</span> mydb.* <span class="kw">TO</span> <span class="str">'app_admin'</span>;
+
+<span class="cm">-- Grant roles to users</span>
+<span class="kw">GRANT</span> <span class="str">'app_read'</span>, <span class="str">'app_write'</span> <span class="kw">TO</span> <span class="str">'api_user'</span>@<span class="str">'%'</span>;
+<span class="kw">GRANT</span> <span class="str">'app_admin'</span> <span class="kw">TO</span> <span class="str">'dba_user'</span>@<span class="str">'localhost'</span>;
+
+<span class="cm">-- Activate roles for session</span>
+<span class="kw">SET ROLE ALL</span>;
+<span class="kw">SET ROLE</span> <span class="str">'app_read'</span>;</pre>
+    </div>
+  </div>
+
+  <div class="q-block">
+    <div class="q-head" onclick="toggle(this)">
+      <span class="q-num mysql">Q77</span>
+      <span class="q-text">What are the major new features in MySQL 8.0+?</span>
+      <span class="q-arrow">▼</span>
+    </div>
+    <div class="q-answer">
+      <p><strong>Query language:</strong></p>
+      <ul>
+        <li>Window functions (ROW_NUMBER, RANK, LAG, LEAD, etc.)</li>
+        <li>Common Table Expressions (WITH clause), including Recursive CTEs</li>
+        <li>Lateral derived tables</li>
+        <li>Hash joins (faster for many join scenarios)</li>
+      </ul>
+      <p><strong>Indexes:</strong></p>
+      <ul>
+        <li>Invisible indexes</li>
+        <li>Descending indexes</li>
+        <li>Multi-valued indexes (on JSON arrays)</li>
+        <li>Functional indexes (<code>INDEX (UPPER(name))</code>)</li>
+      </ul>
+      <p><strong>Other improvements:</strong></p>
+      <ul>
+        <li>Roles for user management</li>
+        <li>Default charset changed to utf8mb4</li>
+        <li>Atomic DDL — DDL operations are transactional</li>
+        <li>Improved JSON support (JSON_TABLE, multi-value indexes)</li>
+        <li>EXPLAIN ANALYZE</li>
+        <li>Better optimizer with cost model improvements</li>
+        <li>InnoDB enhancements (instant ADD COLUMN, etc.)</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</div><!-- end .content -->
+
+<script>
+  function toggle(head) {
+    head.parentElement.classList.toggle('open');
+  }
+  function switchTab(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  function expandAll(id) {
+    document.querySelectorAll('#' + id + ' .q-block').forEach(b => b.classList.add('open'));
+  }
+</script>
+</body>
+</html>

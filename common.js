@@ -46,7 +46,8 @@
     php: '#4f5b93',
     react: '#61dafb',
     node: '#4f46e5',
-    javascript: '#f7df1e'
+    javascript: '#f7df1e',
+    mysql: '#f29111'
   };
 
   document.documentElement.style.setProperty('--nav-accent', accentMap[page] || '#4f5b93');
@@ -60,6 +61,7 @@
   nav.innerHTML = `
     <a class="nav-link${page === 'home' ? ' active' : ''}" href="index.html">Home</a>
     <a class="nav-link${page === 'php' ? ' active' : ''}" href="php.html">PHP</a>
+    <a class="nav-link${page === 'mysql' ? ' active' : ''}" href="mysql.html">MySQL</a>
     <a class="nav-link${page === 'javascript' ? ' active' : ''}" href="javascript.html">JavaScript</a>
     <a class="nav-link${page === 'react' ? ' active' : ''}" href="reactjs.html">React JS</a>
     <a class="nav-link${page === 'node' ? ' active' : ''}" href="nodejs.html">Node JS</a>
